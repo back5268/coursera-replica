@@ -1,5 +1,3 @@
-const test = async () => {
+const test = async () => {};
 
-};
-
-test()
+test();

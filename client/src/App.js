@@ -1,9 +1,12 @@
-function App() {
+import React, { useState } from 'react';
+import { Button, CheckBox, Input, Select, Table } from './components/uiCore';
+import { InputForm, SelectForm } from './components/form';
+
+export default function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <form>
+      <InputForm id="ok" label="Ok chua" />
+      <Button label="Submit" />
+    </form>
   );
 }
-
-export default App;

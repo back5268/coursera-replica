@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 dotenv.config();
 
 export const connectDatabse = () => {
@@ -9,16 +9,16 @@ export const connectDatabse = () => {
   const post = process.env.MONGO_PORT;
   const host = process.env.MONGO_HOST;
 
-  const account = user ? `${user}:${password}@` : "";
+  const account = user ? `${user}:${password}@` : '';
   const url = `mongodb://${account}${host}:${post}/${database}`;
   try {
     mongoose.set('strictQuery', true);
     mongoose
       .connect(url, {
         useNewUrlParser: true,
-        useUnifiedTopology: true,
+        useUnifiedTopology: true
       })
-      .then(() => console.log("DB connect successful!"));
+      .then(() => console.log('DB connect successful!'));
   } catch (error) {
     console.log(error);
   }
