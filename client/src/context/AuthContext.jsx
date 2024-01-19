@@ -1,16 +1,13 @@
-import { useNavigate } from 'react-router-dom';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export const INITIAL_USER = {
   id: '',
-  name: '',
-  username: '',
+  fullName: '',
   email: '',
-  phone: '',
+  username: '',
   address: '',
   avatar: '',
-  cover: '',
-  description: ''
+  bio: ''
 };
 
 const INITIAL_STATE = {
@@ -25,7 +22,6 @@ const INITIAL_STATE = {
 const AuthContext = createContext(INITIAL_STATE);
 
 export function AuthProvider({ children }) {
-  const navigate = useNavigate();
   const [user, setUser] = useState(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,10 +38,7 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const cookieFallback = localStorage.getItem('cookieFallback');
-    if (!cookieFallback || cookieFallback === '[]') {
-      navigate('/auth/sign-in');
-    } else checkAuthUser();
+
   }, []);
 
   const value = {

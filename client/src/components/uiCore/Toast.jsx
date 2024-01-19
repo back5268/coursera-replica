@@ -1,11 +1,12 @@
+import { useToastState } from '@/store';
 import React from 'react';
 import { TEToast } from 'tw-elements-react';
 
-const Toast = (props) => {
-  const { title, subTitle, show, setShow = () => {}, serevity = 'danger', ...prop } = props;
+const Toast = () => {
+  const { show, toastInfo = {}, hideToast } = useToastState();
 
   const Icon = () => {
-    if (serevity === 'danger') {
+    if (toastInfo.severity === 'danger') {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path
@@ -15,7 +16,7 @@ const Toast = (props) => {
           />
         </svg>
       );
-    } else if (serevity === 'success') {
+    } else if (toastInfo.severity === 'success') {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path
@@ -25,7 +26,7 @@ const Toast = (props) => {
           />
         </svg>
       );
-    } else if (serevity === 'warning') {
+    } else if (toastInfo.severity === 'warning') {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path
@@ -48,20 +49,20 @@ const Toast = (props) => {
   };
 
   return (
-    <TEToast open={show} autohide={true} delay={3000} setOpen={setShow} color={`bg-${serevity}-100 text-${serevity}-700`} className="mb-6">
-      <div className={`flex items-center justify-between rounded-t-lg border-b-2 border-${serevity}-200 bg-clip-padding px-4 pb-2 pt-2.5`}>
+    <TEToast open={show} autohide={true} delay={3000} setOpen={hideToast} color={`bg-${toastInfo.severity}-100 text-${toastInfo.severity}-700`} className="mb-6">
+      <div className={`flex items-center justify-between rounded-t-lg border-b-2 border-${toastInfo.severity}-200 bg-clip-padding px-4 pb-2 pt-2.5`}>
         <p className="flex items-center font-bold">
-          <span className="[&>svg]:w-4 [&>svg]:h-4 mr-2 -mt-[2px]">
+          <span className="[&>svg]:w-4 [&>svg]:h-4 mr-2 -mt-[2px] text-danger-100">
             <Icon />
           </span>
-          MDBootstrap
+          Coursera Replica
         </p>
         <div className="flex items-center">
-          <p className={`text-xs text-${serevity}-700`}>{subTitle}</p>
+          <p className={`text-xs text-${toastInfo.severity}-700`}>{toastInfo.subTitle}</p>
           <button
             type="button"
             className="ml-2 box-content rounded-none border-none opacity-80 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-            onClick={() => setShow(false)}
+            onClick={() => hideToast()}
             aria-label="Close"
           >
             <span className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
@@ -79,7 +80,7 @@ const Toast = (props) => {
           </button>
         </div>
       </div>
-      <div className="break-words rounded-b-lg px-4 py-4">{title}</div>
+      <div className="break-words rounded-b-lg px-4 py-4">{toastInfo.title}</div>
     </TEToast>
   );
 };

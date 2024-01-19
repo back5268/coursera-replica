@@ -5,9 +5,11 @@ import { SigninValidation } from '@/lib/validation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useToastState } from '@/store';
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
+  const { showToast, toastInfo } = useToastState();
 
   const {
     register,
@@ -18,6 +20,7 @@ const SignIn = () => {
   });
   const onSubmit = (data) => {
     console.log(data);
+    showToast({ title: "Đăng nhập thành công", severity: "success" })
   }
 
   return (
