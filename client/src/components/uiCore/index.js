@@ -11,3 +11,4 @@ export { default as Spinner } from './Spinner';
 export { default as Toast } from './Toast';
 export { default as Pagination } from './Pagination';
 export { default as Link } from './Link';
+export { default as Hr } from './Hr';
