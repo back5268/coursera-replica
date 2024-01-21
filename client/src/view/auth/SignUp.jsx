@@ -24,7 +24,7 @@ const SignIn = () => {
     <FormAuth title="Sign Up" subTitle="Nhập thông tin để tiếp tục">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <InputForm id="fullName" label="Họ tên (*)" register={register} errors={errors} />
+          <InputForm id="fullname" label="Họ tên (*)" register={register} errors={errors} />
           <InputForm id="email" label="Email (*)" type="email" register={register} errors={errors} />
           <InputForm id="username" label="Tài khoản (*)" register={register} errors={errors} />
           <InputForm id="password" label="Mật khẩu (*)" type="password" register={register} errors={errors} />

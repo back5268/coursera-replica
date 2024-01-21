@@ -37,7 +37,7 @@ const AvatarSection = ({ props }) => {
       </div>
       <div
         className={`absolute right-0 mt-2 w-80 bg-primary-50 shadow-xl rounded-sm transition-all z-50 text-slate-500 px-4
-          duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
+          duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
       >
         <div className="flex h-24 items-center">
           <div className="w-5/12 items-center flex justify-center">

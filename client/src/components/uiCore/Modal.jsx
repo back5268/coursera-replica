@@ -3,15 +3,15 @@ import { TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEM
 import Button from './Button';
 
 const Modal = (props) => {
-  const { show, setShow = () => {}, children, ...prop } = props;
+  const { title, show, setShow = () => {}, children, size = "lg", ...prop } = props;
 
   return (
     <TEModal show={show} setShow={setShow} staticBackdrop>
-      <TEModalDialog size="lg" {...prop}>
+      <TEModalDialog size={size} {...prop}>
         <TEModalContent>
           <TEModalHeader>
-            <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">Modal title</h5>
-            <button type="button" onClick={() => setShow(false)} aria-label="Close">
+            <h2 className="font-semibold uppercase leading-normal text-neutral-800 dark:text-neutral-200 my-2">{title}</h2>
+            <button type="button" className="cursor-pointer" onClick={() => setShow(false)} aria-label="Close">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -24,11 +24,11 @@ const Modal = (props) => {
               </svg>
             </button>
           </TEModalHeader>
-          <TEModalBody>{children}</TEModalBody>
-          <TEModalFooter className="flex gap-2">
+          {children}
+          {/* <TEModalFooter className="flex gap-2">
             <Button label="Hủy" severity="secondary" onClick={() => setShow(false)} />
-            <Button label="Xác nhận" />
-          </TEModalFooter>
+            <Button type="submit" label="Xác nhận" />
+          </TEModalFooter> */}
         </TEModalContent>
       </TEModalDialog>
     </TEModal>

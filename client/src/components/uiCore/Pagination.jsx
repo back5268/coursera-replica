@@ -21,17 +21,19 @@ const Pagination = (props) => {
   const renderPageLinks = useCallback(() => {
     const currentPage = params.page;
     const pageCount = Math.ceil(totalRecord / params.limit);
-    if (pageCount === 0 || currentPage <= 0 || currentPage > pageCount) return null;
-    const visible = 5;
-    const numberPage = pageCount < visible ? pageCount : visible;
-    const pages = [currentPage];
-    for (let index = 1; index < numberPage; index++) {
-      const pageBefore = pages[0] - 1;
-      const pageAfter = pages[pages.length - 1] + 1;
-      if (pageBefore > 0 && (index < numberPage / 2 || pageAfter - 1 >= numberPage)) pages.unshift(pageBefore);
-      else pages.push(pageAfter);
+    const pages = [];
+    if (pageCount === 0 || currentPage <= 0 || currentPage > pageCount) pages.push(1);
+    else {
+      pages.push(currentPage);
+      const visible = 5;
+      const numberPage = pageCount < visible ? pageCount : visible;
+      for (let index = 1; index < numberPage; index++) {
+        const pageBefore = pages[0] - 1;
+        const pageAfter = pages[pages.length - 1] + 1;
+        if (pageBefore > 0 && (index < numberPage / 2 || pageAfter - 1 >= numberPage)) pages.unshift(pageBefore);
+        else pages.push(pageAfter);
+      }
     }
-
     return pages.map((page, index) => (
       <ButtonPagination key={index} content={page} active={params.page === page} onClick={(e) => setParams({ ...params, page })} />
     ));
@@ -45,7 +47,7 @@ const Pagination = (props) => {
           {renderPageLinks()}
           <ButtonPagination content={'Last'} onClick={() => setParams({ ...params, page: Math.ceil(totalRecord / params.limit) })} />
         </ul>
-        <span className='text-sm bg-transparent text-neutral-600'>Tổng số: {totalRecord} bản ghi</span>
+        <span className="text-sm bg-transparent text-neutral-600">Tổng số: {totalRecord} bản ghi</span>
         <TESelect
           data={rows.map((r) => ({ text: String(r), value: r }))}
           value={params.limit}

@@ -19,7 +19,7 @@ const Sidebar = (props) => {
 
   return (
     <div
-      className={`fixed left-0 top-0 z-[1035] h-full overflow-hidden bg-primary-50
+      className={`fixed left-0 top-0 z-20 h-full overflow-hidden bg-white
         shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] dark:bg-zinc-800 
         transition-all duration-500 ease-in-out px-2 ${isShow ? 'w-64' : 'w-20'} `}
     >

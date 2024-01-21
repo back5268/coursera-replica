@@ -11,7 +11,7 @@ const useToastState = create((set, get) => ({
   toastInfo: initState,
   show: false,
   showToast: (toastInfo) => set({ toastInfo, show: true }),
-  hideToast: () => set({ toast: initState, show: false })
+  hideToast: () => set({ toastInfo: initState, show: false })
 }));
 
 const getToastState = () => useToastState.getState();
