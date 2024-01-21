@@ -17,3 +17,5 @@ export const refreshObject = (object) => {
   }
   return object;
 };
+
+export const convertFileToUrl = (file) => URL.createObjectURL(file);

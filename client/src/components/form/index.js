@@ -8,4 +8,6 @@ export { default as FormAuth } from './FormAuth';
 export { default as DataTable } from './DataTable';
 export { default as DataFilter } from './DataFilter';
 export { default as FormDetail } from './FormDetail';
+export { default as FileUploader } from './FileUploader';
+export { default as UploadFiles } from './UploadFiles';
 export * from './BodyTable';

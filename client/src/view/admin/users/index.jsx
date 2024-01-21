@@ -134,7 +134,7 @@ const Users = () => {
 
   return (
     <>
-      {show && <DetailUser show={show} setShow={setShow} />}
+      <DetailUser show={show} setShow={setShow} />
       <DataTable
         title="Quản lý người dùng"
         data={data}
