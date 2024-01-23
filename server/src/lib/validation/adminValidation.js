@@ -1,4 +1,4 @@
-import Joi from 'joi';
+const Joi = require('joi');
 
 export const signupValidation = function (data) {
   const schema = Joi.object({

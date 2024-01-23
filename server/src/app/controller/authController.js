@@ -1,5 +1,5 @@
-import { signinValidation, signupValidation } from '@/lib/validation';
-import { createUserRp, signinRp } from '../repository';
+import { signinValidation, signupValidation } from '@lib/validation';
+import { createUserRp, signinRp } from '@repository';
 
 export const signUp = async (req, res) => {
   const { error } = signupValidation(req.body);

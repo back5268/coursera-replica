@@ -1,8 +1,10 @@
-import { authMiddleware } from '@/middleware';
+import { authMiddleware } from '@middleware';
 import { authRouter } from './auth';
+import { adminRouter } from './admin';
 
-export const router = (app) => {
+export const routes = (app) => {
   app.use('/auth', authRouter);
+  app.use('/admin', adminRouter);
   app.get('/', authMiddleware, (req, res) => {
     console.log(req.user);
     res.json(`${req.user}`);

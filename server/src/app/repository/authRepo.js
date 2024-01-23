@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { addlUserMd, getDetailUserMd } from '@models';
 import dotenv from 'dotenv';
-import { addlUserMd, getDetailUserMd } from '../models';
 dotenv.config();
 
 export const createUserRp = async ({ fullname, username, email, password }) => {

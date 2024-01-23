@@ -6,8 +6,18 @@
     [
       "module-resolver",
       {
+        "root": ["."],
+        "extensions": [".js", ".json", ".vue"],
         "alias": {
-          "@": "./src"
+          "@": "./src",
+          "@utils": "./src/lib/utils",
+          "@lib": "./src/lib",
+          "@middleware": "./src/middleware",
+          "@controller": "./src/app/controller",
+          "@models": "./src/app/db/models",
+          "@repository": "./src/app/repository",
+          "@constant": "./src/constant",
+          "@config": "./src/app/db/config"
         }
       }
     ]

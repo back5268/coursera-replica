@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-import { getDetailUserMd } from '@/app/models';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { getDetailUserMd } from '@models';
 dotenv.config();
 
 export const authMiddleware = async (req, res, next) => {

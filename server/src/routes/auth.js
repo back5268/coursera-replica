@@ -1,5 +1,6 @@
-import { signIn, signUp } from '@/app/controller';
 import express from 'express';
+import { signIn, signUp } from '@controller';
+
 export const authRouter = express.Router();
 
 authRouter.post('/signin', signIn);
