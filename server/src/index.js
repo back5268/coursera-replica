@@ -1,12 +1,14 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import { router } from './router';
+import { router } from './routes';
 import http from 'http';
-import { connectDatabse } from './app/database/config';
+import { connectDatabse } from './lib/mongoose';
+import { connectNodemailer } from './lib/node-mailer';
 import './test';
 
 connectDatabse();
+// connectNodemailer();
 const app = express();
 const server = http.createServer(app);
 
@@ -17,4 +19,4 @@ dotenv.config();
 router(app);
 app.use(express.static('src/public'));
 
-server.listen(process.env.SERVER_HOST || 5000, () => console.log(`listening on port ${process.env.SERVER_HOST || 5000}`));
+server.listen(process.env.SERVER_HOST || 9999, () => console.log(`listening on port ${process.env.SERVER_HOST || 9999}`));
