@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { addlUserMd, getDetailUserMd } from '@models';
+import { addUserMd, getDetailUserMd } from '@models';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,7 +11,7 @@ export const createUserRp = async ({ fullname, username, email, password }) => {
   if (checkUsername) return { mess: 'Username đã tồn tại!' };
   const salt = await bcrypt.genSalt(10);
   const newPassword = await bcrypt.hash(password, salt);
-  const data = await addlUserMd({ fullname, username, email, password: newPassword });
+  const data = await addUserMd({ fullname, username, email, password: newPassword });
   return { data };
 };
 

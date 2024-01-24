@@ -105,7 +105,6 @@ export const checkLastDate = (date = new Date()) => {
 
 export const validateData = (options = {}, data = {}) => {
   const object = {};
-
   const getTypeValidate = (type) => {
     switch (type) {
       case VALIDATE_TYPE.EMAIL:
