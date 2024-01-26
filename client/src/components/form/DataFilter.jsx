@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../uiCore';
-import { BiFilterAlt } from "react-icons/bi";
+import { BiFilterAlt } from 'react-icons/bi';
 import { refreshObject, removeUndefinedProps } from '@/lib/utils';
 
 const DataFilter = (props) => {
@@ -32,11 +32,17 @@ const DataFilter = (props) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="my-4 card flex gap-4 items-center">
-      {props.children}
-      <div className="w-6/12 flex gap-2 items-center justify-end">
-        <Button onClick={onClear} severity="secondary">Làm mới</Button>
-        <Button type="submit"><BiFilterAlt size={16} /> Lọc</Button>
+    <form onSubmit={onSubmit} className="my-4 card p-2">
+      <div className="flex items-center flex-wrap w-full">
+        {props.children}
+        <div className="w-3/12 flex gap-2 items-center justify-end px-2">
+          <Button onClick={onClear} severity="secondary">
+            Làm mới
+          </Button>
+          <Button type="submit">
+            <BiFilterAlt size={16} /> Lọc
+          </Button>
+        </div>
       </div>
     </form>
   );

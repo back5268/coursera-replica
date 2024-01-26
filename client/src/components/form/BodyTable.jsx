@@ -1,6 +1,5 @@
-import { useConfirmState } from '@/store';
-import { Button, Switch } from '../uiCore';
-import { BiSearch, BiTrash } from 'react-icons/bi';
+import { Switch } from '../uiCore';
+import moment from 'moment';
 
 export const StatusBody = (status) => {
   return (
@@ -10,28 +9,7 @@ export const StatusBody = (status) => {
   );
 };
 
-export const ActionsBody = (props) => {
-  const { baseActions = [], handleViewDetail = () => {}, deleteApi = () => {}, handleDelete = () => {}, item } = props;
-  const { showConfirm } = useConfirmState()
-
-  const onDelete = () => {
-    showConfirm({ title: "Bạn có chắc chắn muốn xóa dữ liệu này" })
-  }
-
-  return (
-    <>
-      <div className="flex gap-2 justify-center items-center">
-        {baseActions.includes('detail') && (
-          <Button onClick={handleViewDetail} rounded={true}>
-            <BiSearch size={16} />
-          </Button>
-        )}
-        {baseActions.includes('delete') && (
-          <Button onClick={onDelete} rounded={true} severity="danger">
-            <BiTrash size={16} />
-          </Button>
-        )}
-      </div>
-    </>
-  );
+export const TimeBody = (value, type = 'datetime') => {
+  let format = type === 'time' ? 'HH:mm:ss' : type === 'date' ? 'DD/MM/YYYY' : 'DD/MM/YYYY HH:mm:ss';
+  if (value) return moment(value).format(format);
 };

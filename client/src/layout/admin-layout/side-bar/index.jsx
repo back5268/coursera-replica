@@ -13,6 +13,18 @@ const Sidebar = (props) => {
   const [select, setSelect] = useState(null);
   const { pathname } = useLocation();
 
+  const handleResize = () => {
+    if (isShow && window.innerWidth < 1024) setIsShow(false)
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     setSelect(pathname);
   }, [pathname]);

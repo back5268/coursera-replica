@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Loading = (props) => {
-  const { size, severity } = props;
+  const { size = 4, severity = 'primary', border = 2 } = props;
 
   return (
     <div
-      className={`inline-block h-${size} w-${size} animate-spin rounded-full border-2 border-solid border-current 
+      className={`inline-block h-${size} w-${size} animate-spin rounded-full border-${border} border-solid border-current 
       border-r-transparent align-[-0.125em] text-${severity} motion-reduce:animate-[spin_1.5s_linear_infinite]`}
       role="status"
     >

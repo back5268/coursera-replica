@@ -2,11 +2,11 @@ import React from 'react'
 import { TextArea } from '../uiCore'
 
 const TextAreaForm = (props) => {
-  const { className, ...prop } = props;
+  const { id, watch = () => {}, setValue = () => {}, className, ...prop } = props;
 
   return (
     <div className={`${className}`}>
-      <TextArea {...prop} />
+      <TextArea id={id} value={watch(id)} onChange={(e) => setValue(id, e.value)} {...prop} />
     </div>
   )
 }

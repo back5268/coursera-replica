@@ -1,10 +1,22 @@
 import React from 'react';
 import { Select } from '../uiCore';
 
-const SelectForm = (props) => {
-  const { id, value = '', onChange = () => {}, ...prop } = props;
+export const SelectForm = (props) => {
+  const { value, onChange = () => {}, className, ...prop } = props;
 
-  return <Select onValueChange={(e) => onChange(e.value)} id={id} {...prop} />;
+  return (
+    <div className={`p-2 ${className}`}>
+      <Select onValueChange={(e) => onChange(e?.value)} {...prop} />
+    </div>
+  );
 };
 
-export default SelectForm;
+export const SelectFormV2 = (props) => {
+  const { className, ...prop } = props;
+
+  return (
+    <div className={`p-2 lg:w-3/12 ${className}`}>
+      <Select {...prop} />
+    </div>
+  );
+};

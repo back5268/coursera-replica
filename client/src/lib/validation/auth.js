@@ -5,7 +5,7 @@ export const SigninValidation = yup.object({
   password: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ cái!')
     .required()
 });
 
@@ -16,7 +16,7 @@ export const SignupValidation = yup.object({
   password: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ cái!')
     .required()
 });
 
@@ -31,6 +31,6 @@ export const ConfirmPasswordValidation = yup.object({
   password: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ cái!')
     .required()
 });

@@ -12,7 +12,7 @@ const AdminLayout = (props) => {
         <span className="fixed top-0 left-0 w-full min-h-48 bg-blue-500 opacity-40"></span>
       </div>
       <Sidebar isShow={isShow} setIsShow={setIsShow} />
-      <div className={`transition-all duration-500 ease-in-out p-8 mt-20 z-10 ${isShow ? 'ml-64' : 'ml-20'}`}>
+      <div className={`transition-all duration-500 ease-in-out p-6 mt-20 z-10 ${isShow ? 'ml-64' : 'ml-20'}`}>
         {props.children}
       </div>
     </div>

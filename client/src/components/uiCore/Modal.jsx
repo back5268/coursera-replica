@@ -3,7 +3,7 @@ import { TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEM
 import Button from './Button';
 
 const Modal = (props) => {
-  const { title, show, setShow = () => {}, children, size = "lg", ...prop } = props;
+  const { title, show, setShow = () => {}, children, size = "xl", ...prop } = props;
 
   return (
     <TEModal show={show} setShow={setShow} staticBackdrop>

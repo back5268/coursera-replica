@@ -3,8 +3,8 @@ import { Home } from '@/view/web';
 import { Courses, Lessons, Questions, Posts, Users, Dashboard } from '@/view/admin';
 
 const routes = [
-  { path: '/auth/sign-in', element: SignIn, public: true },
-  { path: '/auth/sign-up', element: SignUp, public: true },
+  { path: '/auth/signin', element: SignIn, public: true },
+  { path: '/auth/signup', element: SignUp, public: true },
   { path: '/auth/forgot-password', element: ForgotPassword, public: true },
   { path: '/auth/confirm-password', element: ConfirmPassword, public: true },
 
