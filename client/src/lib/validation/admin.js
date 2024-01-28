@@ -12,3 +12,13 @@ export const UserValidation = yup.object({
   bio: yup.string(),
   address: yup.string()
 });
+
+export const CourseValidation = yup.object({
+  name: yup.string().min(3, 'Tên khóa học cần dài ít nhất 3 ký tự!').required(),
+  code: yup.string().min(3, 'Mã khóa học cần dài ít nhất 3 ký tự!').required(),
+  description: yup.string(),
+  skills: yup.string(),
+  price: yup.number(),
+  sale: yup.number(),
+  type: yup.number()
+});

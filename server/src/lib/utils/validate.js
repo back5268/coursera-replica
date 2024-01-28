@@ -115,6 +115,10 @@ export const validateData = (options = {}, data = {}) => {
           .length(10);
       case VALIDATE_TYPE.NUMBER:
         return Joi.number();
+      case VALIDATE_TYPE.ARRAY:
+        return Joi.array();
+      case VALIDATE_TYPE.BOOLEAN:
+        return Joi.boolean();
       default:
         return Joi.string();
     }

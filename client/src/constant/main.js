@@ -9,3 +9,13 @@ export const userRoles = [
   { label: 'Staff', key: 'staff' },
   { label: 'User', key: 'user' }
 ];
+
+export const courseType = [
+  { label: 'Kinh tế', key: 1 },
+  { label: 'Kỹ thuật', key: 2 }
+];
+
+export const courseCharacteristic = [
+  { label: 'Khóa học mới', key: 'isNew' },
+  { label: 'Khóa học nổi bật', key: 'isHot' }
+];

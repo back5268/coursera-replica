@@ -41,7 +41,7 @@ const Users = () => {
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt) }
   ];
 
-  const { isLoading, data } = useGetApi(listUserApi, params, 'user');
+  const { isLoading, data } = useGetApi(listUserApi, params, 'users');
 
   return (
     <>

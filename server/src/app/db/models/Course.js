@@ -35,6 +35,8 @@ CourseMd.init('Course', {
   price: { type: Number, default: 0 },
   sale: { type: Number, default: 0 },
   type: { type: Number, default: 1, required: true },
+  isHot: { type: Boolean, default: false },
+  isNew: { type: Boolean, default: false },
   image: { type: String },
   lessons: [{ type: ObjectId, ref: 'Lesson' }],
   questions: [{ type: ObjectId, ref: 'Question' }],

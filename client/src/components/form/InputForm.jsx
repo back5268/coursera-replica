@@ -20,7 +20,7 @@ export const InputFormAuth = (props) => {
 };
 
 export const InputFormDetail = (props) => {
-  const { id, register, errors = {}, className, ...prop } = props;
+  const { id, register = () => {}, errors = {}, className, ...prop } = props;
 
   const errorTheme = {
     notchTrailingDefault: 'border-danger-600',
