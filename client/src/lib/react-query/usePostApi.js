@@ -1,7 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
 export const usePostApi = (apiFunction) => {
   return useMutation({
-    mutationFn: (params) => apiFunction(params),
+    mutationFn: (params) => apiFunction(params)
   });
 };

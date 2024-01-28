@@ -57,15 +57,19 @@ const DataTable = (props) => {
       <Filter setParams={setParams} />
       <div className="card">
         {isHeader && (
-          <div className="flex gap-2 justify-start">
-            {baseActions.includes('insert') && <Button onClick={onInsert}>Thêm mới</Button>}
+          <div className="flex gap-2 justify-start mb-1">
+            {baseActions.includes('insert') && (
+              <Button className="px-6" onClick={onInsert}>
+                Thêm mới
+              </Button>
+            )}
             {baseActions.includes('import') && (
-              <Button severity="info" onClick={onImport}>
+              <Button className="px-6" severity="info" onClick={onImport}>
                 Import
               </Button>
             )}
             {baseActions.includes('export') && (
-              <Button severity="info" onClick={onExport}>
+              <Button className="px-6" severity="info" onClick={onExport}>
                 Export
               </Button>
             )}

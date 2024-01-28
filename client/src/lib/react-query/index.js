@@ -1,2 +1,2 @@
-export * from './useGetApi'
-export * from './usePostApi'
+export * from './useGetApi';
+export * from './usePostApi';

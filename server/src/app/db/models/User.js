@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class UserMd extends ModelBase {
-  fullname;
+  fullName;
   username;
   email;
   password;
@@ -20,13 +20,13 @@ class UserMd extends ModelBase {
 }
 
 UserMd.init('User', {
-  fullname: { type: String, required: true },
+  fullName: { type: String, required: true },
   username: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
   bio: { type: String },
   address: { type: String },
-  status: { type: Number, default: 0 },
+  status: { type: Number, default: 1 },
   role: { type: String, default: 'user' },
   courses: [{ type: ObjectId, ref: 'Course' }],
   posts: [{ type: ObjectId, ref: 'Post' }],

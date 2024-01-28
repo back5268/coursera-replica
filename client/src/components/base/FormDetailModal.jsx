@@ -44,8 +44,8 @@ const FormDetailModal = (props) => {
         </div>
         <Hr />
         <div className="flex gap-2 justify-end px-6 py-4">
-          <Button label="Hủy" severity="secondary" onClick={() => setShow(false)} />
-          <Button type="submit" label="Xác nhận" />
+          <Button className="px-6" label="Hủy" severity="secondary" onClick={() => setShow(false)} />
+          <Button className="px-6" type="submit" label="Xác nhận" />
         </div>
       </form>
     </Modal>

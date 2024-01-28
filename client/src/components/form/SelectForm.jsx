@@ -15,7 +15,7 @@ export const SelectFormV2 = (props) => {
   const { className, ...prop } = props;
 
   return (
-    <div className={`p-2 lg:w-3/12 ${className}`}>
+    <div className={`p-2 xs:w-full sm:w-6/12 lg:w-3/12`}>
       <Select {...prop} />
     </div>
   );

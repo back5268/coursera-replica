@@ -4,6 +4,8 @@ import { TERipple } from 'tw-elements-react';
 import { FiUser } from 'react-icons/fi';
 import { BiLogOut } from 'react-icons/bi';
 import { IoNavigateOutline } from "react-icons/io5";
+import { useAuthContext } from '@context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const items = [
   { label: 'Thông tin cá nhân', icon: FiUser },
@@ -11,9 +13,11 @@ const items = [
   { label: 'Bài viết đã lưu', icon: FiUser }
 ];
 
-const AvatarSection = ({ props }) => {
+const AvatarSection = ({ onSignOut }) => {
+  const { userInfo } = useAuthContext();
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
+  const navigate = useNavigate()
 
   const handleClickOutside = (e) => {
     if (ref.current && !ref.current.contains(e.target)) {
@@ -46,8 +50,8 @@ const AvatarSection = ({ props }) => {
             </div>
           </div>
           <div className="w-7/12 items-center text-left">
-            <h4 className="font-medium">Hoàng Bách</h4>
-            <p className="text-sm">@hoangbackz</p>
+            <h4 className="font-medium">{userInfo?.fullName}</h4>
+            <p className="text-sm">@{userInfo?.username}</p>
           </div>
         </div>
         <ul className="relative list-none">
@@ -69,11 +73,11 @@ const AvatarSection = ({ props }) => {
           ))}
         </ul>
         <div className="flex flex-col gap-2 my-4">
-          <Button className={`w-full flex gap-2 truncate`} severity="secondary">
+          <Button onClick={() => navigate('/')} className={`w-full flex gap-2 truncate`} severity="secondary">
             <IoNavigateOutline size={16} />
             <span>Chuyển đến trang chủ</span>
           </Button>
-          <Button className={`w-full flex gap-2 truncate`}>
+          <Button onClick={() => onSignOut()} className={`w-full flex gap-2 truncate`}>
             <BiLogOut size={16} />
             <span>Đăng xuất</span>
           </Button>

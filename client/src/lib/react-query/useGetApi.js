@@ -12,9 +12,9 @@ export const useGetApi = (apiFunction, params = {}, queryKey, enabled) => {
   return useQuery({
     queryKey: [queryKey, params],
     queryFn: () => apiFunction({ ...params, render: undefined }),
-    enabled, 
+    enabled,
     onError: (error) => {
       console.error('Error fetching data:', error);
-    },
+    }
   });
 };

@@ -10,11 +10,7 @@ const { showToast } = getToastState();
 clientApi.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    const time = Date.now();
-    config.headers['Authorization'] = `Bearer ${token}`;
-    config.headers['info'] = JSON.stringify({
-      time
-    });
+    config.headers['Bearer'] = token;
     return config;
   },
   (error) => {

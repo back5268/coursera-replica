@@ -27,7 +27,7 @@ const Button = (props) => {
   }
 
   if (disabled) buttonClass += ' opacity-50'
-  buttonClass += rounded ? ' rounded-full p-3' : ' rounded px-6 pb-2.5 pt-3'
+  buttonClass += rounded ? ' rounded-full p-3' : ' rounded pb-2.5 pt-3'
 
   return (
     <TERipple rippleColor="light">

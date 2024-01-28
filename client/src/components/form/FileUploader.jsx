@@ -31,7 +31,7 @@ const FileUploader = ({ data, setData = () => {}, label }) => {
             <span className="truncate w-full">{fileUrl}</span>
             <div className="flex gap-2 items-center justify-center">
               <div {...getRootProps()}><Button label="Thay đổi" /></div>
-              <Button severity="danger" onClick={() => setFile(null)}>
+              <Button className="px-6" severity="danger" onClick={() => setFile(null)}>
                 <BiTrash size={16} />
               </Button>
             </div>
@@ -41,7 +41,7 @@ const FileUploader = ({ data, setData = () => {}, label }) => {
             <FiUpload size={32} />
             <span>Drag and Drop file</span>
             <span className="text-center font-semibold dark:text-neutral-200">OR</span>
-            <Button label="Browse" />
+            <Button className="px-6" label="Browse" />
           </div>
         )}
       </div>

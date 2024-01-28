@@ -7,7 +7,7 @@ export const listUserValid = {
 };
 
 export const addUserValid = {
-  fullname: 'string',
+  fullName: 'string',
   username: 'string',
   email: 'email',
   password: 'string',
@@ -18,9 +18,9 @@ export const addUserValid = {
 };
 
 export const updateUserValid = {
-  id: 'string',
+  _id: 'string',
   username: { type: 'string', allowNull: true },
-  fullname: { type: 'string', allowNull: true },
+  fullName: { type: 'string', allowNull: true },
   email: { type: 'string', allowNull: true },
   password: { type: 'string', allowNull: true },
   bio: { type: 'string', allowNull: true },

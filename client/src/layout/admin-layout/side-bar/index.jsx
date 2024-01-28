@@ -1,15 +1,16 @@
-import { Button } from '@/components/uiCore';
+import { Button } from '@components/uiCore';
 import React, { useState, useEffect } from 'react';
 import { BiMenu } from 'react-icons/bi';
 import { TERipple } from 'tw-elements-react';
 import { BiLogOut } from 'react-icons/bi';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { items } from './items';
 import { IoNavigateOutline } from 'react-icons/io5';
 
 const Sidebar = (props) => {
-  const { isShow, setIsShow } = props;
+  const navigate = useNavigate()
+  const { isShow, setIsShow, onSignOut } = props;
   const [select, setSelect] = useState(null);
   const { pathname } = useLocation();
 
@@ -67,11 +68,11 @@ const Sidebar = (props) => {
         </ul>
       </div>
       <div className="px-2 flex flex-col gap-2">
-        <Button className={`w-full flex gap-2 truncate`} severity="secondary">
+        <Button onClick={() => navigate('/')} className={`w-full flex gap-2 truncate`} severity="secondary">
           <IoNavigateOutline size={16} />
-          <span>Chuyển đến trang chủ</span>
+          <span className={`${isShow ? '' : 'hidden'} transition-all duration-500 ease-in-out overflow-hidden`}>Chuyển đến trang chủ</span>
         </Button>
-        <Button className={`w-full flex gap-2 truncate ${isShow ? '' : 'p-0'}`}>
+        <Button onClick={() => onSignOut()} className={`w-full flex gap-2 truncate`}>
           <BiLogOut size={16} />
           <span className={`${isShow ? '' : 'hidden'} transition-all duration-500 ease-in-out overflow-hidden`}>Đăng xuất</span>
         </Button>

@@ -1,4 +1,4 @@
-import { FileUploader, InputForm, SwitchForm, TextAreaForm } from '@components/form';
+import { FileUploader, InputFormDetail, MultiRadio, SwitchForm, TextAreaForm } from '@components/form';
 import { UserValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
@@ -6,14 +6,16 @@ import { useForm } from 'react-hook-form';
 import { addUserApi, updateUserApi } from '@api';
 import { FormDetailModal } from '@components/base';
 import { checkEqualProp } from '@utils';
+import { userRoles } from '@constant';
 
 const defaultValues = {
-  fullname: '',
+  fullName: '',
   username: '',
   email: '',
   address: '',
   bio: '',
   password: '',
+  role: '',
   status: 1
 };
 
@@ -68,13 +70,14 @@ const DetailUser = (props) => {
         <FileUploader label="Ảnh đại diện" data={avatar} setData={setAvatar} />
       </div>
       <div className="flex flex-wrap w-8/12">
-        <InputForm id="fullname" label="Họ tên (*)" register={register} errors={errors} />
-        <InputForm id="username" label="Tài khoản (*)" register={register} errors={errors} />
-        <InputForm id="email" label="Email (*)" register={register} errors={errors} />
-        <InputForm id="password" label="Mật khẩu (*)" type="password" register={register} errors={errors} />
-        <InputForm id="address" label="Địa chỉ" register={register} />
+        <InputFormDetail id="fullName" label="Họ tên (*)" register={register} errors={errors} />
+        <InputFormDetail id="username" label="Tài khoản (*)" register={register} errors={errors} />
+        <InputFormDetail id="email" label="Email (*)" register={register} errors={errors} />
+        <InputFormDetail id="password" label="Mật khẩu (*)" type="password" register={register} errors={errors} />
+        <InputFormDetail id="address" label="Địa chỉ" register={register} />
         <SwitchForm id="status" label="Trạng thái (*)" watch={watch} setValue={setValue} />
         <TextAreaForm id="bio" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
+        <MultiRadio label="Quyền" data={userRoles} value={watch('role')} onChange={(e) => setValue('role', e)} />
       </div>
     </FormDetailModal>
   );

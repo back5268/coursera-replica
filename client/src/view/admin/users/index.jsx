@@ -11,7 +11,7 @@ const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
 
   return (
-    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams}>
+    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full sm:w-6/12'}>
       <InputFormV2
         value={filter.keySearch}
         onChange={(e) => setFilter({ ...filter, keySearch: e.target.value })}
@@ -34,7 +34,7 @@ const Users = () => {
   const [show, setShow] = useState(false);
 
   const columns = [
-    { label: 'Họ tên', field: 'fullname' },
+    { label: 'Họ tên', field: 'fullName' },
     { label: 'Username', field: 'username' },
     { label: 'Email', field: 'email' },
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt) },

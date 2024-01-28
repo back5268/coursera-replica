@@ -10,8 +10,9 @@ const ConfirmModal = () => {
       <div className="p-6">{confirmInfo.title || 'Bạn có chắc chắn muốn tiếp tục?'}</div>
       <Hr />
       <div className="flex gap-2 justify-end px-6 py-4">
-        <Button label="Hủy" severity="secondary" onClick={() => hideConfirm()} />
+        <Button className="px-6" label="Hủy" severity="secondary" onClick={() => hideConfirm()} />
         <Button
+          className="px-6"
           label="Xác nhận"
           onClick={async () => {
             await confirmInfo?.action();

@@ -10,7 +10,7 @@
           "@constant": "./src/constant",
           "@api": "./src/api",
           "@components": "./src/components",
-          "@contex": "./src/contex",
+          "@context": "./src/context",
           "@hook": "./src/hook",
           "@layout": "./src/layout",
           "@routes": "./src/routes",

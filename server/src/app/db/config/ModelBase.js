@@ -44,7 +44,7 @@ class ModelBase {
 
   static delete(where = {}) {
     if (Object.keys(where).length === 0) return;
-    return this.model.update({ updateAt: new Date(), deleteAt: new Date() });
+    return this.model.findOneAndUpdate(where, { updateAt: new Date(), deleteAt: new Date() });
   }
 }
 
