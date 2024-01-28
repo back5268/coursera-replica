@@ -18,4 +18,14 @@ export const refreshObject = (object) => {
   return object;
 };
 
+export const checkEqualProp = (object1, object2) => {
+  const newObject = {}
+  for (const key in object1) {
+      if (object1.hasOwnProperty(key) && JSON.stringify(object1[key]) !== JSON.stringify(object2[key])) {
+          newObject[key] = object1[key]
+      }
+  }
+  return newObject
+}
+
 export const convertFileToUrl = (file) => URL.createObjectURL(file);

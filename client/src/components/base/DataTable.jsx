@@ -1,12 +1,10 @@
 import React from 'react';
 import { BiSearch, BiTrash } from 'react-icons/bi';
-import Pagination from './Pagination';
-import { useConfirmState } from '@/store';
-import { Switch, Button } from '.';
-import { useToastState } from '@store';
-import { Loading } from '@components/base';
+import { useToastState, useConfirmState } from '@store';
+import { Loading, Pagination } from '.';
+import { Button, Switch } from '@components/uiCore';
 
-const Table = (props) => {
+const DataTable = (props) => {
   const { showConfirm } = useConfirmState();
   const { showToast } = useToastState();
   const {
@@ -173,4 +171,4 @@ const Table = (props) => {
   );
 };
 
-export default Table;
+export default DataTable;

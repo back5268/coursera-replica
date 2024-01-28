@@ -6,7 +6,7 @@ import { useToastState } from '@store';
 
 const FormDetail = (props) => {
   const { showToast } = useToastState();
-  const { isUpdate, insertApi, updateApi, children, handleSubmit, handleData, setShow = () => {}, setParams = () => {} } = props;
+  const { isUpdate, insertApi, updateApi, children, handleSubmit, handleData, setShow = () => {}, setParams = () => {}, reset } = props;
   const { mutateAsync, isLoading } = usePostApi(isUpdate ? updateApi : insertApi);
 
   const onSubmit = async (e) => {
@@ -16,6 +16,7 @@ const FormDetail = (props) => {
       showToast({ title: `${isUpdate ? 'Cập nhật' : 'Thêm mới'} dữ liệu thành công!`, severity: 'success' });
       setShow(false);
       setParams((pre) => ({ ...pre, render: !pre.render }));
+      reset()
     }
   };
 

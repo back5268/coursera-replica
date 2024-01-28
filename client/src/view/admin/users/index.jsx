@@ -1,11 +1,11 @@
-import { DataFilter, DataTable, SelectFormV2, TimeBody } from '@components/form';
-import { useGetParams } from '@hook';
 import React, { useState } from 'react';
-import { statuses } from '@constant/main';
-import { useGetApi } from '@lib/react-query/useGetApi';
 import { deleteUserApi, listUserApi, updateUserApi } from '@api';
+import { InputFormV2, SelectFormV2 } from '@components/form';
+import { statuses } from '@constant';
+import { useGetParams } from '@hook';
+import { useGetApi } from '@lib/react-query';
 import DetailUser from './DetailUser';
-import { InputFormV2 } from '@components/form/InputForm';
+import { DataFilter, DataTable, TimeBody } from '@components/base';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -18,7 +18,12 @@ const Filter = ({ setParams }) => {
         label="Tìm kiếm theo tên, tài khoản"
       />
       <InputFormV2 value={filter.email} onChange={(e) => setFilter({ ...filter, email: e.target.value })} label="Tìm kiếm theo email" />
-      <SelectFormV2 value={filter.status} onValueChange={(e) => setFilter({ ...filter, status: e.value })} data={statuses} label="Trạng thái" />
+      <SelectFormV2
+        value={filter.status}
+        onValueChange={(e) => setFilter({ ...filter, status: e.value })}
+        data={statuses}
+        label="Trạng thái"
+      />
     </DataFilter>
   );
 };
@@ -40,7 +45,7 @@ const Users = () => {
 
   return (
     <>
-      {show && <DetailUser show={show} setShow={setShow} setParams={setParams} />}
+      <DetailUser show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
       <DataTable
         isLoading={isLoading}
         title="Quản lý người dùng"
