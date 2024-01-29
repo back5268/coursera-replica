@@ -127,7 +127,7 @@ const DataTable = (props) => {
                             })}
                             {isStatus && (
                               <td className={`border-r px-4 py-4 border-[1px] ${bgColor}`}>
-                                <div className="flex justify-center">
+                                <div className="flex justify-center items-center">
                                   <Switch checked={Boolean(item.status)} onChange={() => onChangeStatus(item)} />
                                 </div>
                               </td>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { deleteCourseApi, listCourseApi, updateCourseApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
-import { statuses } from '@constant';
+import { courseType, statuses } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import DetailCourse from './Detail';
@@ -11,14 +11,20 @@ const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
 
   return (
-    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-full'}>
+    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-9/12'}>
       <InputFormV2
         value={filter.keySearch}
         onChange={(e) => setFilter({ ...filter, keySearch: e.target.value })}
         label="Tìm kiếm theo tên, mã khóa học"
       />
-      <InputFormV2 value={filter.fromPrice} onChange={(e) => setFilter({ ...filter, fromPrice: e.target.value })} label="Giá từ" />
-      <InputFormV2 value={filter.toPrice} onChange={(e) => setFilter({ ...filter, toPrice: e.target.value })} label="Giá đến" />
+      <InputFormV2 type="number" value={filter.fromPrice} onChange={(e) => setFilter({ ...filter, fromPrice: e.target.value })} label="Giá từ" />
+      <InputFormV2 type="number" value={filter.toPrice} onChange={(e) => setFilter({ ...filter, toPrice: e.target.value })} label="Giá đến" />
+      <SelectFormV2
+        value={filter.type}
+        onValueChange={(e) => setFilter({ ...filter, type: e.value })}
+        data={courseType}
+        label="Thể loại"
+      />
       <SelectFormV2
         value={filter.status}
         onValueChange={(e) => setFilter({ ...filter, status: e.value })}
@@ -37,6 +43,7 @@ const Courses = () => {
   const columns = [
     { label: 'Tên khóa học', field: 'name' },
     { label: 'Mã khóa học', field: 'code' },
+    { label: 'Thể loại', body: (item) => courseType.find(c => c.key === item.type)?.label },
     { label: 'Giá', body: (item) => NumberBody(item.price) },
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt) },
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt) }

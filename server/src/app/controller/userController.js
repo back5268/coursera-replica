@@ -20,6 +20,15 @@ export const getListUser = async (req, res) => {
   }
 };
 
+export const getListUserInfo = async (req, res) => {
+  try {
+    const data = await getListUserMd({ status: 1 });
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
 export const detailUser = async (req, res) => {
   try {
     const error = validateData({ _id: 'string' }, req.query);

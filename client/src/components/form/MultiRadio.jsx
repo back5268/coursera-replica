@@ -13,8 +13,8 @@ const MultiRadio = (props) => {
 
   return (
     <div className="flex gap-12 card content-center m-2 w-full">
-      <label className='uppercase font-semibold w-4/12'>{children || label}</label>
-      <div className={`w-full flex gap-4 ${className} flex-wrap`}>
+      <label className='w-3/12'>{children || label}</label>
+      <div className={`w-full flex justify-around ${className} flex-wrap`}>
         {handleData(data).map((d, index) => {
           return <Radio key={index} id={id + '-' + d.key} checked={value === d.key} onChange={() => onChange(d.key)} label={d.label} />;
         })}

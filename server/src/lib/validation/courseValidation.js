@@ -4,7 +4,8 @@ export const listCourseValid = {
   keySearch: { type: 'string', allowNull: true },
   fromPrice: { type: 'number', allowNull: true },
   toPrice: { type: 'number', allowNull: true },
-  status: { type: 'number', allowNull: true }
+  status: { type: 'number', allowNull: true },
+  type: { type: 'number', allowNull: true },
 };
 
 export const dedtailCourseValid = {

@@ -1,20 +1,29 @@
 import { addCourseValid, listCourseValid, updateCourseValid, dedtailCourseValid } from '@lib/validation';
 import { addCourseMd, countListCourseMd, deleteCourseMd, getDetailCourseMd, getListCourseMd, updateCourseMd } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
-import e from 'cors';
 
 export const getListCourse = async (req, res) => {
   try {
     const error = validateData(listCourseValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, status } = req.query;
+    const { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, status, type } = req.query;
     const where = {};
     where.$and = [{ price: { $gte: fromPrice } }, { price: { $lte: toPrice } }];
     if (keySearch) where.$or = [{ name: { $regex: keySearch, $options: 'i' } }, { code: { $regex: keySearch, $options: 'i' } }];
     if (status || status === 0) where.status = status;
+    if (type) where.type = type;
     const documents = await getListCourseMd(where, page, limit);
     const total = await countListCourseMd(where);
     res.json({ status: true, data: { documents, total } });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const getListCourseInfo = async (req, res) => {
+  try {
+    const data = await getListCourseMd({ status: 1 });
+    res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }

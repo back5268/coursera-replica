@@ -18,7 +18,7 @@ export const CourseValidation = yup.object({
   code: yup.string().min(3, 'Mã khóa học cần dài ít nhất 3 ký tự!').required(),
   description: yup.string(),
   skills: yup.string(),
-  price: yup.number(),
-  sale: yup.number(),
+  price: yup.number().min(0, "Giá tiền phải lớn hơn 0!"),
+  sale: yup.number().min(0, "khuyến mãi phải lớn hơn 0!"),
   type: yup.number()
 });

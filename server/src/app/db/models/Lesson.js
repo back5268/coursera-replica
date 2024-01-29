@@ -24,7 +24,7 @@ LessonMd.init('Lesson', {
   updateBy: { type: ObjectId, ref: 'User' },
   title: { type: String, required: true },
   content: { type: String, required: true },
-  time: { type: Number, default: 0 },
+  time: { type: Number, default: 0, min: 0 },
   author: { type: String, required: true },
   description: { type: String },
   files: { type: Array, default: [] },

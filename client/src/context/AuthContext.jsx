@@ -49,6 +49,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) checkAuth();
+    else setIsLoading(false)
   }, []);
 
   const value = {
