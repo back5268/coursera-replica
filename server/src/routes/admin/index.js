@@ -13,4 +13,4 @@ adminRouter.use('/user', userRouter);
 adminRouter.use('/course', courseRouter);
 adminRouter.use('/lesson', lessonRouter);
 adminRouter.use('/question', questionRouter);
-adminRouter.use('/question', postRouter);
+adminRouter.use('/post', postRouter);

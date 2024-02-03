@@ -70,7 +70,7 @@ export const updatePost = async (req, res) => {
 
     const checkPost = await getDetailPostMd({ _id });
     if (!checkPost) res.status(400).json({ status: false, mess: 'Không tìm thấy bài viết!' });
-    if (!(checkPost.by === req.userInfo._id)) res.status(400).json({ status: false, mess: 'Không thể cập nhật bài viết bài viết!' });
+    if (JSON.stringify(checkPost.by) !== JSON.stringify(req.userInfo._id)) return res.status(400).json({ status: false, mess: 'Không thể cập nhật bài viết bài viết!' });
 
     const data = await updatePostMd({ _id }, { title, content, time, hastag });
     res.status(201).json({ status: true, data });

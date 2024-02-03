@@ -40,7 +40,6 @@ const DetailCourse = (props) => {
 
   useEffect(() => {
     if (isUpdate && item._id) {
-      console.log(item);
       const characteristic = [];
       if (item.isHot) characteristic.push('isHot');
       if (item.isNew) characteristic.push('isNew');

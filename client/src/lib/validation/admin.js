@@ -2,23 +2,30 @@ import * as yup from 'yup';
 
 export const UserValidation = yup.object({
   email: yup.string().email('Email không đúng định dạng!').required('Email không được bỏ trống!'),
-  username: yup.string().min(3, 'Tài khoản cần dài ít nhất 3 ký tự!').required(),
-  fullName: yup.string().min(3, 'Họ tên cần dài ít nhất 3 ký tự!').required(),
+  username: yup.string().required('Tài khoản không được bỏ trống!'),
+  fullName: yup.string().required('Họ tên không được bỏ trống!'),
   password: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
     .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
-    .required(),
-  bio: yup.string(),
-  address: yup.string()
+    .required('Mật khẩu không được bỏ trống!'),
 });
 
 export const CourseValidation = yup.object({
-  name: yup.string().min(3, 'Tên khóa học cần dài ít nhất 3 ký tự!').required(),
-  code: yup.string().min(3, 'Mã khóa học cần dài ít nhất 3 ký tự!').required(),
-  description: yup.string(),
-  skills: yup.string(),
-  price: yup.number().min(0, "Giá tiền phải lớn hơn 0!"),
-  sale: yup.number().min(0, "khuyến mãi phải lớn hơn 0!"),
-  type: yup.number()
+  name: yup.string().required('Tên khóa học không được bỏ trống!'),
+  code: yup.string().required('Mã khóa học không được bỏ trống!'),
+});
+
+export const LessonValidation = yup.object({
+  courseId: yup.string().required('Khóa học không được bỏ trống!'),
+  title: yup.string().required('Tiêu đề không được bỏ trống!'),
+  content: yup.string().required('Nội dung không được bỏ trống!'),
+  author: yup.string().required('Tác giả không được bỏ trống!'),
+  time: yup.number().min(0, 'Thời gian học phải lớn hơn 0!').required('Thời gian học không được bỏ trống!'),
+});
+
+export const PostValidation = yup.object({
+  title: yup.string().required('Tiêu đề không được bỏ trống!'),
+  content: yup.string().required('Nội dung không được bỏ trống!'),
+  time: yup.number().min(0, 'Thời gian học phải lớn hơn 0!').required('Thời gian học không được bỏ trống!'),
 });

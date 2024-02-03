@@ -1,5 +1,5 @@
 import { addLessonValid, listLessonValid, updateLessonValid, dedtailLessonValid } from '@lib/validation';
-import { addLessonMd, countListLessonMd, deleteLessonMd, getDetailLessonMd, getListLessonMd, updateLessonMd } from '@models';
+import { addLessonMd, countListLessonMd, deleteLessonMd, getDetailCourseMd, getDetailLessonMd, getListLessonMd, updateLessonMd } from '@models';
 import { validateData } from '@utils';
 
 export const getListLesson = async (req, res) => {
@@ -25,7 +25,7 @@ export const detailLesson = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.query;
     const data = await getDetailLessonMd({ _id });
-    if (!data) return res.status(400).json({ status: false, mess: 'Bài học không tồn tại!' });
+    if (!data) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -38,7 +38,7 @@ export const deleteLesson = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.body;
     const data = await deleteLessonMd({ _id });
-    if (!data) return res.status(400).json({ status: false, mess: 'Bài học không tồn tại!' });
+    if (!data) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -54,7 +54,7 @@ export const addLesson = async (req, res) => {
     const checkTitle = await getDetailLessonMd({ title });
     if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
 
-    const checkCourse = await getDetailLessonMd({ courseId, status: 1 });
+    const checkCourse = await getDetailCourseMd({ id: courseId, status: 1 });
     if (!checkCourse) return res.status(400).json({ status: false, mess: 'Không tìm thấy khóa học!' });
 
     const data = await addLessonMd({
@@ -85,12 +85,12 @@ export const updateLesson = async (req, res) => {
     }
 
     if (courseId) {
-      const checkCourse = await getDetailLessonMd({ courseId, status: 1 });
+      const checkCourse = await getDetailCourseMd({ id: courseId, status: 1 });
       if (!checkCourse) return res.status(400).json({ status: false, mess: 'Không tìm thấy khóa học!' });
     }
 
     const data = await updateLessonMd({ _id }, { updateBy: req.userInfo._id, title, content, author, courseId, time, description, status });
-    if (!data) return res.status(400).json({ status: false, mess: 'Không tìm thấy bài học!' });
+    if (!data) return res.status(400).json({ status: false, mess: 'Không tìm thấy bài giảng!' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

@@ -54,13 +54,12 @@ const Users = () => {
         columns={columns}
         params={params}
         setParams={setParams}
-        Filter={Filter}
-        baseActions={['insert', 'detail', 'delete', 'update']}
+        baseActions={['insert', 'detail', 'delete']}
         setShow={setShow}
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteUserApi }}
         statusInfo={{ changeStatusApi: updateUserApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
-      />
+      ><Filter setParams={setParams} /></DataTable>
     </>
   );
 };

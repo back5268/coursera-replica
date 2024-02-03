@@ -9,6 +9,7 @@ import { DataFilter, DataTable, NumberBody, TimeBody } from '@components/base';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
+  console.log(filter);
 
   return (
     <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-9/12'}>
@@ -62,13 +63,12 @@ const Courses = () => {
         columns={columns}
         params={params}
         setParams={setParams}
-        Filter={Filter}
-        baseActions={['insert', 'detail', 'delete', 'update']}
+        baseActions={['insert', 'detail', 'delete']}
         setShow={setShow}
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteCourseApi }}
         statusInfo={{ changeStatusApi: updateCourseApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
-      />
+      ><Filter setParams={setParams} /></DataTable>
     </>
   );
 };

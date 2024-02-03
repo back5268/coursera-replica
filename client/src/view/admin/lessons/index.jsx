@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
-import { deleteCourseApi, listCourseApi, updateCourseApi } from '@api';
+import { deleteLessonApi, listLessonApi, updateLessonApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
-import { courseType, statuses } from '@constant';
+import { statuses } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
-import DetailCourse from './Detail';
+import DetailLesson from './Detail';
 import { DataFilter, DataTable, NumberBody, TimeBody } from '@components/base';
+import { useDataState } from '@store';
 
-const Filter = ({ setParams }) => {
+const Filter = ({ setParams, courses = [] }) => {
   const [filter, setFilter] = useState({});
 
   return (
-    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-9/12'}>
+    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full'}>
       <InputFormV2
         value={filter.keySearch}
         onChange={(e) => setFilter({ ...filter, keySearch: e.target.value })}
-        label="Tìm kiếm theo tên, mã khóa học"
+        label="Tìm kiếm theo tiêu đề, tác giả"
       />
-      <InputFormV2 type="number" value={filter.fromPrice} onChange={(e) => setFilter({ ...filter, fromPrice: e.target.value })} label="Giá từ" />
-      <InputFormV2 type="number" value={filter.toPrice} onChange={(e) => setFilter({ ...filter, toPrice: e.target.value })} label="Giá đến" />
       <SelectFormV2
-        value={filter.type}
-        onValueChange={(e) => setFilter({ ...filter, type: e.value })}
-        data={courseType}
-        label="Thể loại"
+        value={filter.courseId}
+        onValueChange={(e) => setFilter({ ...filter, courseId: e.value })}
+        data={courses.map(c => ({ label: c.name, key: c._id }))}
+        label="Khóa học"
       />
       <SelectFormV2
         value={filter.status}
@@ -38,37 +37,37 @@ const Filter = ({ setParams }) => {
 const Lessons = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
+  const { courses } = useDataState();
   const [show, setShow] = useState(false);
 
   const columns = [
-    { label: 'Tên khóa học', field: 'name' },
-    { label: 'Mã khóa học', field: 'code' },
-    { label: 'Thể loại', body: (item) => courseType.find(c => c.key === item.type)?.label },
-    { label: 'Giá', body: (item) => NumberBody(item.price) },
+    { label: 'Khóa học', body: (item) => courses.find((c) => c._id === item.courseId)?.name },
+    { label: 'Tiêu đề bài giảng', field: 'title' },
+    { label: 'Tác giả', field: 'author' },
+    { label: 'Thời gian học', body: (item) => NumberBody(item.time) },
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt) },
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt) }
   ];
 
-  const { isLoading, data } = useGetApi(listCourseApi, params, 'Lessons');
+  const { isLoading, data } = useGetApi(listLessonApi, params, 'lessons');
 
   return (
     <>
-      <DetailCourse show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
+      <DetailLesson show={show} setShow={setShow} setParams={setParams} data={data?.documents} courses={courses} />
       <DataTable
         isLoading={isLoading}
-        title="Quản lý khóa học"
+        title="Quản lý bài giảng"
         data={data?.documents}
         totalRecord={data?.total}
         columns={columns}
         params={params}
         setParams={setParams}
-        Filter={Filter}
-        baseActions={['insert', 'detail', 'delete', 'update']}
+        baseActions={['insert', 'detail', 'delete']}
         setShow={setShow}
-        actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteCourseApi }}
-        statusInfo={{ changeStatusApi: updateCourseApi }}
+        actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteLessonApi }}
+        statusInfo={{ changeStatusApi: updateLessonApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
-      />
+      ><Filter setParams={setParams} courses={courses} /></DataTable>
     </>
   );
 };

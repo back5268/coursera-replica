@@ -19,7 +19,8 @@ const DataTable = (props) => {
     headerInfo = {},
     statusInfo = {},
     baseActions = [],
-    Filter = () => {}
+    Filter = () => {},
+    children
   } = props;
   const { onViewDetail = () => {}, deleteApi = () => {}, handleDelete = (item) => ({ _id: item._id }) } = actionsInfo;
   const { onInsert = () => {}, onImport = () => {}, onExport = () => {} } = headerInfo;
@@ -54,7 +55,7 @@ const DataTable = (props) => {
   return (
     <div className="p-4 bg-white rounded-lg shadow-xl">
       <h2 className="font-semibold uppercase leading-normal my-2 text-neutral-800 dark:text-neutral-200">{title}</h2>
-      <Filter setParams={setParams} />
+      {children}
       <div className="card">
         {isHeader && (
           <div className="flex gap-2 justify-start mb-1">
