@@ -6,11 +6,10 @@ export const getListQuestion = async (req, res) => {
   try {
     const error = validateData(listQuestionValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, courseId, status } = req.query;
+    const { page, limit, keySearch, status } = req.query;
     const where = {};
     if (keySearch) where.$or = [{ content: { $regex: keySearch, $options: 'i' } }];
     if (status || status === 0) where.status = status;
-    if (courseId) where.courseId = courseId;
     const documents = await getListQuestionMd(where, page, limit);
     const total = await countListQuestionMd(where);
     res.json({ status: true, data: { documents, total } });
@@ -54,14 +53,10 @@ export const addQuestion = async (req, res) => {
     const checkContent = await getDetailQuestionMd({ content });
     if (checkContent) return res.status(400).json({ status: false, mess: 'Câu hỏi đã tồn tại!' });
 
-    const checkCourse = await getDetailQuestionMd({ courseId, status: 1 });
-    if (!checkCourse) return res.status(400).json({ status: false, mess: 'Không tìm thấy khóa học!' });
-
     const data = await addQuestionMd({
       by: req.userInfo._id,
       content,
       answers,
-      courseId,
       note,
       status
     });
@@ -75,21 +70,16 @@ export const updateQuestion = async (req, res) => {
   try {
     const error = validateData(updateQuestionValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, content, answers, courseId, note, status } = req.body;
+    const { _id, content, answers, note, status } = req.body;
 
     if (content) {
       const checkContent = await getDetailQuestionMd({ content });
       if (checkContent) return res.status(400).json({ status: false, mess: 'Câu hỏi đã tồn tại!' });
     }
 
-    if (courseId) {
-      const checkCourse = await getDetailQuestionMd({ courseId, status: 1 });
-      if (!checkCourse) return res.status(400).json({ status: false, mess: 'Không tìm thấy khóa học!' });
-    }
-
     const data = await updateQuestionMd(
       { _id },
-      { updateBy: req.userInfo._id, content, answers, courseId, note, status }
+      { updateBy: req.userInfo._id, content, answers, note, status }
     );
     if (!data) return res.status(400).json({ status: false, mess: 'Không tìm thấy câu hỏi!' });
     res.status(201).json({ status: true, data });

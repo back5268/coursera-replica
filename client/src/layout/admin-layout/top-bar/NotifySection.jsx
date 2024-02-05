@@ -1,4 +1,4 @@
-import { Hr, Link, Select } from '@/components/uiCore';
+import { Hr, Link, Select } from '@components/uiCore';
 import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlineNotificationsActive } from 'react-icons/md';
 import { TERipple } from 'tw-elements-react';

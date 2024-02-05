@@ -8,7 +8,7 @@ class PostMd extends ModelBase {
   title;
   content;
   time;
-  hastag;
+  hashtag;
   votes;
   comments;
   image;
@@ -22,7 +22,7 @@ PostMd.init('Post', {
   title: { type: String, required: true },
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
-  hastag: { type: Array, required: true },
+  hashtag: { type: Array, required: true },
   votes: { type: Array, default: [] },
   comments: { type: Array, default: [] },
   image: { type: String },

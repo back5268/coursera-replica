@@ -5,3 +5,5 @@ export * from './lesson';
 export * from './question';
 export * from './post';
 export * from './info';
+export * from './feedback';
+export * from './template';

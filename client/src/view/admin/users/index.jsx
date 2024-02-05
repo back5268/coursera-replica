@@ -5,7 +5,7 @@ import { statuses } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import DetailUser from './DetailUser';
-import { DataFilter, DataTable, TimeBody } from '@components/base';
+import { DataFilter, TimeBody, FormList } from '@components/base';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -46,7 +46,7 @@ const Users = () => {
   return (
     <>
       <DetailUser show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
-      <DataTable
+      <FormList
         isLoading={isLoading}
         title="Quản lý người dùng"
         data={data?.documents}
@@ -59,7 +59,7 @@ const Users = () => {
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteUserApi }}
         statusInfo={{ changeStatusApi: updateUserApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
-      ><Filter setParams={setParams} /></DataTable>
+      ><Filter setParams={setParams} /></FormList>
     </>
   );
 };

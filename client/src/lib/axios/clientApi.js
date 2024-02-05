@@ -1,4 +1,4 @@
-import { getToastState } from '@/store';
+import { getToastState } from '@store';
 import axios from 'axios';
 
 export const clientApi = axios.create({

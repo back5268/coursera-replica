@@ -13,7 +13,6 @@ export const dedtailQuestionValid = {
 export const addQuestionValid = {
   content: 'string',
   answers: 'array',
-  courseId: 'string',
   note: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true }
 };
@@ -22,7 +21,6 @@ export const updateQuestionValid = {
   _id: 'string',
   content: { type: 'string', allowNull: true },
   answers: { type: 'array', allowNull: true },
-  courseId: { type: 'string', allowNull: true },
   note: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true }
 };

@@ -1,4 +1,4 @@
-import { useToastState } from '@/store';
+import { useToastState } from '@store';
 import React, { useEffect } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';

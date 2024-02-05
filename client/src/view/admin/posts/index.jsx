@@ -4,7 +4,7 @@ import { InputFormV2 } from '@components/form';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import DetailPost from './Detail';
-import { DataFilter, DataTable, NumberBody, TimeBody } from '@components/base';
+import { DataFilter, FormList, NumberBody, TimeBody } from '@components/base';
 
 const Filter = ({ setParams, courses = [] }) => {
   const [filter, setFilter] = useState({});
@@ -38,7 +38,7 @@ const Posts = () => {
   return (
     <>
       <DetailPost show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
-      <DataTable
+      <FormList
         isLoading={isLoading}
         title="Quản lý bài viết"
         data={data?.documents}
@@ -50,7 +50,7 @@ const Posts = () => {
         setShow={setShow}
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deletePostApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
-      ><Filter setParams={setParams} /></DataTable>
+      ><Filter setParams={setParams} /></FormList>
     </>
   );
 };

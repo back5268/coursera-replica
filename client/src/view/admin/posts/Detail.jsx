@@ -12,7 +12,7 @@ const defaultValues = {
   title: '',
   content: '',
   time: 0,
-  hastag: ''
+  hashtag: ''
 };
 
 const DetailPost = (props) => {
@@ -33,7 +33,7 @@ const DetailPost = (props) => {
   });
 
   useEffect(() => {
-    if (item?.hastag && Array.isArray(item.hastag)) item.hastag = item?.hastag?.join(', ');
+    if (item?.hashtag && Array.isArray(item.hashtag)) item.hashtag = item?.hashtag?.join(', ');
     if (isUpdate && item._id) {
       for (const key in defaultValues) {
         setValue(key, item[key]);
@@ -42,8 +42,8 @@ const DetailPost = (props) => {
   }, [item]);
 
   const handleData = (data) => {
-    const hastag = data.hastag?.replace(/ /g, '').split(',') || [];
-    const newData = { ...data, hastag };
+    const hashtag = data.hashtag?.replace(/ /g, '').split(',') || [];
+    const newData = { ...data, hashtag };
     if (isUpdate) return { ...checkEqualProp(newData, item), _id: show };
     else return newData;
   };
@@ -66,7 +66,7 @@ const DetailPost = (props) => {
       <div className="flex flex-wrap w-full">
         <InputFormDetail id="title" label="Tiêu đề (*)" register={register} errors={errors} />
         <InputFormDetail type="number" id="time" label="Thời gian đọc (*)" register={register} errors={errors} />
-        <InputFormDetail id="hastag" label="Hagtag" register={register} />
+        <InputFormDetail id="hashtag" label="Hagtag" register={register} />
         <Editor id="content" label="Nội dung (*)" data={watch('content')} setData={e => setValue('content', e)} />
       </div>
     </FormDetailModal>

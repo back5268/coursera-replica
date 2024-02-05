@@ -1,4 +1,4 @@
-import { Button, Hr } from '@/components/uiCore';
+import { Button, Hr } from '@components/uiCore';
 import React, { useEffect, useRef, useState } from 'react';
 import { TERipple } from 'tw-elements-react';
 import { FiUser } from 'react-icons/fi';

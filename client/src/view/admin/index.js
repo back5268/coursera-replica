@@ -4,3 +4,5 @@ export { default as Posts } from './posts';
 export { default as Questions } from './questions';
 export { default as Users } from './users';
 export { default as Dashboard } from './dashboard';
+export { default as Feedbacks } from './feedbacks';
+export { default as Log } from './log';

@@ -47,14 +47,14 @@ export const addPost = async (req, res) => {
   try {
     const error = validateData(addPostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, content, time, hastag } = req.body;
+    const { title, content, time, hashtag } = req.body;
 
     const data = await addPostMd({
       by: req.userInfo._id,
       title,
       content,
       time,
-      hastag
+      hashtag
     });
     res.status(201).json({ status: true, data });
   } catch (error) {
@@ -66,13 +66,13 @@ export const updatePost = async (req, res) => {
   try {
     const error = validateData(updatePostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, title, content, time, hastag } = req.body;
+    const { _id, title, content, time, hashtag } = req.body;
 
     const checkPost = await getDetailPostMd({ _id });
     if (!checkPost) res.status(400).json({ status: false, mess: 'Không tìm thấy bài viết!' });
     if (JSON.stringify(checkPost.by) !== JSON.stringify(req.userInfo._id)) return res.status(400).json({ status: false, mess: 'Không thể cập nhật bài viết bài viết!' });
 
-    const data = await updatePostMd({ _id }, { title, content, time, hastag });
+    const data = await updatePostMd({ _id }, { title, content, time, hashtag });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

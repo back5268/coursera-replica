@@ -1,4 +1,4 @@
-import { getData, postData } from '@/lib/axios';
+import { getData, postData } from '@lib/axios';
 
 export const listQuestionApi = (params) => getData('admin/question/getListQuestion', params);
 export const detailQuestionApi = (params) => getData('admin/question/detailQuestion', params);

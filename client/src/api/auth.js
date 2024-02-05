@@ -1,4 +1,4 @@
-import { getData, postData } from '@/lib/axios';
+import { getData, postData } from '@lib/axios';
 
 export const getInfoApi = (params) => getData('auth/getInfo', params);
 export const signinApi = (params) => postData('auth/signin', params);

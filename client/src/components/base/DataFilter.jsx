@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../uiCore';
 import { BiFilterAlt } from 'react-icons/bi';
-import { removeUndefinedProps } from '@/lib/utils';
+import { removeUndefinedProps } from '@lib/utils';
 
 const DataFilter = (props) => {
   const { setParams = () => {}, filter, setFilter = () => {}, handleFilter = (e) => e, className, ...prop } = props;

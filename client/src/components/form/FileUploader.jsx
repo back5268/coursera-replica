@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { convertFileToUrl } from '@/lib/utils';
+import { convertFileToUrl } from '@lib/utils';
 import { FiUpload } from 'react-icons/fi';
 import { Button } from '../uiCore';
 import { BiTrash } from 'react-icons/bi';

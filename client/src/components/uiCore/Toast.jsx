@@ -1,4 +1,4 @@
-import { useToastState } from '@/store';
+import { useToastState } from '@store';
 import React from 'react';
 import { TEToast } from 'tw-elements-react';
 

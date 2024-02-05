@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Hr, Modal } from '../uiCore';
-import { useConfirmState } from '@/store';
+import { useConfirmState } from '@store';
 
 const ConfirmModal = () => {
   const { confirmInfo = {}, show, hideConfirm } = useConfirmState();

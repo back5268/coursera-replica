@@ -10,5 +10,7 @@ export const items = [
   { label: 'Quản lý khóa học', icon: BiSolidBookContent, route: '/courses' },
   { label: 'Quản lý bài giảng', icon: BiSolidFile, route: '/lessons' },
   { label: 'Quản lý câu hỏi', icon: BiQuestionMark, route: '/questions' },
-  { label: 'Quản lý bài viết', icon: BiNews, route: '/posts' }
+  { label: 'Quản lý bài viết', icon: BiNews, route: '/posts' },
+  { label: 'Phản hồi người dùng', icon: BiNews, route: '/feedbacks' },
+  { label: 'Lịch sử gửi thông báo', icon: BiNews, route: '/log' },
 ];

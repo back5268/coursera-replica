@@ -12,7 +12,7 @@ export const addPostValid = {
   title: 'string',
   content: 'string',
   time: 'number',
-  hastag: { type: 'array', allowNull: true }
+  hashtag: { type: 'array', allowNull: true }
 };
 
 export const updatePostValid = {
@@ -20,5 +20,5 @@ export const updatePostValid = {
   title: { type: 'string', allowNull: true },
   content: { type: 'string', allowNull: true },
   time: { type: 'number', allowNull: true },
-  hastag: { type: 'array', allowNull: true }
+  hashtag: { type: 'array', allowNull: true }
 };

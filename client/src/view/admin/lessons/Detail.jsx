@@ -44,7 +44,7 @@ const DetailLesson = (props) => {
 
   const handleData = (data) => {
     const newData = { ...data, status: data.status ? 1 : 0 };
-    if (isUpdate) return { ...checkEqualProp(newData, item), status: data.status ? 1 : 0, _id: show };
+    if (isUpdate) return { ...checkEqualProp(newData, item), _id: show };
     else return newData;
   };
 

@@ -53,9 +53,6 @@ const DataTable = (props) => {
   const isStatus = Boolean(statusInfo.changeStatusApi);
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-xl">
-      <h2 className="font-semibold uppercase leading-normal my-2 text-neutral-800 dark:text-neutral-200">{title}</h2>
-      {children}
       <div className="card">
         {isHeader && (
           <div className="flex gap-2 justify-start mb-1">
@@ -172,7 +169,6 @@ const DataTable = (props) => {
           <Pagination params={params} setParams={setParams} totalRecord={totalRecord} />
         </div>
       </div>
-    </div>
   );
 };
 

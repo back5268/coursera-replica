@@ -23,7 +23,6 @@ QuestionMd.init('Question', {
   answers: { type: Array, required: true },
   note: { type: String },
   status: { type: Number, default: 1 },
-  courseId: { type: ObjectId, ref: 'Course', required: true },
   createAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
   deleteAt: { type: Date }

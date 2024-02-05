@@ -29,3 +29,13 @@ export const PostValidation = yup.object({
   content: yup.string().required('Nội dung không được bỏ trống!'),
   time: yup.number().min(0, 'Thời gian học phải lớn hơn 0!').required('Thời gian học không được bỏ trống!'),
 });
+
+export const QuestionValidation = yup.object({
+  content: yup.string().required('Câu hỏi không được bỏ trống!'),
+  answer: yup.string().required('Câu trả lời không được bỏ trống!'),
+});
+
+export const TemplateValidation = yup.object({
+  title: yup.string().required('Tiêu đề không được bỏ trống!'),
+  content: yup.string().required('Nội dung không được bỏ trống!'),
+});

@@ -5,7 +5,7 @@ import { courseType, statuses } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import DetailCourse from './Detail';
-import { DataFilter, DataTable, NumberBody, TimeBody } from '@components/base';
+import { DataFilter, FormList, NumberBody, TimeBody } from '@components/base';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -55,7 +55,7 @@ const Courses = () => {
   return (
     <>
       <DetailCourse show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
-      <DataTable
+      <FormList
         isLoading={isLoading}
         title="Quản lý khóa học"
         data={data?.documents}
@@ -68,7 +68,7 @@ const Courses = () => {
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteCourseApi }}
         statusInfo={{ changeStatusApi: updateCourseApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
-      ><Filter setParams={setParams} /></DataTable>
+      ><Filter setParams={setParams} /></FormList>
     </>
   );
 };
