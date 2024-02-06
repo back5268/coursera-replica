@@ -4,35 +4,32 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class LessonMd extends ModelBase {
-  by;
-  updateBy;
-  title;
-  content;
-  time;
-  author;
-  description;
-  files;
-  status;
-  courseId;
-  createAt;
-  updateAt;
-  deleteAt;
+  by
+  courseId
+  updateBy
+  title
+  content
+  author
+  time
+  description
+  files
+  status
+  deletedAt
 }
 
 LessonMd.init('Lesson', {
   by: { type: ObjectId, ref: 'User', required: true },
+  courseId: { type: ObjectId, ref: 'Course', required: true },
   updateBy: { type: ObjectId, ref: 'User' },
   title: { type: String, required: true },
   content: { type: String, required: true },
-  time: { type: Number, default: 0, min: 0 },
   author: { type: String, required: true },
+  time: { type: Number, default: 0, min: 0 },
   description: { type: String },
-  files: { type: Array, default: [] },
-  status: { type: Number, default: 1 },
-  courseId: { type: ObjectId, ref: 'Course', required: true },
-  createAt: { type: Date, default: Date.now },
-  updateAt: { type: Date, default: Date.now },
-  deleteAt: { type: Date }
+  files: [{ type: String }],
+  questions: [{ type: ObjectId, ref: 'Question' }],
+  status: { type: Number, enum: [0, 1], default: 1 },
+  deletedAt: { type: Date }
 });
 
 export const getListLessonMd = (where, page, limit, sort, attr) => {

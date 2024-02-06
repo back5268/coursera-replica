@@ -6,7 +6,7 @@ export const listLessonValid = {
   status: { type: 'number', allowNull: true }
 };
 
-export const dedtailLessonValid = {
+export const detailLessonValid = {
   _id: 'string'
 };
 

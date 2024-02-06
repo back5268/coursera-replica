@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteLessonApi, listLessonApi, updateLessonApi } from '@api';
+import { deleteLessonApi, getListLessonApi, updateLessonApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { statuses } from '@constant';
 import { useGetParams } from '@hook';
@@ -45,11 +45,11 @@ const Lessons = () => {
     { label: 'Tiêu đề bài giảng', field: 'title' },
     { label: 'Tác giả', field: 'author' },
     { label: 'Thời gian học', body: (item) => NumberBody(item.time) },
-    { label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt) },
-    { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt) }
+    { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) },
+    { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];
 
-  const { isLoading, data } = useGetApi(listLessonApi, params, 'lessons');
+  const { isLoading, data } = useGetApi(getListLessonApi, params, 'lessons');
 
   return (
     <>
@@ -63,7 +63,6 @@ const Lessons = () => {
         params={params}
         setParams={setParams}
         baseActions={['insert', 'detail', 'delete']}
-        setShow={setShow}
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteLessonApi }}
         statusInfo={{ changeStatusApi: updateLessonApi }}
         headerInfo={{ onInsert: () => setShow(true) }}

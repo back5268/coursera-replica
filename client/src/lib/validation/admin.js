@@ -21,21 +21,15 @@ export const LessonValidation = yup.object({
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   content: yup.string().required('Nội dung không được bỏ trống!'),
   author: yup.string().required('Tác giả không được bỏ trống!'),
-  time: yup.number().min(0, 'Thời gian học phải lớn hơn 0!').required('Thời gian học không được bỏ trống!'),
-});
-
-export const PostValidation = yup.object({
-  title: yup.string().required('Tiêu đề không được bỏ trống!'),
-  content: yup.string().required('Nội dung không được bỏ trống!'),
-  time: yup.number().min(0, 'Thời gian học phải lớn hơn 0!').required('Thời gian học không được bỏ trống!'),
 });
 
 export const QuestionValidation = yup.object({
+  lessonId: yup.string().required('Bài giảng không được bỏ trống!'),
   content: yup.string().required('Câu hỏi không được bỏ trống!'),
   answer: yup.string().required('Câu trả lời không được bỏ trống!'),
 });
 
-export const TemplateValidation = yup.object({
+export const PostValidation = yup.object({
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   content: yup.string().required('Nội dung không được bỏ trống!'),
 });

@@ -1,4 +1,4 @@
-import { addUserValid, listUserValid, updateUserValid } from '@lib/validation';
+import {addUserValid, detailUserValid, listUserValid, updateUserValid} from '@lib/validation';
 import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUserMd } from '@models';
 import { createUserRp } from '@repository';
 import { validateData } from '@utils';
@@ -7,11 +7,12 @@ export const getListUser = async (req, res) => {
   try {
     const error = validateData(listUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, email, status } = req.query;
+    const { page, limit, keySearch, email, role, status } = req.query;
     const where = {};
     if (keySearch) where.$or = [{ fullName: { $regex: keySearch, $options: 'i' } }, { username: { $regex: keySearch, $options: 'i' } }];
-    if (status || status === 0) where.status = status;
     if (email) where.email = { $regex: email, $options: 'i' };
+    if (role) where.role = role;
+    if (status || status === 0) where.status = status;
     const documents = await getListUserMd(where, page, limit);
     const total = await countListUserMd(where);
     res.json({ status: true, data: { documents, total } });
@@ -31,7 +32,7 @@ export const getListUserInfo = async (req, res) => {
 
 export const detailUser = async (req, res) => {
   try {
-    const error = validateData({ _id: 'string' }, req.query);
+    const error = validateData(detailUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.query;
     const data = await getDetailUserMd({ _id });
@@ -44,7 +45,7 @@ export const detailUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const error = validateData({ _id: 'string' }, req.body);
+    const error = validateData(detailUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.body;
     const data = await deleteUserMd({ _id });
@@ -73,10 +74,14 @@ export const updateUser = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id, fullName, username, email, password, bio, address, status, role } = req.body;
 
+    const user = await getDetailUserMd({ _id });
+    if (!user) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
+
     if (email) {
       const checkEmail = await getDetailUserMd({ email });
       if (checkEmail) return res.status(400).json({ status: false, mess: 'Email đã tồn tại!' });
     }
+
     if (username) {
       const checkUsername = await getDetailUserMd({ username });
       if (checkUsername) return res.status(400).json({ status: false, mess: 'Username đã tồn tại!' });
@@ -85,12 +90,10 @@ export const updateUser = async (req, res) => {
     const attr = { fullName, username, email, bio, address, status, role };
     if (password) {
       const salt = await bcrypt.genSalt(10);
-      const newPassword = await bcrypt.hash(password, salt);
-      attr.password = newPassword;
+      attr.password = await bcrypt.hash(password, salt);
     }
 
     const data = await updateUserMd({ _id }, attr);
-    if (!data) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

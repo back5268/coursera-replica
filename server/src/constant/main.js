@@ -4,5 +4,7 @@ export const VALIDATE_TYPE = {
   NUMBER: 'number',
   PHONE: 'phone',
   ARRAY: 'array',
-  BOOLEAN: 'boolean'
+  BOOLEAN: 'boolean',
+  DATE: 'date',
+  DATETIME: 'datetime',
 };

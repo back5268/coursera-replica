@@ -1,4 +1,9 @@
-import { addCourseValid, listCourseValid, updateCourseValid, dedtailCourseValid } from '@lib/validation';
+import {
+  addCourseValid,
+  listCourseValid,
+  updateCourseValid,
+  detailCourseValid
+} from '@lib/validation';
 import { addCourseMd, countListCourseMd, deleteCourseMd, getDetailCourseMd, getListCourseMd, updateCourseMd } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
 
@@ -31,7 +36,7 @@ export const getListCourseInfo = async (req, res) => {
 
 export const detailCourse = async (req, res) => {
   try {
-    const error = validateData(dedtailCourseValid, req.query);
+    const error = validateData(detailCourseValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.query;
     const data = await getDetailCourseMd({ _id });
@@ -44,7 +49,7 @@ export const detailCourse = async (req, res) => {
 
 export const deleteCourse = async (req, res) => {
   try {
-    const error = validateData(dedtailCourseValid, req.body);
+    const error = validateData(detailCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.body;
     const data = await deleteCourseMd({ _id });
@@ -93,6 +98,9 @@ export const updateCourse = async (req, res) => {
     const error = validateData(updateCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id, name, code, description, skills, price, sale, type, status, isHot, isNew } = req.body;
+
+    const course = await getDetailCourseMd({ _id });
+    if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
     if (name) {
       const checkName = await getDetailCourseMd({ name });

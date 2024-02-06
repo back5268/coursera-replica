@@ -5,8 +5,8 @@ import {
     TETabsItem,
     TETabsPane,
 } from "tw-elements-react";
-import Reviews from "@view/admin/feedbacks/Reviews";
-import Questions from "@view/admin/feedbacks/Questions";
+import CourseReview from "@view/admin/feedbacks/CourseReview";
+import CommentLesson from "@view/admin/feedbacks/CommentLesson";
 
 export default function Feedbacks() {
     const [buttonActive, setButtonActive] = useState("tab1");
@@ -38,10 +38,10 @@ export default function Feedbacks() {
             </TETabs>
             <TETabsContent>
                 <TETabsPane show={buttonActive === "tab1"}>
-                    <Reviews />
+                    <CourseReview />
                 </TETabsPane>
                 <TETabsPane show={buttonActive === "tab2"}>
-                    <Questions />
+                    <CommentLesson />
                 </TETabsPane>
             </TETabsContent>
         </div>

@@ -3,24 +3,25 @@ export const listQuestionValid = {
   limit: 'number',
   keySearch: { type: 'string', allowNull: true },
   courseId: { type: 'string', allowNull: true },
-  status: { type: 'number', allowNull: true }
+  lessonId: { type: 'string', allowNull: true },
+  status: { type: 'number', allowNull: true },
 };
 
-export const dedtailQuestionValid = {
+export const detailQuestionValid = {
   _id: 'string'
 };
 
 export const addQuestionValid = {
+  lessonId: 'string',
   content: 'string',
   answers: 'array',
-  note: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true }
 };
 
 export const updateQuestionValid = {
   _id: 'string',
+  lessonId: { type: 'string', allowNull: true },
   content: { type: 'string', allowNull: true },
   answers: { type: 'array', allowNull: true },
-  note: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true }
 };

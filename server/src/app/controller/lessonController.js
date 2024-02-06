@@ -1,5 +1,19 @@
-import { addLessonValid, listLessonValid, updateLessonValid, dedtailLessonValid } from '@lib/validation';
-import { addLessonMd, countListLessonMd, deleteLessonMd, getDetailCourseMd, getDetailLessonMd, getListLessonMd, updateLessonMd } from '@models';
+import {
+  addLessonValid,
+  listLessonValid,
+  updateLessonValid,
+  detailLessonValid
+} from '@lib/validation';
+import {
+  addLessonMd,
+  countListLessonMd,
+  deleteLessonMd,
+  getDetailCourseMd,
+  getDetailLessonMd,
+  getListLessonMd,
+  updateCourseMd,
+  updateLessonMd
+} from '@models';
 import { validateData } from '@utils';
 
 export const getListLesson = async (req, res) => {
@@ -19,9 +33,18 @@ export const getListLesson = async (req, res) => {
   }
 };
 
+export const getListLessonInfo = async (req, res) => {
+  try {
+    const data = await getListLessonMd({ status: 1 });
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
 export const detailLesson = async (req, res) => {
   try {
-    const error = validateData(dedtailLessonValid, req.query);
+    const error = validateData(detailLessonValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.query;
     const data = await getDetailLessonMd({ _id });
@@ -34,7 +57,7 @@ export const detailLesson = async (req, res) => {
 
 export const deleteLesson = async (req, res) => {
   try {
-    const error = validateData(dedtailLessonValid, req.body);
+    const error = validateData(detailLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.body;
     const data = await deleteLessonMd({ _id });
@@ -54,8 +77,8 @@ export const addLesson = async (req, res) => {
     const checkTitle = await getDetailLessonMd({ title });
     if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
 
-    const checkCourse = await getDetailCourseMd({ id: courseId, status: 1 });
-    if (!checkCourse) return res.status(400).json({ status: false, mess: 'Không tìm thấy khóa học!' });
+    const checkCourse = await getDetailCourseMd({ _id: courseId, status: 1 });
+    if (!checkCourse) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
     const data = await addLessonMd({
       by: req.userInfo._id,
@@ -67,6 +90,8 @@ export const addLesson = async (req, res) => {
       description,
       status
     });
+
+    await updateCourseMd({ _id: checkCourse._id }, { $addToSet: { lessons: data._id } })
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -79,6 +104,9 @@ export const updateLesson = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id, title, content, author, courseId, time, description, status } = req.body;
 
+    const lesson = await getDetailLessonMd({ _id });
+    if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
+
     if (title) {
       const checkTitle = await getDetailLessonMd({ title });
       if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
@@ -86,11 +114,12 @@ export const updateLesson = async (req, res) => {
 
     if (courseId) {
       const checkCourse = await getDetailCourseMd({ id: courseId, status: 1 });
-      if (!checkCourse) return res.status(400).json({ status: false, mess: 'Không tìm thấy khóa học!' });
+      if (!checkCourse) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
+      await updateCourseMd({ _id: checkCourse._id }, { $addToSet: { lessons: _id } })
+      await updateCourseMd({ _id: lesson.courseId }, { $pull: { lessons: _id } })
     }
 
     const data = await updateLessonMd({ _id }, { updateBy: req.userInfo._id, title, content, author, courseId, time, description, status });
-    if (!data) return res.status(400).json({ status: false, mess: 'Không tìm thấy bài giảng!' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

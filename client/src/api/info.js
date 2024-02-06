@@ -1,4 +1,5 @@
 import { getData } from '@lib/axios';
 
-export const listUserInfoApi = (params) => getData('info/getListUser', params);
-export const listCourseInfoApi = (params) => getData('info/getListCourse', params);
+export const getListUserInfoApi = (params) => getData('/info/getListUserInfo', params);
+export const getListCourseInfoApi = (params) => getData('/info/getListCourseInfo', params);
+export const getListLessonInfoApi = (params) => getData('/info/getListLessonInfo', params);

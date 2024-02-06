@@ -1,4 +1,4 @@
-import { addPostValid, listPostValid, updatePostValid, dedtailPostValid } from '@lib/validation';
+import {addPostValid, listPostValid, updatePostValid, detailPostValid} from '@lib/validation';
 import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd } from '@models';
 import { validateData } from '@utils';
 
@@ -8,7 +8,7 @@ export const getListPost = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { page, limit, keySearch } = req.query;
     const where = {};
-    if (keySearch) where.$or = [{ title: { $regex: keySearch, $options: 'i' } }];
+    if (keySearch) where.title = { $regex: keySearch, $options: 'i' }
     const documents = await getListPostMd(where, page, limit);
     const total = await countListPostMd(where);
     res.json({ status: true, data: { documents, total } });
@@ -19,7 +19,7 @@ export const getListPost = async (req, res) => {
 
 export const detailPost = async (req, res) => {
   try {
-    const error = validateData(dedtailPostValid, req.query);
+    const error = validateData(detailPostValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.query;
     const data = await getDetailPostMd({ _id });
@@ -32,7 +32,7 @@ export const detailPost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    const error = validateData(dedtailPostValid, req.body);
+    const error = validateData(detailPostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.body;
     const data = await deletePostMd({ _id });
@@ -68,9 +68,8 @@ export const updatePost = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id, title, content, time, hashtag } = req.body;
 
-    const checkPost = await getDetailPostMd({ _id });
-    if (!checkPost) res.status(400).json({ status: false, mess: 'Không tìm thấy bài viết!' });
-    if (JSON.stringify(checkPost.by) !== JSON.stringify(req.userInfo._id)) return res.status(400).json({ status: false, mess: 'Không thể cập nhật bài viết bài viết!' });
+    const post = await getDetailPostMd({ _id });
+    if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
     const data = await updatePostMd({ _id }, { title, content, time, hashtag });
     res.status(201).json({ status: true, data });

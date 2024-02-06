@@ -1,4 +1,4 @@
-import { getInfoApi, listCourseInfoApi, listUserInfoApi } from '@api';
+import {getInfoApi, getListCourseInfoApi, getListLessonInfoApi, getListUserInfoApi} from '@api';
 import { Loading } from '@components/base';
 import { useDataState } from '@store';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ const INITIAL_STATE = {
 const AuthContext = createContext(INITIAL_STATE);
 
 export function AuthProvider({ children }) {
-  const { setUsers, setCourses } = useDataState()
+  const { setUsers, setCourses, setLessons } = useDataState()
   const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,10 +46,12 @@ export function AuthProvider({ children }) {
 
   const getData = async () => {
     try {
-      const users = await listUserInfoApi();
+      const users = await getListUserInfoApi();
       if (users) setUsers(users)
-      const course = await listCourseInfoApi();
-      if (course) setCourses(course)
+      const courses = await getListCourseInfoApi();
+      if (courses) setCourses(courses)
+      const lessons = await getListLessonInfoApi();
+      if (lessons) setLessons(lessons)
     } catch (error) {
       console.error(error);
       return false;

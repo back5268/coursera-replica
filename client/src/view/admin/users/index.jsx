@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteUserApi, listUserApi, updateUserApi } from '@api';
+import { deleteUserApi, getListUserApi, updateUserApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { statuses } from '@constant';
 import { useGetParams } from '@hook';
@@ -37,11 +37,11 @@ const Users = () => {
     { label: 'Họ tên', field: 'fullName' },
     { label: 'Username', field: 'username' },
     { label: 'Email', field: 'email' },
-    { label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt) },
-    { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt) }
+    { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) },
+    { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];
 
-  const { isLoading, data } = useGetApi(listUserApi, params, 'users');
+  const { isLoading, data } = useGetApi(getListUserApi, params, 'users');
 
   return (
     <>

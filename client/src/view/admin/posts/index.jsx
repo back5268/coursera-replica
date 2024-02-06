@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deletePostApi, listPostApi } from '@api';
+import { deletePostApi, getListPostApi } from '@api';
 import { InputFormV2 } from '@components/form';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
@@ -29,11 +29,11 @@ const Posts = () => {
     { label: 'Tiêu đề bài viết', field: 'title' },
     { label: 'Người viết', body: (item) => NumberBody(item.time) },
     { label: 'Thời gian đọc', body: (item) => NumberBody(item.time) },
-    { label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt) },
-    { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt) }
+    { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) },
+    { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];
 
-  const { isLoading, data } = useGetApi(listPostApi, params, 'posts');
+  const { isLoading, data } = useGetApi(getListPostApi, params, 'posts');
 
   return (
     <>
@@ -47,7 +47,6 @@ const Posts = () => {
         params={params}
         setParams={setParams}
         baseActions={['insert', 'detail', 'delete']}
-        setShow={setShow}
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deletePostApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
       ><Filter setParams={setParams} /></FormList>

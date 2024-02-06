@@ -1,7 +1,8 @@
 import express from 'express';
-import { getListCourseInfo, getListUserInfo } from '@controller';
+import {getListCourseInfo, getListLessonInfo, getListUserInfo} from '@controller';
 
 export const infoRouter = express.Router();
 
-infoRouter.get('/getListCourse', getListCourseInfo);
-infoRouter.get('/getListUser', getListUserInfo);
+infoRouter.get('/getListCourseInfo', getListCourseInfo);
+infoRouter.get('/getListUserInfo', getListUserInfo);
+infoRouter.get('/getListLessonInfo', getListLessonInfo);

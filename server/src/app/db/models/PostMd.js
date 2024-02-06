@@ -4,17 +4,15 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class PostMd extends ModelBase {
-  by;
-  title;
-  content;
-  time;
-  hashtag;
-  votes;
-  comments;
-  image;
-  createAt;
-  updateAt;
-  deleteAt;
+  by
+  title
+  content
+  time
+  hashtag
+  votes
+  comments
+  image
+  deletedAt
 }
 
 PostMd.init('Post', {
@@ -22,13 +20,11 @@ PostMd.init('Post', {
   title: { type: String, required: true },
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
-  hashtag: { type: Array, required: true },
-  votes: { type: Array, default: [] },
-  comments: { type: Array, default: [] },
+  hashtag: [{type: String}],
+  votes: [{ type: ObjectId, ref: 'User' }],
+  comments: [{ type: ObjectId, ref: 'Comment' }],
   image: { type: String },
-  createAt: { type: Date, default: Date.now },
-  updateAt: { type: Date, default: Date.now },
-  deleteAt: { type: Date }
+  deletedAt: { type: Date }
 });
 
 export const getListPostMd = (where, page, limit, sort, attr) => {

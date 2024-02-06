@@ -9,13 +9,14 @@ import { checkEqualProp } from '@utils';
 import Answers from "@view/admin/questions/Answers";
 
 const defaultValues = {
+  lessonId: '',
   content: '',
   answer: '',
   status: 1
 };
 
 const DetailQuestion = (props) => {
-  const { show, setShow, setParams, data, courses } = props;
+  const { show, setShow, setParams, data, lessons } = props;
   const isUpdate = typeof show === 'string';
   const item = isUpdate ? data.find((d) => d._id === show) : {};
   const [answers, setAnswers] = useState([{ label: '', key: 1 }])
@@ -74,6 +75,14 @@ const DetailQuestion = (props) => {
       setParams={setParams}
     >
       <div className="flex flex-wrap w-full">
+        <SelectFormDetail
+            id="lessonId"
+            label="Bài giảng (*)"
+            data={lessons.map((c) => ({ label: c.title, key: c._id }))}
+            watch={watch}
+            setValue={setValue}
+            errors={errors}
+        />
         <TextAreaForm id="content" label="Câu hỏi (*)" className="w-full p-2" watch={watch} setValue={setValue} errors={errors} />
         <Answers answers={answers} setAnswers={setAnswers} />
         <SelectFormDetail

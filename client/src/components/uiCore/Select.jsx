@@ -6,8 +6,8 @@ const Select = (props) => {
   console.log(data)
   const handleData = (array) => {
     return array.map((d) => {
-      if (typeof d === 'object' && d[dataLabel] && d[dataValue]) return { text: d[dataLabel], value: String(d[dataValue]) };
-      else return { text: d, value: String(d) };
+      if (typeof d === 'object') return { text: d[dataLabel], value: String(d[dataValue]) };
+      else return { text: String(d), value: String(d) };
     });
   };
 

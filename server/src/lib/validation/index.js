@@ -4,3 +4,6 @@ export * from './courseValidation';
 export * from './lessonValidation';
 export * from './questionValidation';
 export * from './postValidation';
+export * from './logValidation';
+export * from './courseReviewValidation';
+export * from './commentValidation';

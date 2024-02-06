@@ -1,21 +1,38 @@
 import React, {useState} from 'react';
-import {deleteQuestionApi, listQuestionApi, updateQuestionApi} from '@api';
-import {InputFormV2} from '@components/form';
+import {deleteQuestionApi, getListQuestionApi, updateQuestionApi} from '@api';
+import {InputFormV2, SelectFormV2} from '@components/form';
 import {useGetParams} from '@hook';
 import {useGetApi} from '@lib/react-query';
 import DetailQuestion from './Detail';
 import {DataFilter, FormList, TimeBody} from '@components/base';
 import {useDataState} from '@store';
 
-const Filter = ({setParams, courses = []}) => {
+const Filter = ({setParams, courses, lessons = []}) => {
     const [filter, setFilter] = useState({});
 
     return (
-        <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-9/12'}>
+        <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-3/12'}>
             <InputFormV2
                 value={filter.keySearch}
                 onChange={(e) => setFilter({...filter, keySearch: e.target.value})}
                 label="Tìm kiếm theo câu hỏi"
+            />
+            <SelectFormV2
+                value={filter.courseId}
+                onValueChange={(e) => setFilter({ ...filter, courseId: e.value, lessonId: undefined })}
+                data={courses.map(c => ({ label: c.name, key: c._id }))}
+                label="Khóa học"
+            />
+            <SelectFormV2
+                value={filter.LessonId}
+                onValueChange={(e) => setFilter({ ...filter, LessonId: e.value })}
+                data={lessons.map(c => {
+                    if (filter.courseId) {
+                        if (c.courseId === filter.courseId) return { label: c.title, key: c._id}
+                        else return {}
+                    } else return { label: c.title, key: c._id}
+                })}
+                label="Bài giảng"
             />
         </DataFilter>
     );
@@ -24,10 +41,11 @@ const Filter = ({setParams, courses = []}) => {
 const Questions = () => {
     const initParams = useGetParams();
     const [params, setParams] = useState(initParams);
-    const {courses} = useDataState();
+    const {courses, lessons} = useDataState();
     const [show, setShow] = useState(false);
 
     const columns = [
+        {label: 'Bài giảng', body: (item) => lessons.find((c) => c._id === item.lessonId)?.title },
         {label: 'Câu hỏi', field: 'content'},
         {
             label: 'Câu trả lời', body: (item) => {
@@ -48,16 +66,16 @@ const Questions = () => {
                 }
             }
         },
-        {label: 'Thời gian tạo', body: (item) => TimeBody(item.createAt)},
-        {label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updateAt)}
+        {label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt)},
+        {label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt)}
     ];
 
-    const {isLoading, data} = useGetApi(listQuestionApi, params, 'questions');
+    const {isLoading, data} = useGetApi(getListQuestionApi, params, 'questions');
 
     return (
         <>
             <DetailQuestion show={show} setShow={setShow} setParams={setParams} data={data?.documents}
-                            courses={courses}/>
+                            lessons={lessons}/>
             <FormList
                 isLoading={isLoading}
                 title="Quản lý câu hỏi"
@@ -67,11 +85,10 @@ const Questions = () => {
                 params={params}
                 setParams={setParams}
                 baseActions={['insert', 'detail', 'delete', 'import', 'export']}
-                setShow={setShow}
                 actionsInfo={{onViewDetail: (item) => setShow(item._id), deleteApi: deleteQuestionApi}}
                 statusInfo={{changeStatusApi: updateQuestionApi}}
                 headerInfo={{onInsert: () => setShow(true)}}
-            ><Filter setParams={setParams} courses={courses}/></FormList>
+            ><Filter setParams={setParams} courses={courses} lessons={lessons}/></FormList>
         </>
     );
 };

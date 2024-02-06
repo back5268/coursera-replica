@@ -4,7 +4,7 @@ export const listPostValid = {
   keySearch: { type: 'string', allowNull: true }
 };
 
-export const dedtailPostValid = {
+export const detailPostValid = {
   _id: 'string'
 };
 
