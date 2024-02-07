@@ -10,6 +10,7 @@ class UserMd extends ModelBase {
   password
   bio
   address
+  avatar
   role
   courses
   posts
@@ -25,6 +26,7 @@ UserMd.init('User', {
   password: { type: String, required: true },
   bio: { type: String },
   address: { type: String },
+  avatar: { type: String },
   role: { type: String, default: 'user' },
   courses: [{ type: ObjectId, ref: 'CourseRegister' }],
   posts: [{ type: ObjectId, ref: 'Post' }],

@@ -39,14 +39,19 @@ const DetailUser = (props) => {
 
   useEffect(() => {
     if (isUpdate) {
+      if (item.avatar) setAvatar(item.avatar)
       for (const key in defaultValues) {
         setValue(key, item[key]);
       }
     }
   }, [item]);
 
+  console.log(avatar)
+
   const handleData = (data) => {
     const newData = { ...data, status: data.status ? 1 : 0 };
+    if (avatar) newData.files = { avatar }
+    else if (item.avatar) newData.avatar = ""
     if (isUpdate) return { ...checkEqualProp(newData, item), status: data.status ? 1 : 0, _id: show };
     else return newData;
   };
@@ -57,6 +62,7 @@ const DetailUser = (props) => {
       show={show}
       setShow={() => {
         setShow(false);
+        setAvatar(null)
         reset();
       }}
       isUpdate={isUpdate}

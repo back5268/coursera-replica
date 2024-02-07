@@ -2,6 +2,7 @@ import {addUserValid, detailUserValid, listUserValid, updateUserValid} from '@li
 import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUserMd } from '@models';
 import { createUserRp } from '@repository';
 import { validateData } from '@utils';
+import {uploadFileToFirebase} from "@lib/firebase";
 
 export const getListUser = async (req, res) => {
   try {
@@ -60,6 +61,11 @@ export const addUser = async (req, res) => {
   try {
     const error = validateData(addUserValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
+
+    if (req.file) {
+      req.body.avatar = await uploadFileToFirebase(req.file)
+    }
+
     const { data, mess } = await createUserRp(req.body);
     if (data && !mess) res.json({ status: true, data });
     else res.status(400).json({ status: false, mess });
@@ -72,7 +78,7 @@ export const updateUser = async (req, res) => {
   try {
     const error = validateData(updateUserValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, fullName, username, email, password, bio, address, status, role } = req.body;
+    let { _id, fullName, username, email, password, bio, address, status, role, avatar } = req.body;
 
     const user = await getDetailUserMd({ _id });
     if (!user) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
@@ -87,7 +93,11 @@ export const updateUser = async (req, res) => {
       if (checkUsername) return res.status(400).json({ status: false, mess: 'Username đã tồn tại!' });
     }
 
-    const attr = { fullName, username, email, bio, address, status, role };
+    if (req.file) {
+      avatar = await uploadFileToFirebase(req.file)
+    }
+
+    const attr = { fullName, username, email, bio, address, status, role, avatar };
     if (password) {
       const salt = await bcrypt.genSalt(10);
       attr.password = await bcrypt.hash(password, salt);
