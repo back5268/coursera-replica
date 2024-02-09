@@ -1,13 +1,13 @@
-export const createFormData = (body = {}, files) => {
+export const createFormData = (body = {}, formData) => {
   const data = new FormData();
-  if (files && typeof files === 'object') {
-    for (const key in files) {
-      if (key in files) {
-        if (Array.isArray(files[key])) {
-          files[key].forEach((f) => {
+  if (formData && typeof formData === 'object') {
+    for (const key in formData) {
+      if (key in formData) {
+        if (Array.isArray(formData[key])) {
+          formData[key].forEach((f) => {
             data.append(key, f);
           });
-        } else data.append(key, files[key]);
+        } else data.append(key, formData[key]);
       }
     }
   }

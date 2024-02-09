@@ -36,10 +36,10 @@ const DataFilter = (props) => {
       <div className="flex items-center flex-wrap w-full">
         {props.children}
         <div className={`p-2 lg:w-3/12 flex gap-2 items-center justify-end px-2 ${className}`}>
-          <Button className="px-6" onClick={onClear} severity="secondary">
+          <Button onClick={onClear} severity="secondary">
             Làm mới
           </Button>
-          <Button className="px-6" type="submit">
+          <Button type="submit">
             <BiFilterAlt size={16} /> Lọc
           </Button>
         </div>

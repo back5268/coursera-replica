@@ -30,26 +30,26 @@ LogMd.init('Log', {
     deletedAt: {type: Date}
 });
 
-export const getListLogMd = (where, page, limit, sort, attr) => {
-    return LogMd.find(where, page, limit, sort, attr);
+export const getListLogMd = (where, page, limit, populates, sort, attr) => {
+    return LogMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListLogMd = (where) => {
-    return LogMd.count(where);
+    return LogMd.count({ where });
 };
 
-export const getDetailLogMd = (where, attr) => {
-    return LogMd.findOne(where, attr);
+export const getDetailLogMd = (where, populates, attr) => {
+    return LogMd.findOne({ where, attr, populates });
 };
 
 export const addLogMd = (attr) => {
-    return LogMd.create(attr);
+    return LogMd.create({ attr });
 };
 
 export const updateLogMd = (where, attr) => {
-    return LogMd.update(where, attr);
+    return LogMd.update({ where, attr });
 };
 
 export const deleteLogMd = (where) => {
-    return LogMd.delete(where);
+    return LogMd.delete({ where });
 };

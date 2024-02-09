@@ -32,26 +32,26 @@ LessonMd.init('Lesson', {
   deletedAt: { type: Date }
 });
 
-export const getListLessonMd = (where, page, limit, sort, attr) => {
-  return LessonMd.find(where, page, limit, sort, attr);
+export const getListLessonMd = (where, page, limit, populates, sort, attr) => {
+  return LessonMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListLessonMd = (where) => {
-  return LessonMd.count(where);
+  return LessonMd.count({ where });
 };
 
-export const getDetailLessonMd = (where, attr) => {
-  return LessonMd.findOne(where, attr);
+export const getDetailLessonMd = (where, populates, attr) => {
+  return LessonMd.findOne({ where, attr, populates });
 };
 
 export const addLessonMd = (attr) => {
-  return LessonMd.create(attr);
+  return LessonMd.create({ attr });
 };
 
 export const updateLessonMd = (where, attr) => {
-  return LessonMd.update(where, attr);
+  return LessonMd.update({ where, attr });
 };
 
 export const deleteLessonMd = (where) => {
-  return LessonMd.delete(where);
+  return LessonMd.delete({ where });
 };

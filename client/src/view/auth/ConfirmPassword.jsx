@@ -17,7 +17,6 @@ const ConfirmPassword = () => {
     resolver: yupResolver(ConfirmPasswordValidation)
   });
   const onSubmit = (data) => {
-    console.log(data);
   };
 
   return (

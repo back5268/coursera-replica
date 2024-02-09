@@ -5,4 +5,4 @@ import express from 'express';
 export const commentRouter = express.Router();
 
 commentRouter.use(staffMiddleware);
-commentRouter.use('/getListCommentLesson', getListCommentLesson);
+commentRouter.get('/getListCommentLesson', getListCommentLesson);

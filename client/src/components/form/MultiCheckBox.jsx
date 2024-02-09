@@ -13,7 +13,7 @@ const MultiCheckBox = (props) => {
 
   return (
     <div className="flex gap-12 card items-center m-2 w-full">
-      <label className='w-3/12'>{children || label}</label>
+        {label && <label className='w-3/12'>{children || label}</label>}
       <div className={`w-full flex justify-around ${className} flex-wrap`}>
         {handleData(data).map((d, index) => {
           return <CheckBox key={index} id={id + '-' + d.key} label={d.label} checked={value.includes(d.key)} onChange={() => {

@@ -6,6 +6,7 @@ import {useGetApi} from '@lib/react-query';
 import DetailQuestion from './Detail';
 import {DataFilter, FormList, TimeBody} from '@components/base';
 import {useDataState} from '@store';
+import {Link} from "@components/uiCore";
 
 const Filter = ({setParams, courses, lessons = []}) => {
     const [filter, setFilter] = useState({});
@@ -45,7 +46,12 @@ const Questions = () => {
     const [show, setShow] = useState(false);
 
     const columns = [
-        {label: 'Bài giảng', body: (item) => lessons.find((c) => c._id === item.lessonId)?.title },
+        {
+            label: 'Bài giảng', body: (item) => {
+                const lesson = lessons.find((c) => c._id === item.lessonId)
+                if (lesson) return <Link to={`/admin/lessons/detail/${lesson._id}`}>{lesson.name}</Link>
+            }
+        },
         {label: 'Câu hỏi', field: 'content'},
         {
             label: 'Câu trả lời', body: (item) => {

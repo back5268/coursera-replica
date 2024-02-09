@@ -5,8 +5,8 @@ import express from 'express';
 export const questionRouter = express.Router();
 
 questionRouter.use(staffMiddleware);
-questionRouter.use('/getListQuestion', getListQuestion);
-questionRouter.use('/detailQuestion', detailQuestion);
-questionRouter.use('/deleteQuestion', deleteQuestion);
-questionRouter.use('/addQuestion', addQuestion);
-questionRouter.use('/updateQuestion', updateQuestion);
+questionRouter.get('/getListQuestion', getListQuestion);
+questionRouter.get('/detailQuestion', detailQuestion);
+questionRouter.delete('/deleteQuestion', deleteQuestion);
+questionRouter.post('/addQuestion', addQuestion);
+questionRouter.post('/updateQuestion', updateQuestion);

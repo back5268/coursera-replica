@@ -19,26 +19,26 @@ UserVerifyMd.init('UserVerify', {
     deletedAt: { type: Date },
 });
 
-export const getListUserVerifyMd = (where, page, limit, sort, attr) => {
-    return UserVerifyMd.find(where, page, limit, sort, attr);
+export const getListUserVerifyMd = (where, page, limit, populates, sort, attr) => {
+    return UserVerifyMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListUserVerifyMd = (where) => {
-    return UserVerifyMd.count(where);
+    return UserVerifyMd.count({ where });
 };
 
-export const getDetailUserVerifyMd = (where, attr) => {
-    return UserVerifyMd.findOne(where, attr);
+export const getDetailUserVerifyMd = (where, populates, attr) => {
+    return UserVerifyMd.findOne({ where, attr, populates });
 };
 
 export const addUserVerifyMd = (attr) => {
-    return UserVerifyMd.create(attr);
+    return UserVerifyMd.create({ attr });
 };
 
 export const updateUserVerifyMd = (where, attr) => {
-    return UserVerifyMd.update(where, attr);
+    return UserVerifyMd.update({ where, attr });
 };
 
 export const deleteUserVerifyMd = (where) => {
-    return UserVerifyMd.delete(where);
+    return UserVerifyMd.delete({ where });
 };

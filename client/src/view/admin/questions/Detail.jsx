@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, {useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { addQuestionApi, updateQuestionApi } from '@api';
-import { FormDetailModal } from '@components/base';
+import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
 import Answers from "@view/admin/questions/Answers";
 
@@ -16,7 +16,7 @@ const defaultValues = {
 };
 
 const DetailQuestion = (props) => {
-  const { show, setShow, setParams, data, lessons } = props;
+  const { show, setShow, setParams, data, lessons, lessonId } = props;
   const isUpdate = typeof show === 'string';
   const item = isUpdate ? data.find((d) => d._id === show) : {};
   const [answers, setAnswers] = useState([{ label: '', key: 1 }])
@@ -30,7 +30,7 @@ const DetailQuestion = (props) => {
     reset
   } = useForm({
     resolver: yupResolver(QuestionValidation),
-    defaultValues
+    defaultValues: { ...defaultValues, lessonId }
   });
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const DetailQuestion = (props) => {
   };
 
   return (
-    <FormDetailModal
+    <FormDetail
       title="bài giảng"
       show={show}
       setShow={() => {
@@ -82,6 +82,7 @@ const DetailQuestion = (props) => {
             watch={watch}
             setValue={setValue}
             errors={errors}
+            disabled={lessonId}
         />
         <TextAreaForm id="content" label="Câu hỏi (*)" className="w-full p-2" watch={watch} setValue={setValue} errors={errors} />
         <Answers answers={answers} setAnswers={setAnswers} />
@@ -95,7 +96,7 @@ const DetailQuestion = (props) => {
         />
         <SwitchForm id="status" label="Trạng thái (*)" watch={watch} setValue={setValue} />
       </div>
-    </FormDetailModal>
+    </FormDetail>
   );
 };
 

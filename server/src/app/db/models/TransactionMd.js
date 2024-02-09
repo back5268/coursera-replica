@@ -23,26 +23,26 @@ TransactionMd.init('Transaction', {
     deletedAt: {type: Date}
 });
 
-export const getListTransactionMd = (where, page, limit, sort, attr) => {
-    return TransactionMd.find(where, page, limit, sort, attr);
+export const getListTransactionMd = (where, page, limit, populates, sort, attr) => {
+    return TransactionMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListTransactionMd = (where) => {
-    return TransactionMd.count(where);
+    return TransactionMd.count({ where });
 };
 
-export const getDetailTransactionMd = (where, attr) => {
-    return TransactionMd.findOne(where, attr);
+export const getDetailTransactionMd = (where, populates, attr) => {
+    return TransactionMd.findOne({ where, attr, populates });
 };
 
 export const addTransactionMd = (attr) => {
-    return TransactionMd.create(attr);
+    return TransactionMd.create({ attr });
 };
 
 export const updateTransactionMd = (where, attr) => {
-    return TransactionMd.update(where, attr);
+    return TransactionMd.update({ where, attr });
 };
 
 export const deleteTransactionMd = (where) => {
-    return TransactionMd.delete(where);
+    return TransactionMd.delete({ where });
 };

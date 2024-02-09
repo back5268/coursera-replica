@@ -1,6 +1,7 @@
 import {addPostValid, listPostValid, updatePostValid, detailPostValid} from '@lib/validation';
 import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd } from '@models';
 import { validateData } from '@utils';
+import {uploadFileToFirebase} from "@lib/firebase";
 
 export const getListPost = async (req, res) => {
   try {
@@ -45,16 +46,20 @@ export const deletePost = async (req, res) => {
 
 export const addPost = async (req, res) => {
   try {
+    if (req.file) {
+      req.body.image = await uploadFileToFirebase(req.file)
+    }
     const error = validateData(addPostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, content, time, hashtag } = req.body;
+    const { title, content, time, hashtag, image } = req.body;
 
     const data = await addPostMd({
       by: req.userInfo._id,
       title,
       content,
       time,
-      hashtag
+      hashtag,
+      image
     });
     res.status(201).json({ status: true, data });
   } catch (error) {
@@ -66,12 +71,16 @@ export const updatePost = async (req, res) => {
   try {
     const error = validateData(updatePostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, title, content, time, hashtag } = req.body;
+    let { _id, title, content, time, hashtag, image } = req.body;
 
     const post = await getDetailPostMd({ _id });
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
-    const data = await updatePostMd({ _id }, { title, content, time, hashtag });
+    if (req.file) {
+      image = await uploadFileToFirebase(req.file)
+    }
+
+    const data = await updatePostMd({ _id }, { title, content, time, hashtag, image });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

@@ -31,7 +31,7 @@ const FormDetail = (props) => {
         <div className="card flex flex-wrap">{children}</div>
       </div>
       <Hr />
-      <div className="flex gap-2 justify-end px-6 py-4">
+      <div className="flex gap-2 justify-end py-4">
         <Button label="Hủy" severity="secondary" onClick={() => setShow(false)} />
         <Button type="submit" label="Xác nhận" />
       </div>

@@ -10,11 +10,12 @@ import {
   deleteLessonMd,
   getDetailCourseMd,
   getDetailLessonMd,
-  getListLessonMd,
+  getListLessonMd, getListQuestionMd,
   updateCourseMd,
   updateLessonMd
 } from '@models';
 import { validateData } from '@utils';
+import {uploadFileToFirebase} from "@lib/firebase";
 
 export const getListLesson = async (req, res) => {
   try {
@@ -35,7 +36,7 @@ export const getListLesson = async (req, res) => {
 
 export const getListLessonInfo = async (req, res) => {
   try {
-    const data = await getListLessonMd({ status: 1 });
+    const data = await getListLessonMd();
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -47,7 +48,7 @@ export const detailLesson = async (req, res) => {
     const error = validateData(detailLessonValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.query;
-    const data = await getDetailLessonMd({ _id });
+    const data = await getDetailLessonMd({ _id }, ['Question']);
     if (!data) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -60,8 +61,14 @@ export const deleteLesson = async (req, res) => {
     const error = validateData(detailLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = req.body;
+
+    const lesson = await getDetailLessonMd({ _id });
+    if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
+
+    const checkQuestion = await getListQuestionMd({ lessonId: _id })
+    if (checkQuestion.length > 0) return res.status(400).json({ status: false, mess: 'Bài giảng đã có câu hỏi, vui lòng xóa hết câu hỏi trước khi xóa bài giảng!' });
+
     const data = await deleteLessonMd({ _id });
-    if (!data) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -70,9 +77,16 @@ export const deleteLesson = async (req, res) => {
 
 export const addLesson = async (req, res) => {
   try {
+    if (req.files) {
+      const files = []
+      for (let file of req.files) {
+        files.push(await uploadFileToFirebase(file))
+      }
+      req.files = files
+    }
     const error = validateData(addLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, content, author, courseId, time, description, status } = req.body;
+    const { title, content, author, courseId, time, description, status, files } = req.body;
 
     const checkTitle = await getDetailLessonMd({ title });
     if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
@@ -88,7 +102,8 @@ export const addLesson = async (req, res) => {
       courseId,
       time,
       description,
-      status
+      status,
+      files
     });
 
     await updateCourseMd({ _id: checkCourse._id }, { $addToSet: { lessons: data._id } })
@@ -102,7 +117,7 @@ export const updateLesson = async (req, res) => {
   try {
     const error = validateData(updateLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, title, content, author, courseId, time, description, status } = req.body;
+    const { _id, title, content, author, courseId, time, description, status, files =  [] } = req.body;
 
     const lesson = await getDetailLessonMd({ _id });
     if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
@@ -117,6 +132,12 @@ export const updateLesson = async (req, res) => {
       if (!checkCourse) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
       await updateCourseMd({ _id: checkCourse._id }, { $addToSet: { lessons: _id } })
       await updateCourseMd({ _id: lesson.courseId }, { $pull: { lessons: _id } })
+    }
+
+    if (req.files) {
+      for (let file of req.files) {
+        files.push(await uploadFileToFirebase(file))
+      }
     }
 
     const data = await updateLessonMd({ _id }, { updateBy: req.userInfo._id, title, content, author, courseId, time, description, status });

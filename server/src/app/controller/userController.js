@@ -3,6 +3,7 @@ import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUs
 import { createUserRp } from '@repository';
 import { validateData } from '@utils';
 import {uploadFileToFirebase} from "@lib/firebase";
+import bcrypt from "bcrypt";
 
 export const getListUser = async (req, res) => {
   try {
@@ -59,12 +60,11 @@ export const deleteUser = async (req, res) => {
 
 export const addUser = async (req, res) => {
   try {
-    const error = validateData(addUserValid, req.body);
-    if (error) return res.status(400).json({ status: false, mess: error });
-
     if (req.file) {
       req.body.avatar = await uploadFileToFirebase(req.file)
     }
+    const error = validateData(addUserValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
 
     const { data, mess } = await createUserRp(req.body);
     if (data && !mess) res.json({ status: true, data });

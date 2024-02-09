@@ -4,7 +4,7 @@ export { default as NavigationScroll } from './NavigationScroll';
 export { default as Card } from './Card';
 export { default as Toastify } from './Toastify';
 export { default as ConfirmModal } from './ConfirmModal';
-export { default as FormDetailModal } from './FormDetailModal';
+export { default as FormDetail } from './FormDetail';
 export { default as DataTable } from './DataTable';
 export { default as FormList } from './FormList';
 export { default as DataFilter } from './DataFilter';

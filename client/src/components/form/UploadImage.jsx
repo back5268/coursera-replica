@@ -5,10 +5,9 @@ import {FiUpload} from 'react-icons/fi';
 import {Button} from '../uiCore';
 import {BiTrash} from 'react-icons/bi';
 
-const FileUploader = ({data, setData, label}) => {
+const UploadImage = ({data, setData, label}) => {
     const [file, setFile] = useState([]);
     const [fileUrl, setFileUrl] = useState(data);
-    console.log(fileUrl)
 
     const onDrop = useCallback(
         (acceptedFiles) => {
@@ -37,8 +36,8 @@ const FileUploader = ({data, setData, label}) => {
                              style={{backgroundImage: `url(${fileUrl})`}}></div>
                         <span className="truncate w-full">{fileUrl}</span>
                         <div className="flex gap-2 items-center justify-center">
-                            <div {...getRootProps()}><Button label="Thay đổi"/></div>
-                            <Button className="px-6" severity="danger" onClick={() => setData(null)}>
+                            <div {...getRootProps()}><Button label="Đổi"/></div>
+                            <Button severity="danger" onClick={() => setData(null)}>
                                 <BiTrash size={16}/>
                             </Button>
                         </div>
@@ -49,7 +48,7 @@ const FileUploader = ({data, setData, label}) => {
                         <FiUpload size={32}/>
                         <span>Drag and Drop file</span>
                         <span className="text-center font-semibold dark:text-neutral-200">OR</span>
-                        <Button className="px-6" label="Browse"/>
+                        <Button label="Browse"/>
                     </div>
                 )}
             </div>
@@ -57,4 +56,4 @@ const FileUploader = ({data, setData, label}) => {
     );
 };
 
-export default FileUploader;
+export default UploadImage;

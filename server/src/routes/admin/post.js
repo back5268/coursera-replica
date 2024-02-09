@@ -1,12 +1,13 @@
 import { addPost, deletePost, detailPost, getListPost, updatePost } from '@controller';
 import { staffMiddleware } from '@middleware';
 import express from 'express';
+import {upload} from "@lib/multer";
 
 export const postRouter = express.Router();
 
 postRouter.use(staffMiddleware);
-postRouter.use('/getListPost', getListPost);
-postRouter.use('/detailPost', detailPost);
-postRouter.use('/deletePost', deletePost);
-postRouter.use('/addPost', addPost);
-postRouter.use('/updatePost', updatePost);
+postRouter.get('/getListPost', getListPost);
+postRouter.get('/detailPost', detailPost);
+postRouter.delete('/deletePost', deletePost);
+postRouter.post('/addPost', upload.single('image'), addPost);
+postRouter.post('/updatePost', upload.single('image'), updatePost);

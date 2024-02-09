@@ -3,8 +3,8 @@ import { convertData, createFormData } from './handleData';
 
 export const postData = (url, data, isUpload = false, blob = false, timeout = 600000) => {
   if (isUpload || blob) {
-    const { files, ...params } = data;
-    data = createFormData(params, files);
+    const { formData, ...params } = data;
+    data = createFormData(params, formData);
   } else data = convertData(data);
   if (blob)
     return clientApi.post(url, data, {

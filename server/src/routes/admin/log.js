@@ -5,4 +5,4 @@ import express from 'express';
 export const logRouter = express.Router();
 
 logRouter.use(staffMiddleware);
-logRouter.use('/getListLog', getListLog);
+logRouter.get('/getListLog', getListLog);

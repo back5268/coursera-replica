@@ -20,7 +20,8 @@ const DataTable = (props) => {
     statusInfo = {},
     baseActions = [],
     Filter = () => {},
-    children
+    children,
+    rows
   } = props;
   const { onViewDetail = () => {}, deleteApi = () => {}, handleDelete = (item) => ({ _id: item._id }) } = actionsInfo;
   const { onInsert = () => {}, onImport = () => {}, onExport = () => {} } = headerInfo;
@@ -53,21 +54,21 @@ const DataTable = (props) => {
   const isStatus = Boolean(statusInfo.changeStatusApi);
 
   return (
-      <div className="card">
+      <div className="card mt-4">
         {isHeader && (
           <div className="flex gap-2 justify-start mb-1">
             {baseActions.includes('insert') && (
-              <Button className="px-6" onClick={onInsert}>
+              <Button onClick={onInsert}>
                 Thêm mới
               </Button>
             )}
             {baseActions.includes('import') && (
-              <Button className="px-6" severity="info" onClick={onImport}>
+              <Button severity="info" onClick={onImport}>
                 Import
               </Button>
             )}
             {baseActions.includes('export') && (
-              <Button className="px-6" severity="info" onClick={onExport}>
+              <Button severity="info" onClick={onExport}>
                 Export
               </Button>
             )}
@@ -166,7 +167,7 @@ const DataTable = (props) => {
           </div>
         </div>
         <div className="flex justify-center mt-4">
-          <Pagination params={params} setParams={setParams} totalRecord={totalRecord} />
+          <Pagination params={params} setParams={setParams} totalRecord={totalRecord} rows={rows} />
         </div>
       </div>
   );

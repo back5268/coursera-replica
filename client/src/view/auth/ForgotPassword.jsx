@@ -17,7 +17,6 @@ const SignIn = () => {
     resolver: yupResolver(ForgotPasswordValidation)
   });
   const onSubmit = (data) => {
-    console.log(data);
   };
 
   return (

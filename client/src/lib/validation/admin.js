@@ -14,6 +14,7 @@ export const UserValidation = yup.object({
 export const CourseValidation = yup.object({
   name: yup.string().required('Tên khóa học không được bỏ trống!'),
   code: yup.string().required('Mã khóa học không được bỏ trống!'),
+  type: yup.number().required('Thể loại không được bỏ trống!'),
 });
 
 export const LessonValidation = yup.object({

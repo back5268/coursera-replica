@@ -27,26 +27,26 @@ PostMd.init('Post', {
   deletedAt: { type: Date }
 });
 
-export const getListPostMd = (where, page, limit, sort, attr) => {
-  return PostMd.find(where, page, limit, sort, attr);
+export const getListPostMd = (where, page, limit, populates, sort, attr) => {
+  return PostMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListPostMd = (where) => {
-  return PostMd.count(where);
+  return PostMd.count({ where });
 };
 
-export const getDetailPostMd = (where, attr) => {
-  return PostMd.findOne(where, attr);
+export const getDetailPostMd = (where, populates, attr) => {
+  return PostMd.findOne({ where, attr, populates });
 };
 
 export const addPostMd = (attr) => {
-  return PostMd.create(attr);
+  return PostMd.create({ attr });
 };
 
 export const updatePostMd = (where, attr) => {
-  return PostMd.update(where, attr);
+  return PostMd.update({ where, attr });
 };
 
 export const deletePostMd = (where) => {
-  return PostMd.delete(where);
+  return PostMd.delete({ where });
 };

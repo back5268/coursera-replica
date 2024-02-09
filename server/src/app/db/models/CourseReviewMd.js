@@ -20,26 +20,26 @@ CourseReviewMd.init('CourseReview', {
   deletedAt: { type: Date }
 });
 
-export const getListCourseReviewMd = (where, page, limit, sort, attr) => {
-  return CourseReviewMd.find(where, page, limit, sort, attr);
+export const getListCourseReviewMd = (where, page, limit, populates, sort, attr) => {
+  return CourseReviewMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListCourseReviewMd = (where) => {
-  return CourseReviewMd.count(where);
+  return CourseReviewMd.count({ where });
 };
 
-export const getDetailCourseReviewMd = (where, attr) => {
-  return CourseReviewMd.findOne(where, attr);
+export const getDetailCourseReviewMd = (where, populates, attr) => {
+  return CourseReviewMd.findOne({ where, attr, populates });
 };
 
 export const addCourseReviewMd = (attr) => {
-  return CourseReviewMd.create(attr);
+  return CourseReviewMd.create({ attr });
 };
 
 export const updateCourseReviewMd = (where, attr) => {
-  return CourseReviewMd.update(where, attr);
+  return CourseReviewMd.update({ where, attr });
 };
 
 export const deleteCourseReviewMd = (where) => {
-  return CourseReviewMd.delete(where);
+  return CourseReviewMd.delete({ where });
 };

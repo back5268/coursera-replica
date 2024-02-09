@@ -5,7 +5,7 @@ import {upload} from "@lib/multer";
 
 export const userRouter = express.Router();
 
-// userRouter.use(adminMiddleware);
+userRouter.use(adminMiddleware);
 userRouter.get('/getListUser', getListUser);
 userRouter.get('/detailUser', detailUser);
 userRouter.delete('/deleteUser', deleteUser);

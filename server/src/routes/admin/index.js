@@ -11,7 +11,7 @@ import {commentRouter} from "./comment.js";
 
 export const adminRouter = express.Router();
 
-// adminRouter.use(authMiddleware);
+adminRouter.use(authMiddleware);
 adminRouter.use('/user', userRouter);
 adminRouter.use('/course', courseRouter);
 adminRouter.use('/lesson', lessonRouter);

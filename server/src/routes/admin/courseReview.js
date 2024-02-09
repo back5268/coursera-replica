@@ -5,4 +5,4 @@ import express from 'express';
 export const courseReviewRouter = express.Router();
 
 courseReviewRouter.use(staffMiddleware);
-courseReviewRouter.use('/getListCourseReview', getListCourseReview);
+courseReviewRouter.get('/getListCourseReview', getListCourseReview);

@@ -9,7 +9,7 @@ class ModelBase {
     this.model = mongoose.model(tableName, new Schema(attr, { timestamps: true }));
   }
 
-  static find(where = {}, page, limit, populates = [], sort = { createdAt: -1 }, attr) {
+  static find({ where = {}, page, limit, populates = [], sort = { createdAt: -1 }, attr }) {
     if (!where.deletedAt) where.deletedAt = null;
     const query = this.model.find(where, attr);
     if (sort) query.sort(sort);
@@ -23,12 +23,12 @@ class ModelBase {
     return query.exec();
   }
 
-  static count(where = {}) {
+  static count({ where = {} }) {
     if (!where.deletedAt) where.deletedAt = null;
     return this.model.countDocuments(where);
   }
 
-  static findOne(where = {}, populates = [], attr) {
+  static findOne({ where = {}, populates = [], attr }) {
     if (!where.deletedAt) where.deletedAt = null;
     const query = this.model.findOne(where, attr);
     if (populates && populates.length > 0) {
@@ -37,19 +37,19 @@ class ModelBase {
     return query.exec();
   }
 
-  static async create(attr = {}) {
+  static create({ attr = {} }) {
     if (!attr.createdAt) attr.createdAt = new Date();
     if (!attr.updatedAt) attr.updatedAt = new Date();
     return this.model.create(attr);
   }
 
-  static update(where = {}, attr = {}) {
+  static update({ where = {}, attr = {} }) {
     if (Object.keys(where).length === 0) return;
     if (!attr.updatedAt) attr.updatedAt = new Date();
     return this.model.findOneAndUpdate(where, attr, { new: true });
   }
 
-  static delete(where = {}) {
+  static delete({ where = {} }) {
     if (Object.keys(where).length === 0) return;
     return this.model.findOneAndUpdate(where, { updatedAt: new Date(), deletedAt: new Date() }, { new: true });
   }

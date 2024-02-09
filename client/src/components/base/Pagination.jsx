@@ -37,7 +37,7 @@ const Pagination = (props) => {
     return pages.map((page, index) => (
       <ButtonPagination key={index} content={page} active={params.page === page} onClick={(e) => setParams({ ...params, page })} />
     ));
-  }, [params.limit, params.page]);
+  }, [params.limit, params.page, totalRecord]);
 
   return (
     <>
@@ -45,13 +45,13 @@ const Pagination = (props) => {
         <ul className="list-style-none flex">
           <ButtonPagination content={'First'} onClick={() => setParams({ ...params, page: 1 })} />
           {renderPageLinks()}
-          <ButtonPagination content={'Last'} onClick={() => setParams({ ...params, page: Math.ceil(totalRecord / params.limit) })} />
+          <ButtonPagination content={'Last'} onClick={() => setParams({ ...params, page: Math.ceil(totalRecord / params.limit) || 1 })} />
         </ul>
         <span className="text-sm bg-transparent text-neutral-600">Tổng số: {totalRecord} bản ghi</span>
         <TESelect
           data={rows.map((r) => ({ text: String(r), value: r }))}
-          value={params.limit}
-          onValueChange={(e) => setParams({ page: 1, limit: e.value })}
+          value={params.limit || 100}
+          onValueChange={(e) => setParams({ page: 1, limit: e?.value })}
           className="w-24"
         />
       </nav>

@@ -19,6 +19,7 @@ export const addUserValid = {
   bio: { type: 'string', allowNull: true },
   address: { type: 'string', allowNull: true },
   role: { type: 'string', allowNull: true },
+  avatar: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true },
 };
 

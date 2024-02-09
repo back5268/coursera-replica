@@ -132,6 +132,8 @@ export const validateData = (options = {}, data = {}) => {
             if (typeof options[key] === 'object') {
                 valid = getTypeValidate(options[key].type);
                 if (!options[key].allowNull) valid = valid.required();
+                else if (options[key].type === 'string') valid = valid.allow('');
+                else if (options[key].type === 'array') valid = valid.allow([]);
             } else if (typeof options[key] === 'string') {
                 valid = getTypeValidate(options[key]).required();
             }

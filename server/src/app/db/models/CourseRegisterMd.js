@@ -19,26 +19,26 @@ CourseRegisterMd.init('CourseRegister', {
     deletedAt: { type: Date }
 });
 
-export const getListCourseRegisterMd = (where, page, limit, sort, attr) => {
-    return CourseRegisterMd.find(where, page, limit, sort, attr);
+export const getListCourseRegisterMd = (where, page, limit, populates, sort, attr) => {
+    return CourseRegisterMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListCourseRegisterMd = (where) => {
-    return CourseRegisterMd.count(where);
+    return CourseRegisterMd.count({ where });
 };
 
-export const getDetailCourseRegisterMd = (where, attr) => {
-    return CourseRegisterMd.findOne(where, attr);
+export const getDetailCourseRegisterMd = (where, populates, attr) => {
+    return CourseRegisterMd.findOne({ where, attr, populates });
 };
 
 export const addCourseRegisterMd = (attr) => {
-    return CourseRegisterMd.create(attr);
+    return CourseRegisterMd.create({ attr });
 };
 
 export const updateCourseRegisterMd = (where, attr) => {
-    return CourseRegisterMd.update(where, attr);
+    return CourseRegisterMd.update({ where, attr });
 };
 
 export const deleteCourseRegisterMd = (where) => {
-    return CourseRegisterMd.delete(where);
+    return CourseRegisterMd.delete({ where });
 };

@@ -18,6 +18,7 @@ const AvatarSection = ({ onSignOut }) => {
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
   const navigate = useNavigate()
+  const avatar = 'https://img.freepik.com/premium-photo/cartoon-game-avatar-logo-gaming-brand_902820-465.jpg'
 
   const handleClickOutside = (e) => {
     if (ref.current && !ref.current.contains(e.target)) {
@@ -35,17 +36,17 @@ const AvatarSection = ({ onSignOut }) => {
   return (
     <div ref={ref} className="relative items-center">
       <div onClick={() => setIsShow(!isShow)} className="p-1 rounded-md shadow-xl">
-        <div className="relative cursor-pointer h-12 w-12 rounded-md bg-cover bg-[url('https://img.freepik.com/premium-photo/cartoon-game-avatar-logo-gaming-brand_902820-465.jpg')]">
+        <div className={`relative cursor-pointer h-12 w-12 rounded-md bg-cover`} style={{ backgroundImage: `url(${userInfo.avatar || avatar})` }}>
           <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-10"></span>
         </div>
       </div>
       <div
-        className={`absolute right-0 mt-2 w-80 bg-primary-50 shadow-xl rounded-sm transition-all z-50 text-slate-500 px-4
+        className={`absolute right-0 mt-2 w-80 bg-white shadow-xl rounded-sm transition-all z-50 text-slate-500 px-4
           duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
       >
         <div className="flex h-24 items-center">
           <div className="w-5/12 items-center flex justify-center">
-            <div className="relative h-16 w-16 rounded-md bg-cover bg-[url('https://img.freepik.com/premium-photo/cartoon-game-avatar-logo-gaming-brand_902820-465.jpg')]">
+            <div className="relative h-16 w-16 rounded-md bg-cover" style={{ backgroundImage: `url(${userInfo.avatar || avatar})`}}>
               <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-15"></span>
             </div>
           </div>

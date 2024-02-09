@@ -1,5 +1,7 @@
 export { default as Courses } from './courses';
+export { default as DetailCourse } from './courses/Detail';
 export { default as Lessons } from './lessons';
+export { default as DetailLesson } from './lessons/Detail';
 export { default as Posts } from './posts';
 export { default as Questions } from './questions';
 export { default as Users } from './users';

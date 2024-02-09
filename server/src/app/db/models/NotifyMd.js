@@ -42,26 +42,26 @@ NotifyMd.init('Notify', {
     deletedAt: {type: Date}
 });
 
-export const getListNotifyMd = (where, page, limit, sort, attr) => {
-    return NotifyMd.find(where, page, limit, sort, attr);
+export const getListNotifyMd = (where, page, limit, populates, sort, attr) => {
+    return NotifyMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListNotifyMd = (where) => {
-    return NotifyMd.count(where);
+    return NotifyMd.count({ where });
 };
 
-export const getDetailNotifyMd = (where, attr) => {
-    return NotifyMd.findOne(where, attr);
+export const getDetailNotifyMd = (where, populates, attr) => {
+    return NotifyMd.findOne({ where, attr, populates });
 };
 
 export const addNotifyMd = (attr) => {
-    return NotifyMd.create(attr);
+    return NotifyMd.create({ attr });
 };
 
 export const updateNotifyMd = (where, attr) => {
-    return NotifyMd.update(where, attr);
+    return NotifyMd.update({ where, attr });
 };
 
 export const deleteNotifyMd = (where) => {
-    return NotifyMd.delete(where);
+    return NotifyMd.delete({ where });
 };

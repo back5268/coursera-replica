@@ -21,7 +21,7 @@ const Answers = (props) => {
     return (
         <div className='flex flex-wrap w-full items-center card m-2'>
             {answers && answers.length > 0 && answers.map((a, index) => (
-                <div className={'flex justify-between items-center p-2 gap-2 xs:w-full lg:w-6/12'}>
+                <div key={index} className={'flex justify-between items-center p-2 gap-2 xs:w-full lg:w-6/12'}>
                     <div className={`w-full`}>
                         <Input label={`Câu trả lời ${index + 1}`} value={a.label}
                                onChange={e => onChange(e.target.value, a.key)}/>
@@ -32,7 +32,7 @@ const Answers = (props) => {
                 </div>
             ))}
             <div className={'w-full text-right p-2 mt-2'}>
-                <Button className="px-6" onClick={onAddAnswer} disabled={answers.length >= 6}>
+                <Button onClick={onAddAnswer} disabled={answers.length >= 6}>
                     Thêm câu trả lời
                 </Button>
             </div>

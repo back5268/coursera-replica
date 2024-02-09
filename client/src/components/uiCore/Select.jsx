@@ -3,15 +3,12 @@ import { TESelect } from 'tw-elements-react';
 
 const Select = (props) => {
   const { id, value = '', onValueChange = () => {}, data = [], dataLabel = 'label', dataValue = 'key', ...prop } = props;
-  console.log(data)
   const handleData = (array) => {
     return array.map((d) => {
       if (typeof d === 'object') return { text: d[dataLabel], value: String(d[dataValue]) };
       else return { text: String(d), value: String(d) };
     });
   };
-
-  console.log(handleData(data))
 
   return (
     <TESelect

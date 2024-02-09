@@ -4,7 +4,7 @@ import { InputFormV2, SelectFormV2 } from '@components/form';
 import { statuses } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
-import DetailUser from './DetailUser';
+import Detail from './Detail';
 import { DataFilter, TimeBody, FormList } from '@components/base';
 
 const Filter = ({ setParams }) => {
@@ -45,7 +45,7 @@ const Users = () => {
 
   return (
     <>
-      <DetailUser show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
+      <Detail show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
       <FormList
         isLoading={isLoading}
         title="Quản lý người dùng"

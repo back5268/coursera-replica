@@ -37,26 +37,26 @@ CommentMd.init('Comment', {
     deletedAt: {type: Date}
 });
 
-export const getListCommentMd = (where, page, limit, sort, attr) => {
-    return CommentMd.find(where, page, limit, sort, attr);
+export const getListCommentMd = (where, page, limit, populates, sort, attr) => {
+    return CommentMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListCommentMd = (where) => {
-    return CommentMd.count(where);
+    return CommentMd.count({ where });
 };
 
-export const getDetailCommentMd = (where, attr) => {
-    return CommentMd.findOne(where, attr);
+export const getDetailCommentMd = (where, populates, attr) => {
+    return CommentMd.findOne({ where, attr, populates });
 };
 
 export const addCommentMd = (attr) => {
-    return CommentMd.create(attr);
+    return CommentMd.create({ attr });
 };
 
 export const updateCommentMd = (where, attr) => {
-    return CommentMd.update(where, attr);
+    return CommentMd.update({ where, attr });
 };
 
 export const deleteCommentMd = (where) => {
-    return CommentMd.delete(where);
+    return CommentMd.delete({ where });
 };

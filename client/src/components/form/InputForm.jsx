@@ -37,11 +37,12 @@ export const InputFormDetail = (props) => {
 };
 
 export const InputFormV2 = (props) => {
-  const { className, ...prop } = props;
+  const { className, helper, ...prop } = props;
 
   return (
-    <div className={`p-2 xs:w-full sm:w-6/12 lg:w-3/12`}>
+    <div className={`flex flex-col gap-1 p-2 xs:w-full sm:w-6/12 lg:w-3/12`}>
       <Input {...prop} />
+      {helper && <small className="w-full ml-2">{helper}</small>}
     </div>
   );
 };

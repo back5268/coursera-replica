@@ -23,26 +23,26 @@ QuestionMd.init('Question', {
     deletedAt: {type: Date}
 });
 
-export const getListQuestionMd = (where, page, limit, sort, attr) => {
-    return QuestionMd.find(where, page, limit, sort, attr);
+export const getListQuestionMd = (where, page, limit, populates, sort, attr) => {
+    return QuestionMd.find({ where, page, limit, sort, attr, populates });
 };
 
 export const countListQuestionMd = (where) => {
-    return QuestionMd.count(where);
+    return QuestionMd.count({ where });
 };
 
-export const getDetailQuestionMd = (where, attr) => {
-    return QuestionMd.findOne(where, attr);
+export const getDetailQuestionMd = (where, populates, attr) => {
+    return QuestionMd.findOne({ where, attr, populates });
 };
 
 export const addQuestionMd = (attr) => {
-    return QuestionMd.create(attr);
+    return QuestionMd.create({ attr });
 };
 
 export const updateQuestionMd = (where, attr) => {
-    return QuestionMd.update(where, attr);
+    return QuestionMd.update({ where, attr });
 };
 
 export const deleteQuestionMd = (where) => {
-    return QuestionMd.delete(where);
+    return QuestionMd.delete({ where });
 };
