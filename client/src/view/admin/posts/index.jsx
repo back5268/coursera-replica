@@ -5,6 +5,7 @@ import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import DetailPost from './Detail';
 import { DataFilter, FormList, NumberBody, TimeBody } from '@components/base';
+import {useDataState} from "@store";
 
 const Filter = ({ setParams, courses = [] }) => {
   const [filter, setFilter] = useState({});
@@ -24,10 +25,11 @@ const Posts = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
   const [show, setShow] = useState(false);
+  const {users} = useDataState();
 
   const columns = [
     { label: 'Tiêu đề bài viết', field: 'title' },
-    { label: 'Người viết', body: (item) => NumberBody(item.time) },
+    { label: 'Người viết', body: (item) => users.find(u => u._id === item.by)?.fullName },
     { label: 'Thời gian đọc', body: (item) => NumberBody(item.time) },
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) },
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }

@@ -22,7 +22,6 @@ const DetailQuestion = (props) => {
   const [answers, setAnswers] = useState([{ label: '', key: 1 }])
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     watch,

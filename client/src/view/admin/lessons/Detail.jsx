@@ -8,7 +8,7 @@ import {LessonValidation} from '@lib/validation';
 import {yupResolver} from '@hookform/resolvers/yup';
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {addLessonApi, detailLessonApi, updateLessonApi} from '@api';
+import {addLessonApi, detailLessonApi, getListLessonApi, getListLessonInfoApi, updateLessonApi} from '@api';
 import {FormDetail} from '@components/base';
 import {checkEqualProp} from '@utils';
 import {useGetApi} from "@lib/react-query";
@@ -29,6 +29,7 @@ const defaultValues = {
 };
 
 const DetailLesson = (props) => {
+    const { setLessons } = useDataState()
     const {_id} = useParams()
     const [buttonActive, setButtonActive] = useState("tab1");
     const [files, setFiles] = useState([]);
@@ -58,7 +59,8 @@ const DetailLesson = (props) => {
     });
 
     useEffect(() => {
-        if (isUpdate && item._id) {
+        if (item?.files?.length > 0) setFiles(item.files)
+        if (isUpdate && item?._id) {
             for (const key in defaultValues) {
                 setValue(key, item[key]);
             }
@@ -67,13 +69,30 @@ const DetailLesson = (props) => {
 
     const handleData = (data) => {
         const newData = {...data, status: data.status ? 1 : 0};
+        if (files && files.length > 0) {
+            if (JSON.stringify(files) !== JSON.stringify(item.files)) {
+                const newFiles = []
+                const formData = []
+                files.forEach(f => {
+                    if (item.files.some(i => JSON.stringify(i) === JSON.stringify(f))) newFiles.push(f)
+                    else formData.push(f)
+                })
+                if (newFiles.length > 0) newData.files = newFiles
+                if (formData.length > 0) newData.formData = { files: formData }
+            }
+        } else if (item.files?.length > 0) newData.files = []
         if (isUpdate) return {...checkEqualProp(newData, item), _id};
         else return newData;
     };
 
+    const onSuccess = async () => {
+        const lessons = await getListLessonInfoApi();
+        if (lessons) setLessons(lessons)
+    }
+
     return (
         <>
-            <DetailQuestion show={show} setShow={setShow} setParams={setParams} data={isUpdate && item?.lessons}
+            <DetailQuestion show={show} setShow={setShow} setParams={setParams} data={isUpdate && item?.questions}
                             lessons={lessons} lessonId={_id}/>
             <FormDetail
                 type={'normal'}
@@ -83,6 +102,7 @@ const DetailLesson = (props) => {
                 updateApi={updateLessonApi}
                 handleData={handleData}
                 handleSubmit={handleSubmit}
+                onSuccess={onSuccess}
             >
                 <TETabs>
                     <TETabsItem
@@ -102,7 +122,6 @@ const DetailLesson = (props) => {
                 <TETabsContent>
                     <TETabsPane show={buttonActive === "tab1"}>
                         <div className={'flex flex-wrap'}>
-
                             <div className="flex flex-wrap w-full">
                                 <SelectFormDetail
                                     id="courseId"
@@ -133,7 +152,7 @@ const DetailLesson = (props) => {
                         </div>
                     </TETabsPane>
                     <TETabsPane show={buttonActive === "tab2"}>
-                        <Questions data={isUpdate && item?.lessons} isLoading={isLoading}/>
+                        <Questions data={isUpdate && item?.questions} isLoading={isLoading} setShow={setShow} />
                     </TETabsPane>
                 </TETabsContent>
             </FormDetail>

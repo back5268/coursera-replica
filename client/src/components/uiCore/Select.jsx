@@ -5,8 +5,8 @@ const Select = (props) => {
   const { id, value = '', onValueChange = () => {}, data = [], dataLabel = 'label', dataValue = 'key', ...prop } = props;
   const handleData = (array) => {
     return array.map((d) => {
-      if (typeof d === 'object') return { text: d[dataLabel], value: String(d[dataValue]) };
-      else return { text: String(d), value: String(d) };
+      if (typeof d === 'object') return { text: d[dataLabel], value: d[dataValue] };
+      else return { text: String(d), value: d };
     });
   };
 

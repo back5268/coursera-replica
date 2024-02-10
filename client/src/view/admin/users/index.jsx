@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { deleteUserApi, getListUserApi, updateUserApi } from '@api';
+import {deleteUserApi, getInfoApi, getListUserApi, getListUserInfoApi, updateUserApi} from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { statuses } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import Detail from './Detail';
 import { DataFilter, TimeBody, FormList } from '@components/base';
+import {useAuthContext} from "@context/AuthContext";
+import {useDataState} from "@store";
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -29,6 +31,8 @@ const Filter = ({ setParams }) => {
 };
 
 const Users = () => {
+    const { userInfo, setUserInfo } = useAuthContext()
+    const { setUsers } = useDataState()
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
   const [show, setShow] = useState(false);
@@ -42,6 +46,17 @@ const Users = () => {
   ];
 
   const { isLoading, data } = useGetApi(getListUserApi, params, 'users');
+
+    const onSuccess = async (item) => {
+        if (item._id === userInfo._id) {
+            const response = await getInfoApi();
+            if (response) {
+                setUserInfo(response.userInfo);
+            } else localStorage.removeItem('token');
+        }
+        const users = await getListUserInfoApi();
+        if (users) setUsers(users)
+    }
 
   return (
     <>
@@ -59,6 +74,7 @@ const Users = () => {
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteUserApi }}
         statusInfo={{ changeStatusApi: updateUserApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
+        onSuccess={onSuccess}
       ><Filter setParams={setParams} /></FormList>
     </>
   );

@@ -32,7 +32,8 @@ const FormDetail = (props) => {
         handleSubmit = () => {
         },
         setParams = () => {
-        }
+        },
+        onSuccess = () => {}
     } = props;
     const isModal = type === 'modal'
     const {mutateAsync, isPending} = usePostApi(isUpdate ? updateApi : insertApi);
@@ -42,6 +43,7 @@ const FormDetail = (props) => {
         const data = handleData(e);
         const response = await mutateAsync(data);
         if (response) {
+            onSuccess()
             showToast({title: `${newTitle} thành công!`, severity: 'success'});
             if (isModal) {
                 setShow(false);

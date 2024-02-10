@@ -4,9 +4,9 @@ import { validateData } from '@utils';
 
 export const getListCourseReview = async (req, res) => {
     try {
-        const error = validateData(listCourseReviewValid, req.query);
+        const { error, value } = validateData(listCourseReviewValid, req.query);
         if (error) return res.status(400).json({ status: false, mess: error });
-        const { page, limit, courseId, rating } = req.query;
+        const { page, limit, courseId, rating } = value;
         const where = {};
         if (courseId) where.courseId = courseId;
         if (rating) where.rating = rating;

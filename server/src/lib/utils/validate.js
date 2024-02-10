@@ -115,8 +115,14 @@ export const validateData = (options = {}, data = {}) => {
                     .length(10);
             case VALIDATE_TYPE.NUMBER:
                 return Joi.number();
-            case VALIDATE_TYPE.ARRAY:
-                return Joi.array();
+            case VALIDATE_TYPE.JSON:
+                return Joi.string().custom((value, helpers) => {
+                    try {
+                        return JSON.parse(value);
+                    } catch (err) {
+                        return helpers.error("any.custom", "Invalid JSON format");
+                    }
+                }).message("Invalid JSON format for preferences")
             case VALIDATE_TYPE.BOOLEAN:
                 return Joi.boolean();
             case VALIDATE_TYPE.DATE:
@@ -133,7 +139,6 @@ export const validateData = (options = {}, data = {}) => {
                 valid = getTypeValidate(options[key].type);
                 if (!options[key].allowNull) valid = valid.required();
                 else if (options[key].type === 'string') valid = valid.allow('');
-                else if (options[key].type === 'array') valid = valid.allow([]);
             } else if (typeof options[key] === 'string') {
                 valid = getTypeValidate(options[key]).required();
             }
@@ -142,6 +147,6 @@ export const validateData = (options = {}, data = {}) => {
     }
 
     const schema = Joi.object(object);
-    const {error} = schema.validate(data);
-    return error?.details[0]?.message;
+    const {error, value} = schema.validate(data);
+    return { error: error?.details[0]?.message, value }
 };

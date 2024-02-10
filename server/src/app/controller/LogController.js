@@ -4,9 +4,9 @@ import { validateData } from '@utils';
 
 export const getListLog = async (req, res) => {
     try {
-        const error = validateData(listLogValid, req.query);
+        const { error, value } = validateData(listLogValid, req.query);
         if (error) return res.status(400).json({ status: false, mess: error });
-        const { page, limit, keySearch, to, fromDate, toDate, type, status } = req.query;
+        const { page, limit, keySearch, to, fromDate, toDate, type, status } = value;
         const where = {};
         if (keySearch) where.title = { $regex: keySearch, $options: 'i' }
         if (to) where.to = { $regex: to, $options: 'i' }

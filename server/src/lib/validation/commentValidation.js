@@ -5,3 +5,10 @@ export const listCommentLessonValid = {
     toDate: { type: 'date', allowNull: true },
     status: { type: 'number', allowNull: true },
 };
+
+export const addCommentValid = {
+    type: 'number',
+    objectId: 'string',
+    parentId: { type: 'string', allowNull: true },
+    content: { type: 'string', allowNull: true },
+};

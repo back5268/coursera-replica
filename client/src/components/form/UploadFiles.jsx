@@ -40,7 +40,7 @@ export const UploadFiles = (props) => {
                     <div className="flex justify-center flex-col gap-4 text-left mt-4">
                         {files.map((f, index) => (
                             <div key={index} className={'card flex items-center justify-between'}>
-                                <Link>{f.name || f}</Link>
+                                <Link to={typeof f === 'string' ? f : ''} target={'_blank'}>{f.name || f}</Link>
                                 <Button severity="danger" className={'!px-4'} onClick={() => removeFile(f)}>
                                     <BiTrash size={16}/>
                                 </Button>

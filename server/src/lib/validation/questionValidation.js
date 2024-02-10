@@ -14,7 +14,7 @@ export const detailQuestionValid = {
 export const addQuestionValid = {
   lessonId: 'string',
   content: 'string',
-  answers: 'array',
+  answers: 'json',
   status: { type: 'number', allowNull: true }
 };
 
@@ -22,6 +22,6 @@ export const updateQuestionValid = {
   _id: 'string',
   lessonId: { type: 'string', allowNull: true },
   content: { type: 'string', allowNull: true },
-  answers: { type: 'array', allowNull: true },
+  answers: { type: 'json', allowNull: true },
   status: { type: 'number', allowNull: true }
 };

@@ -7,9 +7,9 @@ import bcrypt from "bcrypt";
 
 export const getListUser = async (req, res) => {
   try {
-    const error = validateData(listUserValid, req.query);
+    const { error, value } = validateData(listUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, email, role, status } = req.query;
+    const { page, limit, keySearch, email, role, status } = value;
     const where = {};
     if (keySearch) where.$or = [{ fullName: { $regex: keySearch, $options: 'i' } }, { username: { $regex: keySearch, $options: 'i' } }];
     if (email) where.email = { $regex: email, $options: 'i' };
@@ -34,9 +34,9 @@ export const getListUserInfo = async (req, res) => {
 
 export const detailUser = async (req, res) => {
   try {
-    const error = validateData(detailUserValid, req.query);
+    const { error, value } = validateData(detailUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id } = req.query;
+    const { _id } = value;
     const data = await getDetailUserMd({ _id });
     if (!data) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
     res.json({ status: true, data });
@@ -47,9 +47,9 @@ export const detailUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const error = validateData(detailUserValid, req.query);
+    const { error, value } = validateData(detailUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id } = req.body;
+    const { _id } = value;
     const data = await deleteUserMd({ _id });
     if (!data) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
     res.status(201).json({ status: true, data });
@@ -60,13 +60,14 @@ export const deleteUser = async (req, res) => {
 
 export const addUser = async (req, res) => {
   try {
-    if (req.file) {
-      req.body.avatar = await uploadFileToFirebase(req.file)
-    }
-    const error = validateData(addUserValid, req.body);
+    const { error, value } = validateData(addUserValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
 
-    const { data, mess } = await createUserRp(req.body);
+    if (req.file) {
+      value.avatar = await uploadFileToFirebase(req.file)
+    }
+
+    const { data, mess } = await createUserRp(value);
     if (data && !mess) res.json({ status: true, data });
     else res.status(400).json({ status: false, mess });
   } catch (error) {
@@ -76,9 +77,9 @@ export const addUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const error = validateData(updateUserValid, req.body);
+    const { error, value } = validateData(updateUserValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, fullName, username, email, password, bio, address, status, role, avatar } = req.body;
+    let { _id, fullName, username, email, password, bio, address, status, role, avatar } = value;
 
     const user = await getDetailUserMd({ _id });
     if (!user) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });

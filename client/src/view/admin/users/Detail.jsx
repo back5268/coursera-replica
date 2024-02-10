@@ -3,10 +3,12 @@ import { UserValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { addUserApi, updateUserApi } from '@api';
+import {addUserApi, getInfoApi, getListUserInfoApi, updateUserApi} from '@api';
 import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
 import { userRoles } from '@constant';
+import {useAuthContext} from "@context/AuthContext";
+import {useDataState} from "@store";
 
 const defaultValues = {
   fullName: '',
@@ -20,6 +22,8 @@ const defaultValues = {
 };
 
 const DetailUser = (props) => {
+  const { userInfo, setUserInfo } = useAuthContext()
+  const { setUsers } = useDataState()
   const { show, setShow, setParams, data } = props;
   const [avatar, setAvatar] = useState(null);
   const isUpdate = typeof show === 'string';
@@ -54,6 +58,17 @@ const DetailUser = (props) => {
     else return newData;
   };
 
+  const onSuccess = async () => {
+    if (show === userInfo._id) {
+      const response = await getInfoApi();
+      if (response) {
+        setUserInfo(response.userInfo);
+      } else localStorage.removeItem('token');
+    }
+    const users = await getListUserInfoApi();
+    if (users) setUsers(users)
+  }
+
   return (
     <FormDetail
       title="người dùng"
@@ -69,6 +84,7 @@ const DetailUser = (props) => {
       handleData={handleData}
       handleSubmit={handleSubmit}
       setParams={setParams}
+      onSuccess={onSuccess}
     >
       <div className={'flex flex-wrap'}>
         <div className="w-4/12 p-2">

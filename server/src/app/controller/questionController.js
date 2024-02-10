@@ -17,14 +17,14 @@ import {validateData} from '@utils';
 
 export const getListQuestion = async (req, res) => {
     try {
-        const error = validateData(listQuestionValid, req.query);
+        const { error, value } = validateData(listQuestionValid, req.query);
         if (error) return res.status(400).json({status: false, mess: error});
-        const {page, limit, keySearch, status, courseId, lessonId} = req.query;
+        const {page, limit, keySearch, status, courseId, lessonId} = value;
         const where = {};
         let lessonIds = []
         if (courseId) {
             const lessons = await getListLessonMd({status: 1, courseId})
-            if (lessons?.length > 0) lessons.forEach(l => lessonId.push(l._id))
+            if (lessons?.length > 0) lessons.forEach(l => lessonIds.push(l._id))
         }
         if (lessonId) {
             if (lessonIds.length > 0) lessonIds.filter(l => l === lessonId)
@@ -43,9 +43,9 @@ export const getListQuestion = async (req, res) => {
 
 export const detailQuestion = async (req, res) => {
     try {
-        const error = validateData(detailQuestionValid, req.query);
+        const { error, value } = validateData(detailQuestionValid, req.query);
         if (error) return res.status(400).json({status: false, mess: error});
-        const {_id} = req.query;
+        const {_id} = value;
         const data = await getDetailQuestionMd({_id});
         if (!data) return res.status(400).json({status: false, mess: 'Câu hỏi không tồn tại!'});
         res.json({status: true, data});
@@ -56,9 +56,9 @@ export const detailQuestion = async (req, res) => {
 
 export const deleteQuestion = async (req, res) => {
     try {
-        const error = validateData(detailQuestionValid, req.body);
+        const { error, value } = validateData(detailQuestionValid, req.body);
         if (error) return res.status(400).json({status: false, mess: error});
-        const {_id} = req.body;
+        const {_id} = value;
         const data = await deleteQuestionMd({_id});
         if (!data) return res.status(400).json({status: false, mess: 'Câu hỏi không tồn tại!'});
         res.status(201).json({status: true, data});
@@ -69,9 +69,9 @@ export const deleteQuestion = async (req, res) => {
 
 export const addQuestion = async (req, res) => {
     try {
-        const error = validateData(addQuestionValid, req.body);
+        const { error, value } = validateData(addQuestionValid, req.body);
         if (error) return res.status(400).json({status: false, mess: error});
-        const {lessonId, content, answers, status} = req.body;
+        const {lessonId, content, answers, status} = value;
 
         const checkContent = await getDetailQuestionMd({content});
         if (checkContent) return res.status(400).json({status: false, mess: 'Câu hỏi đã tồn tại!'});
@@ -96,9 +96,9 @@ export const addQuestion = async (req, res) => {
 
 export const updateQuestion = async (req, res) => {
     try {
-        const error = validateData(updateQuestionValid, req.body);
+        const { error, value } = validateData(updateQuestionValid, req.body);
         if (error) return res.status(400).json({status: false, mess: error});
-        const {_id, lessonId, content, answers, status} = req.body;
+        const {_id, lessonId, content, answers, status} = value;
 
         const question = await getDetailQuestionMd({_id});
         if (!question) return res.status(400).json({status: false, mess: 'Câu hỏi không tồn tại!'});

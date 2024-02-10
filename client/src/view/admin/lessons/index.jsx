@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {deleteLessonApi, getListLessonApi, updateLessonApi} from '@api';
+import {deleteLessonApi, getListLessonApi, getListLessonInfoApi, updateLessonApi} from '@api';
 import {InputFormV2, SelectFormV2} from '@components/form';
 import {statuses} from '@constant';
 import {useGetParams} from '@hook';
@@ -36,6 +36,7 @@ const Filter = ({setParams, courses = []}) => {
 };
 
 const Lessons = () => {
+    const { setLessons } = useDataState()
     const navigate = useNavigate()
     const initParams = useGetParams();
     const [params, setParams] = useState(initParams);
@@ -57,6 +58,11 @@ const Lessons = () => {
 
     const {isLoading, data} = useGetApi(getListLessonApi, params, 'lessons');
 
+    const onSuccess = async () => {
+        const lessons = await getListLessonInfoApi();
+        if (lessons) setLessons(lessons)
+    }
+
     return (
         <FormList
             isLoading={isLoading}
@@ -73,6 +79,7 @@ const Lessons = () => {
             }}
             statusInfo={{changeStatusApi: updateLessonApi}}
             headerInfo={{onInsert: () => navigate('/admin/lessons/insert')}}
+            onSuccess={onSuccess}
         ><Filter setParams={setParams} courses={courses}/></FormList>
     );
 };

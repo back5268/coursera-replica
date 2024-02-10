@@ -19,9 +19,9 @@ import {uploadFileToFirebase} from "@lib/firebase";
 
 export const getListLesson = async (req, res) => {
   try {
-    const error = validateData(listLessonValid, req.query);
+    const { error, value } = validateData(listLessonValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, courseId, status } = req.query;
+    const { page, limit, keySearch, courseId, status } = value;
     const where = {};
     if (keySearch) where.$or = [{ title: { $regex: keySearch, $options: 'i' } }, { author: { $regex: keySearch, $options: 'i' } }];
     if (status || status === 0) where.status = status;
@@ -45,10 +45,10 @@ export const getListLessonInfo = async (req, res) => {
 
 export const detailLesson = async (req, res) => {
   try {
-    const error = validateData(detailLessonValid, req.query);
+    const { error, value } = validateData(detailLessonValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id } = req.query;
-    const data = await getDetailLessonMd({ _id }, ['Question']);
+    const { _id } = value;
+    const data = await getDetailLessonMd({ _id }, ['questions']);
     if (!data) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -58,9 +58,9 @@ export const detailLesson = async (req, res) => {
 
 export const deleteLesson = async (req, res) => {
   try {
-    const error = validateData(detailLessonValid, req.body);
+    const { error, value } = validateData(detailLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id } = req.body;
+    const { _id } = value;
 
     const lesson = await getDetailLessonMd({ _id });
     if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
@@ -77,22 +77,22 @@ export const deleteLesson = async (req, res) => {
 
 export const addLesson = async (req, res) => {
   try {
-    if (req.files) {
-      const files = []
-      for (let file of req.files) {
-        files.push(await uploadFileToFirebase(file))
-      }
-      req.files = files
-    }
-    const error = validateData(addLessonValid, req.body);
+    const { error, value } = validateData(addLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, content, author, courseId, time, description, status, files } = req.body;
+    const { title, content, author, courseId, time, description, status } = value;
 
     const checkTitle = await getDetailLessonMd({ title });
     if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
 
     const checkCourse = await getDetailCourseMd({ _id: courseId, status: 1 });
     if (!checkCourse) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
+
+    let files = []
+    if (req.files) {
+      for (let file of req.files) {
+        files.push(await uploadFileToFirebase(file))
+      }
+    }
 
     const data = await addLessonMd({
       by: req.userInfo._id,
@@ -115,9 +115,9 @@ export const addLesson = async (req, res) => {
 
 export const updateLesson = async (req, res) => {
   try {
-    const error = validateData(updateLessonValid, req.body);
+    const { error, value } = validateData(updateLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, title, content, author, courseId, time, description, status, files =  [] } = req.body;
+    const { _id, title, content, author, courseId, time, description, status, files =  [] } = value;
 
     const lesson = await getDetailLessonMd({ _id });
     if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
@@ -140,7 +140,7 @@ export const updateLesson = async (req, res) => {
       }
     }
 
-    const data = await updateLessonMd({ _id }, { updateBy: req.userInfo._id, title, content, author, courseId, time, description, status });
+    const data = await updateLessonMd({ _id }, { updateBy: req.userInfo._id, title, content, author, courseId, time, description, status, files });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

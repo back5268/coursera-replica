@@ -7,3 +7,4 @@ export * from './postController';
 export * from './LogController';
 export * from './commentController';
 export * from './courseReviewController';
+export * from './notifyController';

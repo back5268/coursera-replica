@@ -35,6 +35,7 @@ const DetailPost = (props) => {
 
   useEffect(() => {
     if (item?.hashtag && Array.isArray(item.hashtag)) item.hashtag = item?.hashtag?.join(', ');
+    if (item?.image) setImage(item.image)
     if (isUpdate && item._id) {
       if (item.avatar) setImage(item.image)
       for (const key in defaultValues) {

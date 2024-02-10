@@ -10,7 +10,14 @@ import {CourseValidation} from '@lib/validation';
 import {yupResolver} from '@hookform/resolvers/yup';
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {addCourseApi, detailCourseApi, updateCourseApi} from '@api';
+import {
+    addCourseApi,
+    detailCourseApi,
+    getInfoApi,
+    getListCourseInfoApi,
+    getListUserInfoApi,
+    updateCourseApi
+} from '@api';
 import {FormDetail} from '@components/base';
 import {checkEqualProp, removeSpecialCharacter} from '@utils';
 import {courseCharacteristic, courseType} from '@constant';
@@ -18,6 +25,7 @@ import {useParams} from "react-router-dom";
 import {useGetApi} from "@lib/react-query";
 import {TETabs, TETabsContent, TETabsItem, TETabsPane} from "tw-elements-react";
 import Lessons from "@view/admin/courses/Lessons";
+import {useDataState} from "@store";
 
 const defaultValues = {
     name: '',
@@ -27,15 +35,17 @@ const defaultValues = {
     sale: 0,
     description: '',
     status: 1,
+    type: '',
     characteristic: []
 };
 
-const Detail = (props) => {
+const Detail = () => {
+    const { setCourses } = useDataState()
     const {_id} = useParams()
     const [image, setImage] = useState(null);
     const [buttonActive, setButtonActive] = useState("tab1");
     const isUpdate = Boolean(_id)
-    const item = useGetApi(detailCourseApi, {_id}, 'course', isUpdate)
+    const { data: item } = useGetApi(detailCourseApi, {_id}, 'course', isUpdate)
 
     const handleButtonClick = (value) => {
         if (value === buttonActive) {
@@ -57,8 +67,8 @@ const Detail = (props) => {
     });
 
     useEffect(() => {
-        if (isUpdate && item._id) {
-            if (item.avatar) setImage(item.image)
+        if (isUpdate && item?._id) {
+            if (item.image) setImage(item.image)
             const characteristic = [];
             if (item.isHot) characteristic.push('isHot');
             if (item.isNew) characteristic.push('isNew');
@@ -74,12 +84,17 @@ const Detail = (props) => {
         const skills = data.skills?.replace(/ /g, '').split(',') || [];
         const isHot = data.characteristic?.includes('isHot');
         const isNew = data.characteristic?.includes('isNew');
-        const newData = {...data, skills, isHot, isNew, status: data.status ? 1 : 0, characteristic: undefined};
-        if (image) newData.formData = {image}
-        else if (item.image) newData.image = ""
+        const newData = {...data, skills: skills[0] ? skills : undefined, isHot, isNew, status: data.status ? 1 : 0, characteristic: undefined};
+        if (image && image !== item.image) newData.formData = {image}
+        if (!image && item.image) newData.image = ""
         if (isUpdate) return {...checkEqualProp(newData, item), status: data.status ? 1 : 0, _id};
         else return newData;
     };
+
+    const onSuccess = async () => {
+        const courses = await getListCourseInfoApi();
+        if (courses) setCourses(courses)
+    }
 
     return (
         <FormDetail
@@ -90,6 +105,7 @@ const Detail = (props) => {
             updateApi={updateCourseApi}
             handleData={handleData}
             handleSubmit={handleSubmit}
+            onSuccess={onSuccess}
         >
             <TETabs>
                 <TETabsItem
@@ -140,15 +156,11 @@ const Detail = (props) => {
                     </div>
                 </TETabsPane>
                 <TETabsPane show={buttonActive === "tab2"}>
-                    <Lessons/>
+                    <Lessons data={item?.lessons} />
                 </TETabsPane>
             </TETabsContent>
         </FormDetail>
     );
 };
-
-const DetailCourse = () => {
-    return
-}
 
 export default Detail;

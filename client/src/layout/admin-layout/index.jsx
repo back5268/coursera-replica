@@ -16,7 +16,7 @@ const AdminLayout = (props) => {
     setIsAuthenticated(false);
     localStorage.removeItem('token');
     showToast({ title: 'Đăng xuất thành công', severity: 'success' });
-    navigate('/auth/signin');
+    navigate('/');
   };
 
   return (

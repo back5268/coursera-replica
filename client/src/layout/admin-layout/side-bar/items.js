@@ -5,7 +5,7 @@ import { BiQuestionMark } from 'react-icons/bi';
 import { BiSolidDashboard } from 'react-icons/bi';
 
 export const items = [
-  { label: 'Dashboard', icon: BiSolidDashboard, route: '/' },
+  { label: 'Dashboard', icon: BiSolidDashboard, route: '' },
   { label: 'Quản lý người dùng', icon: BiNews, route: '/users' },
   { label: 'Quản lý khóa học', icon: BiSolidBookContent, route: '/courses' },
   { label: 'Quản lý bài giảng', icon: BiSolidFile, route: '/lessons' },

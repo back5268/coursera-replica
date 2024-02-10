@@ -9,6 +9,7 @@ export const authMiddleware = async (req, res, next) => {
   try {
     const checkToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
     const userInfo = await getDetailUserMd({ _id: checkToken._id });
+    if (!userInfo) return res.status(401).json({ status: false, mess: 'Token không hợp lệ!' });
     req.userInfo = userInfo;
     next();
   } catch (error) {

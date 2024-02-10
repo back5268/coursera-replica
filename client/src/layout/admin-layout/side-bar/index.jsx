@@ -26,7 +26,7 @@ const Sidebar = (props) => {
   }, []);
 
   useEffect(() => {
-    const item = pathname !== '/admin/' ? items.find(i => i.route !== '/' && pathname.includes(i.route)) : { route: '/', label: 'Dashboard' }
+    const item = pathname !== '/admin' ? items.find(i => i.route !== '' && pathname.includes(i.route)) : { route: '', label: 'Dashboard' }
     if (item) {
       setSelect(item.route);
       document.title = item.label

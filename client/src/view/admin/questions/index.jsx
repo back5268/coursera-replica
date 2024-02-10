@@ -25,8 +25,8 @@ const Filter = ({setParams, courses, lessons = []}) => {
                 label="Khóa học"
             />
             <SelectFormV2
-                value={filter.LessonId}
-                onValueChange={(e) => setFilter({ ...filter, LessonId: e.value })}
+                value={filter.lessonId}
+                onValueChange={(e) => setFilter({ ...filter, lessonId: e.value })}
                 data={lessons.map(c => {
                     if (filter.courseId) {
                         if (c.courseId === filter.courseId) return { label: c.title, key: c._id}
@@ -49,7 +49,7 @@ const Questions = () => {
         {
             label: 'Bài giảng', body: (item) => {
                 const lesson = lessons.find((c) => c._id === item.lessonId)
-                if (lesson) return <Link to={`/admin/lessons/detail/${lesson._id}`}>{lesson.name}</Link>
+                if (lesson) return <Link to={`/admin/lessons/detail/${lesson._id}`}>{lesson.title}</Link>
             }
         },
         {label: 'Câu hỏi', field: 'content'},
@@ -57,9 +57,9 @@ const Questions = () => {
             label: 'Câu trả lời', body: (item) => {
                 const answers = item.answers
                 if (Array.isArray(answers) && answers.length > 0) {
-                    return answers.map((a, index) => <>
-                        <span key={index}>{String.fromCharCode(65 + index)}. {a.label}</span> <br/>
-                    </>)
+                    return answers.map((a, index) => <div key={index}>
+                        <span>{String.fromCharCode(65 + index)}. {a.label}</span> <br/>
+                    </div>)
                 }
             }
         },

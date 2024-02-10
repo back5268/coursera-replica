@@ -9,7 +9,7 @@ const ConfirmModal = () => {
     <Modal size="md" show={show} setShow={hideConfirm} title="Coursera Replica">
       <div className="p-6">{confirmInfo.title || 'Bạn có chắc chắn muốn tiếp tục?'}</div>
       <Hr />
-      <div className="flex gap-2 justify-end py-4">
+      <div className="flex gap-2 justify-end py-4 mr-4">
         <Button label="Hủy" severity="secondary" onClick={() => hideConfirm()} />
         <Button
           label="Xác nhận"

@@ -18,9 +18,9 @@ import {uploadFileToFirebase} from "@lib/firebase";
 
 export const getListCourse = async (req, res) => {
   try {
-    const error = validateData(listCourseValid, req.query);
+    const { error, value } = validateData(listCourseValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, status, type } = req.query;
+    const { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, status, type } = value;
     const where = {};
     where.$and = [{ price: { $gte: fromPrice } }, { price: { $lte: toPrice } }];
     if (keySearch) where.$or = [{ name: { $regex: keySearch, $options: 'i' } }, { code: { $regex: keySearch, $options: 'i' } }];
@@ -45,10 +45,10 @@ export const getListCourseInfo = async (req, res) => {
 
 export const detailCourse = async (req, res) => {
   try {
-    const error = validateData(detailCourseValid, req.query);
+    const { error, value } = validateData(detailCourseValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id } = req.query;
-    const data = await getDetailCourseMd({ _id }, ['Lesson']);
+    const { _id } = value;
+    const data = await getDetailCourseMd({ _id }, ['lessons']);
     if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -58,9 +58,9 @@ export const detailCourse = async (req, res) => {
 
 export const deleteCourse = async (req, res) => {
   try {
-    const error = validateData(detailCourseValid, req.body);
+    const { error, value } = validateData(detailCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id } = req.body;
+    const { _id } = value;
 
     const course = await getDetailCourseMd({ _id });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
@@ -77,18 +77,20 @@ export const deleteCourse = async (req, res) => {
 
 export const addCourse = async (req, res) => {
   try {
-    if (req.file) {
-      req.body.image = await uploadFileToFirebase(req.file)
-    }
-    const error = validateData(addCourseValid, req.body);
+    const { error, value } = validateData(addCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { name, code, description, skills, price, sale, type, status, isHot, isNew, image } = req.body;
+    const { name, code, description, skills, price, sale, type, status, isHot, isNew } = value;
 
     const checkName = await getDetailCourseMd({ name });
     if (checkName) return res.status(400).json({ status: false, mess: 'Tên khóa học đã tồn tại!' });
 
     const checkCode = await getDetailCourseMd({ code });
     if (checkCode) return res.status(400).json({ status: false, mess: 'Mã khóa học đã tồn tại!' });
+
+    let image
+    if (req.file) {
+      image = await uploadFileToFirebase(req.file)
+    }
 
     const slug = removeSpecialCharacter(name);
     const data = await addCourseMd({
@@ -114,10 +116,9 @@ export const addCourse = async (req, res) => {
 
 export const updateCourse = async (req, res) => {
   try {
-    const error = validateData(updateCourseValid, req.body);
+    const { error, value } = validateData(updateCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, name, code, description, skills, price, sale, type, status, isHot, isNew, image } = req.body;
-
+    let { _id, name, code, description, skills, price, sale, type, status, isHot, isNew, image } = value;
     const course = await getDetailCourseMd({ _id });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 

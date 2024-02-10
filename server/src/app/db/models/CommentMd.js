@@ -12,6 +12,7 @@ class CommentMd extends ModelBase {
     type
     status
     parentId
+    objectId
     deletedAt
 }
 
@@ -34,6 +35,7 @@ CommentMd.init('Comment', {
         description: '0: Chờ trả lời, 1: Đã tiếp nhận, 2: Đã xử lý'
     },
     parentId: {type: String},
+    objectId: {type: String},
     deletedAt: {type: Date}
 });
 

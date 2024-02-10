@@ -9,7 +9,7 @@ class PostMd extends ModelBase {
   content
   time
   hashtag
-  votes
+  likes
   comments
   image
   deletedAt
@@ -21,7 +21,7 @@ PostMd.init('Post', {
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
   hashtag: [{type: String}],
-  votes: [{ type: ObjectId, ref: 'User' }],
+  likes: [{ type: ObjectId, ref: 'User' }],
   comments: [{ type: ObjectId, ref: 'Comment' }],
   image: { type: String },
   deletedAt: { type: Date }

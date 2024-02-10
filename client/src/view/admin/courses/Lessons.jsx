@@ -1,5 +1,4 @@
 import {DataTable, NumberBody, TimeBody} from "@components/base";
-import {updateLessonApi} from "@api";
 import {useNavigate} from "react-router-dom";
 
 const Lessons = ({data}) => {
@@ -14,9 +13,8 @@ const Lessons = ({data}) => {
 
     return <DataTable
         data={data} totalRecord={data?.length} columns={columns} rows={[100]}
-        baseActions={['insert', 'detail']}
+        baseActions={['insert', 'detail']} hideParams
         actionsInfo={{onViewDetail: (item) => navigate(`/admin/lessons/detail/${item._id}`)}}
-        statusInfo={{changeStatusApi: updateLessonApi}}
         headerInfo={{onInsert: () => navigate('/admin/lessons/insert')}}/>
 }
 

@@ -15,7 +15,7 @@ const useUserState = create((set, get) => ({
   userInfo: initState,
   isAuthenticated: false,
   role: false,
-  setUserInfo: (userInfo) => set({ userInfo, isAuthenticated: true, role: userInfo.role }),
+  setUserInfo: (userInfo) => set({ userInfo, isAuthenticated: true, role: userInfo?.role }),
   clearUserInfo: () => set({ userInfo: initState, isAuthenticated: false, role: false })
 }));
 

@@ -31,5 +31,5 @@ export const updateLessonValid = {
   time: { type: 'number', allowNull: true },
   description: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true },
-  files: { type: 'array', allowNull: true },
+  files: { type: 'json', allowNull: true },
 };

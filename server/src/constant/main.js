@@ -3,7 +3,7 @@ export const VALIDATE_TYPE = {
   STRING: 'string',
   NUMBER: 'number',
   PHONE: 'phone',
-  ARRAY: 'array',
+  JSON: 'json',
   BOOLEAN: 'boolean',
   DATE: 'date',
   DATETIME: 'datetime',

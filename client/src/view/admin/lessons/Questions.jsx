@@ -1,20 +1,16 @@
 import {DataTable, TimeBody} from "@components/base";
-import {updateLessonApi} from "@api";
 import React from "react";
-import {useNavigate} from "react-router-dom";
 
-const Questions = ({data, isLoading}) => {
-    const navigate = useNavigate()
-
+const Questions = ({data, isLoading, setShow}) => {
     const columns = [
         {label: 'Câu hỏi', field: 'content'},
         {
             label: 'Câu trả lời', body: (item) => {
                 const answers = item.answers
                 if (Array.isArray(answers) && answers.length > 0) {
-                    return answers.map((a, index) => <>
-                        <span key={index}>{String.fromCharCode(65 + index)}. {a.label}</span> <br/>
-                    </>)
+                    return answers.map((a, index) => <div key={index}>
+                        <span>{String.fromCharCode(65 + index)}. {a.label}</span> <br/>
+                    </div>)
                 }
             }
         },
@@ -32,13 +28,12 @@ const Questions = ({data, isLoading}) => {
     ];
 
     return <DataTable
-            isLoading={isLoading}
-            data={data} totalRecord={data?.length} columns={columns} rows={[100]}
-            baseActions={['insert', 'detail']}
-            actionsInfo={{onViewDetail: (item) => navigate(`/admin/lessons/detail/${item._id}`)}}
-            statusInfo={{changeStatusApi: updateLessonApi}}
-            headerInfo={{onInsert: () => navigate('/admin/lessons/insert')}}/>
-
+        isLoading={isLoading}
+        data={data} totalRecord={data?.length} columns={columns} rows={[100]}
+        baseActions={['insert', 'detail']} hideParams
+        actionsInfo={{onViewDetail: (item) => setShow(item._id)}}
+        headerInfo={{onInsert: () => setShow(true)}}
+    />
 }
 
 export default Questions
