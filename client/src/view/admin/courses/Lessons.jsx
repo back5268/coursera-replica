@@ -5,6 +5,7 @@ const Lessons = ({data}) => {
     const navigate = useNavigate()
     const columns = [
         {label: 'Tiêu đề bài giảng', field: 'title'},
+        {label: 'Mã bài giảng', field: 'code'},
         {label: 'Tác giả', field: 'author'},
         {label: 'Thời gian học', body: (item) => NumberBody(item.time)},
         {label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt)},

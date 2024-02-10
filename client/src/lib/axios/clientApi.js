@@ -21,6 +21,7 @@ clientApi.interceptors.request.use(
 clientApi.interceptors.response.use(
   async function (res) {
     if (res && res.data && res.data.status) return res.data.data;
+    else return res.data
   },
   async function (error) {
     if (error?.response?.data) {

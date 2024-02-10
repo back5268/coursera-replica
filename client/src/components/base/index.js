@@ -10,4 +10,5 @@ export { default as FormList } from './FormList';
 export { default as DataFilter } from './DataFilter';
 export { default as Pagination } from './Pagination';
 export { default as FormAuth } from './FormAuth';
+export { default as Import } from './Import';
 export * from './BodyTable';

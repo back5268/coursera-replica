@@ -1,15 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BiSearch, BiTrash} from 'react-icons/bi';
 import {useToastState, useConfirmState} from '@store';
 import {Loading, Pagination} from '.';
 import {Button, Switch} from '@components/uiCore';
 import {useLocation, useNavigate} from "react-router-dom";
+import {removeSpecialCharacter} from "@utils";
 
 const DataTable = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const {showConfirm} = useConfirmState();
     const {showToast} = useToastState();
+    const [loading, setLoading] = useState(false)
     const {
         title,
         data = [],
@@ -39,8 +41,7 @@ const DataTable = (props) => {
     const {
         onInsert = () => {
         }, onImport = () => {
-        }, onExport = () => {
-        }
+        }, exportApi
     } = headerInfo;
     const {
         changeStatusApi = () => {
@@ -57,6 +58,19 @@ const DataTable = (props) => {
                 onSuccess(item)
             }
         });
+    };
+
+    const onExport = async () => {
+        setLoading(true)
+        const response = await exportApi({ ...params, page: undefined, limit: undefined })
+        setLoading(false)
+        if (response) {
+            const downloadLink = document.createElement('a')
+            downloadLink.href = URL.createObjectURL(response)
+            downloadLink.download = (title && `ket-qua-export-${removeSpecialCharacter(title)}.xlsx`) || 'data.xlsx'
+            downloadLink.click()
+            showToast({title: `Export ${title} thành công!`, severity: 'success'});
+        }
     };
 
     const onChangeStatus = (item) => {
@@ -102,8 +116,8 @@ const DataTable = (props) => {
                         </Button>
                     )}
                     {baseActions.includes('export') && (
-                        <Button severity="info" onClick={onExport}>
-                            Export
+                        <Button severity="info" onClick={onExport} disabled={loading}>
+                            {loading && <Loading size={4} severity="neutral"/>} Export
                         </Button>
                     )}
                 </div>

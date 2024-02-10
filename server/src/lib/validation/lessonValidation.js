@@ -14,6 +14,7 @@ export const detailLessonValid = {
 
 export const addLessonValid = {
   title: 'string',
+  code: 'string',
   content: 'string',
   author: 'string',
   courseId: 'string',
@@ -25,6 +26,7 @@ export const addLessonValid = {
 export const updateLessonValid = {
   _id: 'string',
   title: { type: 'string', allowNull: true },
+  code: { type: 'string', allowNull: true },
   content: { type: 'string', allowNull: true },
   author: { type: 'string', allowNull: true },
   courseId: { type: 'string', allowNull: true },

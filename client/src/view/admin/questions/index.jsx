@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {deleteQuestionApi, getListQuestionApi, updateQuestionApi} from '@api';
+import {deleteQuestionApi, exportQuestionApi, getListQuestionApi, updateQuestionApi} from '@api';
 import {InputFormV2, SelectFormV2} from '@components/form';
 import {useGetParams} from '@hook';
 import {useGetApi} from '@lib/react-query';
@@ -7,6 +7,7 @@ import DetailQuestion from './Detail';
 import {DataFilter, FormList, TimeBody} from '@components/base';
 import {useDataState} from '@store';
 import {Link} from "@components/uiCore";
+import ImportQuestion from "@view/admin/questions/ImportQuestion";
 
 const Filter = ({setParams, courses, lessons = []}) => {
     const [filter, setFilter] = useState({});
@@ -44,6 +45,7 @@ const Questions = () => {
     const [params, setParams] = useState(initParams);
     const {courses, lessons} = useDataState();
     const [show, setShow] = useState(false);
+    const [showImport, setShowImport] = useState(false);
 
     const columns = [
         {
@@ -80,6 +82,7 @@ const Questions = () => {
 
     return (
         <>
+            <ImportQuestion show={showImport} setShow={setShowImport} setParams={setParams} />
             <DetailQuestion show={show} setShow={setShow} setParams={setParams} data={data?.documents}
                             lessons={lessons}/>
             <FormList
@@ -93,7 +96,7 @@ const Questions = () => {
                 baseActions={['insert', 'detail', 'delete', 'import', 'export']}
                 actionsInfo={{onViewDetail: (item) => setShow(item._id), deleteApi: deleteQuestionApi}}
                 statusInfo={{changeStatusApi: updateQuestionApi}}
-                headerInfo={{onInsert: () => setShow(true)}}
+                headerInfo={{onInsert: () => setShow(true), onImport: () => setShowImport(true), exportApi: exportQuestionApi }}
             ><Filter setParams={setParams} courses={courses} lessons={lessons}/></FormList>
         </>
     );

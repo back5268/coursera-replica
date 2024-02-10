@@ -19,7 +19,7 @@ export const postData = (url, data, isUpload = false, blob = false, timeout = 60
 export const getData = (url, params, blob = false, timeout = 600000) => {
   params = convertData(params);
   if (blob)
-    return clientApi.get(url + '?' + params, {
+    return clientApi.get(url, {
       params,
       timeout,
       responseType: 'blob',

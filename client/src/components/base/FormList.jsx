@@ -8,7 +8,7 @@ const FormList = (props) => {
         <div className="p-6 bg-white rounded-lg shadow-xl">
             <h2 className="font-semibold uppercase leading-normal text-neutral-800 dark:text-neutral-200">{title}</h2>
             {children}
-            <DataTable {...prop} />
+            <DataTable title={title?.toLowerCase()} {...prop} />
         </div>
     );
 };

@@ -17,7 +17,7 @@ const Filter = ({setParams, courses = []}) => {
             <InputFormV2
                 value={filter.keySearch}
                 onChange={(e) => setFilter({...filter, keySearch: e.target.value})}
-                label="Tìm kiếm theo tiêu đề, tác giả"
+                label="Tìm kiếm theo tiêu đề, mã, tác giả"
             />
             <SelectFormV2
                 value={filter.courseId}
@@ -50,6 +50,7 @@ const Lessons = () => {
             }
         },
         {label: 'Tiêu đề bài giảng', field: 'title'},
+        {label: 'Mã bài giảng', field: 'code'},
         {label: 'Tác giả', field: 'author'},
         {label: 'Thời gian học', body: (item) => NumberBody(item.time)},
         {label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt)},

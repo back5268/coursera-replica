@@ -21,6 +21,7 @@ import DetailQuestion from "@view/admin/questions/Detail";
 const defaultValues = {
     courseId: '',
     title: '',
+    code: '',
     author: '',
     time: 0,
     content: '',
@@ -132,6 +133,8 @@ const DetailLesson = (props) => {
                                     errors={errors}
                                 />
                                 <InputFormDetail id="title" label="Tiêu đề (*)" register={register}
+                                                 errors={errors}/>
+                                <InputFormDetail id="code" label="Mã bài giảng (*)" register={register}
                                                  errors={errors}/>
                                 <InputFormDetail id="author" label="Tác giả (*)" register={register}
                                                  errors={errors}/>

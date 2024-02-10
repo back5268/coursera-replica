@@ -25,3 +25,10 @@ export const updateQuestionValid = {
   answers: { type: 'json', allowNull: true },
   status: { type: 'number', allowNull: true }
 };
+
+export const exportQuestionValid = {
+  keySearch: { type: 'string', allowNull: true },
+  courseId: { type: 'string', allowNull: true },
+  lessonId: { type: 'string', allowNull: true },
+  status: { type: 'number', allowNull: true },
+};
