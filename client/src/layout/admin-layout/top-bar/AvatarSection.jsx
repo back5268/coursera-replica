@@ -13,7 +13,7 @@ const items = [
   { label: 'Bài viết đã lưu', icon: FiUser }
 ];
 
-const AvatarSection = ({ onSignOut }) => {
+const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
   const { userInfo } = useAuthContext();
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
@@ -74,9 +74,9 @@ const AvatarSection = ({ onSignOut }) => {
           ))}
         </ul>
         <div className="flex flex-col gap-2 my-4">
-          <Button onClick={() => navigate('/')} className={`w-full flex gap-2 truncate`} severity="secondary">
+          <Button onClick={() => navigate(mode === 'admin' ? '/' : '/admin')} className={`w-full flex gap-2 truncate`} severity="secondary">
             <IoNavigateOutline size={16} />
-            <span>Chuyển đến trang chủ</span>
+            <span>{mode === 'admin' ? 'Chuyển đến trang chủ' : 'Chuyển đến trang admin'}</span>
           </Button>
           <Button onClick={() => onSignOut()} className={`w-full flex gap-2 truncate`}>
             <BiLogOut size={16} />

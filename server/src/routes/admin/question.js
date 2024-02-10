@@ -1,14 +1,7 @@
-import {
-    addQuestion,
-    deleteQuestion,
-    detailQuestion, exportQuestion,
-    getListQuestion,
-    importQuestion,
-    updateQuestion
-} from '@controller';
+import { addQuestion, deleteQuestion, detailQuestion, exportQuestion, getListQuestion, importQuestion, updateQuestion } from '@controller';
 import { staffMiddleware } from '@middleware';
 import express from 'express';
-import {upload} from "@lib/multer";
+import { upload } from '@lib/multer';
 
 export const questionRouter = express.Router();
 

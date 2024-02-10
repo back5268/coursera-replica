@@ -12,5 +12,5 @@ export const items = [
   { label: 'Quản lý câu hỏi', icon: BiQuestionMark, route: '/questions' },
   { label: 'Quản lý bài viết', icon: BiNews, route: '/posts' },
   { label: 'Phản hồi người dùng', icon: BiNews, route: '/feedbacks' },
-  { label: 'Lịch sử gửi thông báo', icon: BiNews, route: '/log' },
+  { label: 'Lịch sử gửi thông báo', icon: BiNews, route: '/log' }
 ];

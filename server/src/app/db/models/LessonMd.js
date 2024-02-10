@@ -4,18 +4,18 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class LessonMd extends ModelBase {
-  by
-  courseId
-  updateBy
-  title
-  code
-  content
-  author
-  time
-  description
-  files
-  status
-  deletedAt
+  by;
+  courseId;
+  updateBy;
+  title;
+  code;
+  content;
+  author;
+  time;
+  description;
+  files;
+  status;
+  deletedAt;
 }
 
 LessonMd.init('Lesson', {

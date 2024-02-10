@@ -11,7 +11,7 @@ const TopBar = (props) => {
         <div className="flex items-center w-full h-full justify-end">
           <div className="flex gap-4 items-center">
             <NotifySection />
-            <AvatarSection onSignOut={onSignOut} />
+            <AvatarSection mode='admin' onSignOut={onSignOut} />
           </div>
         </div>
       </div>

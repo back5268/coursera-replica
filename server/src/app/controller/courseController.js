@@ -1,9 +1,4 @@
-import {
-  addCourseValid,
-  listCourseValid,
-  updateCourseValid,
-  detailCourseValid
-} from '@lib/validation';
+import { addCourseValid, listCourseValid, updateCourseValid, detailCourseValid } from '@lib/validation';
 import {
   addCourseMd,
   countListCourseMd,
@@ -14,7 +9,7 @@ import {
   updateCourseMd
 } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
-import {uploadFileToFirebase} from "@lib/firebase";
+import { uploadFileToFirebase } from '@lib/firebase';
 
 export const getListCourse = async (req, res) => {
   try {
@@ -65,8 +60,9 @@ export const deleteCourse = async (req, res) => {
     const course = await getDetailCourseMd({ _id });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
-    const checkLesson = await getListLessonMd({ courseId: _id })
-    if (checkLesson.length > 0) return res.status(400).json({ status: false, mess: 'Khóa học đã có bài giảng, vui lòng xóa hết bài giảng trước khi xóa khóa học!' });
+    const checkLesson = await getListLessonMd({ courseId: _id });
+    if (checkLesson.length > 0)
+      return res.status(400).json({ status: false, mess: 'Khóa học đã có bài giảng, vui lòng xóa hết bài giảng trước khi xóa khóa học!' });
 
     const data = await deleteCourseMd({ _id });
     res.status(201).json({ status: true, data });
@@ -87,9 +83,9 @@ export const addCourse = async (req, res) => {
     const checkCode = await getDetailCourseMd({ code });
     if (checkCode) return res.status(400).json({ status: false, mess: 'Mã khóa học đã tồn tại!' });
 
-    let image
+    let image;
     if (req.file) {
-      image = await uploadFileToFirebase(req.file)
+      image = await uploadFileToFirebase(req.file);
     }
 
     const slug = removeSpecialCharacter(name);
@@ -133,7 +129,7 @@ export const updateCourse = async (req, res) => {
     }
 
     if (req.file) {
-      image = await uploadFileToFirebase(req.file)
+      image = await uploadFileToFirebase(req.file);
     }
 
     const data = await updateCourseMd(

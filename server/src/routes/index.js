@@ -2,7 +2,7 @@ import { authMiddleware } from '@middleware';
 import { authRouter } from './auth';
 import { adminRouter } from './admin';
 import { infoRouter } from './info';
-import {webRouter} from "./web";
+import { webRouter } from './web';
 
 export const routes = (app) => {
   app.use('/auth', authRouter);

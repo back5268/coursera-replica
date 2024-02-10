@@ -21,5 +21,5 @@ export const updatePostValid = {
   content: { type: 'string', allowNull: true },
   time: { type: 'number', allowNull: true },
   hashtag: { type: 'json', allowNull: true },
-  image: { type: 'string', allowNull: true },
+  image: { type: 'string', allowNull: true }
 };

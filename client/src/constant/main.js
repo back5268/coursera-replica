@@ -16,7 +16,7 @@ export const courseType = [
   { label: 'Kỹ năng đời sống', key: 3 },
   { label: 'Thiết kế', key: 4 },
   { label: 'Thể thao - Sức khỏe', key: 5 },
-  { label: 'Kinh doanh - Khởi nghiệp', key: 6 },
+  { label: 'Kinh doanh - Khởi nghiệp', key: 6 }
 ];
 
 export const courseCharacteristic = [
@@ -34,11 +34,11 @@ export const logType = [
   { label: 'Đăng ký tài khoản', key: 1 },
   { label: 'Quên mật khẩu', key: 2 },
   { label: 'Thanh toán thành công', key: 3 },
-  { label: 'Hoàn thành khóa học', key: 4 },
+  { label: 'Hoàn thành khóa học', key: 4 }
 ];
 
 export const logStatus = [
   { label: 'Đang gửi', key: 0 },
   { label: 'Đã gửi', key: 1 },
-  { label: 'Có lỗi', key: 2 },
+  { label: 'Có lỗi', key: 2 }
 ];

@@ -1,7 +1,7 @@
 import { addPost, deletePost, detailPost, getListPost, updatePost } from '@controller';
 import { staffMiddleware } from '@middleware';
 import express from 'express';
-import {upload} from "@lib/multer";
+import { upload } from '@lib/multer';
 
 export const postRouter = express.Router();
 

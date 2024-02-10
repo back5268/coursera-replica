@@ -18,7 +18,7 @@ class ModelBase {
       query.skip(skip).limit(limit);
     }
     if (populates && populates.length > 0) {
-      populates.forEach(p => query.populate(p))
+      populates.forEach((p) => query.populate(p));
     }
     return query.exec();
   }
@@ -32,7 +32,7 @@ class ModelBase {
     if (!where.deletedAt) where.deletedAt = null;
     const query = this.model.findOne(where, attr);
     if (populates && populates.length > 0) {
-      populates.forEach(p => query.populate(p))
+      populates.forEach((p) => query.populate(p));
     }
     return query.exec();
   }

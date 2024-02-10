@@ -1,5 +1,5 @@
 import express from 'express';
-import {getListCourseInfo, getListLessonInfo, getListUserInfo} from '@controller';
+import { getListCourseInfo, getListLessonInfo, getListUserInfo } from '@controller';
 
 export const infoRouter = express.Router();
 

@@ -1,7 +1,7 @@
 import { addLesson, deleteLesson, detailLesson, getListLesson, updateLesson } from '@controller';
 import { staffMiddleware } from '@middleware';
 import express from 'express';
-import {upload} from "@lib/multer";
+import { upload } from '@lib/multer';
 
 export const lessonRouter = express.Router();
 

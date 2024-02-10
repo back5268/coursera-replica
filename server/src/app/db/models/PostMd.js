@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class PostMd extends ModelBase {
-  by
-  title
-  content
-  time
-  hashtag
-  likes
-  comments
-  image
-  deletedAt
+  by;
+  title;
+  content;
+  time;
+  hashtag;
+  likes;
+  comments;
+  image;
+  deletedAt;
 }
 
 PostMd.init('Post', {
@@ -20,7 +20,7 @@ PostMd.init('Post', {
   title: { type: String, required: true },
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
-  hashtag: [{type: String}],
+  hashtag: [{ type: String }],
   likes: [{ type: ObjectId, ref: 'User' }],
   comments: [{ type: ObjectId, ref: 'Comment' }],
   image: { type: String },

@@ -6,5 +6,5 @@ export const VALIDATE_TYPE = {
   JSON: 'json',
   BOOLEAN: 'boolean',
   DATE: 'date',
-  DATETIME: 'datetime',
+  DATETIME: 'datetime'
 };

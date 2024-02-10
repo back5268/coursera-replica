@@ -5,7 +5,7 @@ export const listCourseValid = {
   fromPrice: { type: 'number', allowNull: true },
   toPrice: { type: 'number', allowNull: true },
   type: { type: 'number', allowNull: true },
-  status: { type: 'number', allowNull: true },
+  status: { type: 'number', allowNull: true }
 };
 
 export const detailCourseValid = {
@@ -22,7 +22,7 @@ export const addCourseValid = {
   type: { type: 'number', allowNull: true },
   isHot: { type: 'boolean', allowNull: true },
   isNew: { type: 'boolean', allowNull: true },
-  status: { type: 'number', allowNull: true },
+  status: { type: 'number', allowNull: true }
 };
 
 export const updateCourseValid = {
@@ -37,5 +37,5 @@ export const updateCourseValid = {
   isHot: { type: 'boolean', allowNull: true },
   isNew: { type: 'boolean', allowNull: true },
   status: { type: 'number', allowNull: true },
-  image: { type: 'string', allowNull: true },
+  image: { type: 'string', allowNull: true }
 };

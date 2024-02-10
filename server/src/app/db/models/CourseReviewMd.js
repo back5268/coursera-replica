@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class CourseReviewMd extends ModelBase {
-  userId
-  courseId
-  rating
-  content
-  deletedAt
+  userId;
+  courseId;
+  rating;
+  content;
+  deletedAt;
 }
 
 CourseReviewMd.init('CourseReview', {

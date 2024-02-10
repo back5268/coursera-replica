@@ -6,7 +6,7 @@ const useDataState = create((set, get) => ({
   users: [],
   setUsers: (users) => set({ users }),
   setCourses: (courses) => set({ courses }),
-  setLessons: (lessons) => set({ lessons }),
+  setLessons: (lessons) => set({ lessons })
 }));
 
 const getDataState = () => useDataState.getState();

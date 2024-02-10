@@ -20,7 +20,7 @@ export const addUserValid = {
   address: { type: 'string', allowNull: true },
   role: { type: 'string', allowNull: true },
   avatar: { type: 'string', allowNull: true },
-  status: { type: 'number', allowNull: true },
+  status: { type: 'number', allowNull: true }
 };
 
 export const updateUserValid = {
@@ -33,5 +33,5 @@ export const updateUserValid = {
   address: { type: 'string', allowNull: true },
   role: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true },
-  avatar: { type: 'string', allowNull: true },
+  avatar: { type: 'string', allowNull: true }
 };

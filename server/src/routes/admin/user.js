@@ -1,7 +1,7 @@
 import { addUser, deleteUser, detailUser, getListUser, updateUser } from '@controller';
 import { adminMiddleware } from '@middleware';
 import express from 'express';
-import {upload} from "@lib/multer";
+import { upload } from '@lib/multer';
 
 export const userRouter = express.Router();
 

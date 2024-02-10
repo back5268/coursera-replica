@@ -1,9 +1,9 @@
-import {addUserValid, detailUserValid, listUserValid, updateUserValid} from '@lib/validation';
+import { addUserValid, detailUserValid, listUserValid, updateUserValid } from '@lib/validation';
 import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUserMd } from '@models';
 import { createUserRp } from '@repository';
 import { validateData } from '@utils';
-import {uploadFileToFirebase} from "@lib/firebase";
-import bcrypt from "bcrypt";
+import { uploadFileToFirebase } from '@lib/firebase';
+import bcrypt from 'bcrypt';
 
 export const getListUser = async (req, res) => {
   try {
@@ -64,7 +64,7 @@ export const addUser = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
 
     if (req.file) {
-      value.avatar = await uploadFileToFirebase(req.file)
+      value.avatar = await uploadFileToFirebase(req.file);
     }
 
     const { data, mess } = await createUserRp(value);
@@ -95,7 +95,7 @@ export const updateUser = async (req, res) => {
     }
 
     if (req.file) {
-      avatar = await uploadFileToFirebase(req.file)
+      avatar = await uploadFileToFirebase(req.file);
     }
 
     const attr = { fullName, username, email, bio, address, status, role, avatar };

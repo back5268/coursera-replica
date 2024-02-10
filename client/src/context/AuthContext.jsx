@@ -4,6 +4,7 @@ import { useDataState } from '@store';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export const INITIAL_USER_INFO = {
+  _id: '',
   username: '',
   fullName: '',
   email: '',

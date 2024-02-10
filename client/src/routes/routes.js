@@ -1,17 +1,6 @@
 import { SignIn, SignUp, ForgotPassword, ConfirmPassword } from '@view/auth';
-import { Home } from '@view/web';
-import {
-  Courses,
-  Lessons,
-  Questions,
-  Posts,
-  Users,
-  Dashboard,
-  Feedbacks,
-  Log,
-  DetailCourse,
-  DetailLesson
-} from '@view/admin';
+import { Home, WebCourses, WebPosts } from '@view/web';
+import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson } from '@view/admin';
 
 const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
@@ -20,6 +9,8 @@ const routes = [
   { path: '/auth/confirm-password', element: ConfirmPassword, public: true },
 
   { path: '/', element: Home, layout: 'web', public: true },
+  { path: '/courses', element: WebCourses, layout: 'web', public: true },
+  { path: '/posts', element: WebPosts, layout: 'web', public: true },
 
   { path: '/admin', element: Dashboard, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/courses', element: Courses, layout: 'admin', roles: ['staff', 'admin'] },

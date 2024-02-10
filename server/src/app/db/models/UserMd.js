@@ -4,19 +4,19 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class UserMd extends ModelBase {
-  fullName
-  username
-  email
-  password
-  bio
-  address
-  avatar
-  role
-  courses
-  posts
-  saves
-  status
-  deletedAt
+  fullName;
+  username;
+  email;
+  password;
+  bio;
+  address;
+  avatar;
+  role;
+  courses;
+  posts;
+  saves;
+  status;
+  deletedAt;
 }
 
 UserMd.init('User', {
@@ -32,7 +32,7 @@ UserMd.init('User', {
   posts: [{ type: ObjectId, ref: 'Post' }],
   saves: [{ type: ObjectId, ref: 'Post' }],
   status: { type: Number, enum: [0, 1], default: 1 },
-  deletedAt: { type: Date },
+  deletedAt: { type: Date }
 });
 
 export const getListUserMd = (where, page, limit, populates, sort, attr) => {

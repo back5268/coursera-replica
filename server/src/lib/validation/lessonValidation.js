@@ -1,4 +1,4 @@
-import {array} from "joi";
+import { array } from 'joi';
 
 export const listLessonValid = {
   page: 'number',
@@ -33,5 +33,5 @@ export const updateLessonValid = {
   time: { type: 'number', allowNull: true },
   description: { type: 'string', allowNull: true },
   status: { type: 'number', allowNull: true },
-  files: { type: 'json', allowNull: true },
+  files: { type: 'json', allowNull: true }
 };
