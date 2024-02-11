@@ -16,7 +16,7 @@ const ButtonPagination = ({ content, onClick = () => {}, active }) => {
 };
 
 const Pagination = (props) => {
-  const { totalRecord = 0, params = {}, setParams = () => {}, rows = [10, 20, 50] } = props;
+  const { totalRecord = 0, params = { page: 1, limit: 10 }, setParams = () => {}, rows = [10, 20, 50] } = props;
 
   const renderPageLinks = useCallback(() => {
     const currentPage = params.page;

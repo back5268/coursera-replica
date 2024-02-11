@@ -12,3 +12,4 @@ export { default as Link } from './Link';
 export { default as Hr } from './Hr';
 export { default as InputDate } from './InputDate';
 export { default as Carousel } from './Carousel';
+export { default as Rating } from './Rating';

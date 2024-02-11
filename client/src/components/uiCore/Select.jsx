@@ -2,7 +2,7 @@ import React from 'react';
 import { TESelect } from 'tw-elements-react';
 
 const Select = (props) => {
-  const { id, value = '', onValueChange = () => {}, data = [], dataLabel = 'label', dataValue = 'key', ...prop } = props;
+  const { id, size = 'lg', value = '', onValueChange = () => {}, data = [], dataLabel = 'label', dataValue = 'key', ...prop } = props;
   const handleData = (array) => {
     return array.map((d) => {
       if (typeof d === 'object') return { text: d[dataLabel], value: d[dataValue] };
@@ -17,7 +17,7 @@ const Select = (props) => {
       clearBtn
       preventFirstSelection
       noResultsText="không có kết quả"
-      size="lg"
+      size={size}
       data={handleData(data)}
       {...prop}
     />

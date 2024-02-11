@@ -1,7 +1,7 @@
 export * from './InputForm';
 export * from './SelectForm';
 export { default as TextAreaForm } from './TextAreaForm';
-export { default as MultiCheckBox } from './MultiCheckBox';
+export * from './MultiCheckBox';
 export { default as MultiRadio } from './MultiRadio';
 export { default as SwitchForm } from './SwitchForm';
 export { default as FormDetail } from './FormDetail';

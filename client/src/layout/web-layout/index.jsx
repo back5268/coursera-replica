@@ -1,17 +1,20 @@
 import { INITIAL_USER_INFO, useAuthContext } from '@context/AuthContext';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchSection from './SearchSection';
 import AvatarSection from '@layout/admin-layout/top-bar/AvatarSection';
 import NotifySection from '@layout/admin-layout/top-bar/NotifySection';
 import { Button, Link } from '@components/uiCore';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useToastState } from '@store';
 import Footer from './Footer';
+import { items } from './items';
 
 const WebLayout = ({ children }) => {
   const navigate = useNavigate();
   const { userInfo, setUserInfo, setIsAuthenticated } = useAuthContext();
   const { showToast } = useToastState();
+  const { pathname } = useLocation();
+  const [select, setSelect] = useState(null);
 
   const onSignOut = () => {
     setUserInfo(INITIAL_USER_INFO);
@@ -20,6 +23,14 @@ const WebLayout = ({ children }) => {
     showToast({ title: 'Đăng xuất thành công', severity: 'success' });
     navigate('/');
   };
+
+  useEffect(() => {
+    const item = pathname !== '/' ? items.find((i) => i.route !== '/' && pathname.includes(i.route)) : { route: '/', label: 'Trang chủ' };
+    if (item) {
+      setSelect(item.route);
+      document.title = item.label;
+    }
+  }, [pathname]);
 
   return (
     <div className="m-0 antialiased font-normal dark:bg-slate-900 text-base leading-default text-slate-500">
@@ -31,15 +42,11 @@ const WebLayout = ({ children }) => {
         <div className="flex gap-8 items-center">
           <h2 className="text-xl font-bold uppercase leading-normal">Coursera replica</h2>
           <div className="flex gap-4 text-sm font-bold uppercase leading-normal">
-            <Link to="/">
-              <h2 className="text-slate-500">Trang chủ</h2>
-            </Link>
-            <Link to="/courses">
-              <h2 className="text-slate-500">Khóa học</h2>
-            </Link>
-            <Link to="/posts">
-              <h2 className="text-slate-500">Bài viết</h2>
-            </Link>
+            {items.map((item, index) => (
+              <Link to={item.route} key={index}>
+                <h2 className={select ===  item.route ? 'underline' : 'text-slate-500 underline'}>{item.label}</h2>
+              </Link>
+            ))}
           </div>
         </div>
         <SearchSection />
@@ -55,7 +62,9 @@ const WebLayout = ({ children }) => {
         )}
       </div>
       <div className="relative text-center z-0 mx-auto">
-        <div className="container mt-16 items-center mx-auto">{children}</div>
+        <div className="container mt-16 items-center mx-auto">
+          <div className="w-10/12 mx-auto">{children}</div>
+        </div>
       </div>
       <div className="mt-24">
         <Footer />

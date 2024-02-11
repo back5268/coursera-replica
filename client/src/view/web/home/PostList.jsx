@@ -16,8 +16,8 @@ const PostList = ({ items = [] }) => {
         {items.length > 0 &&
           items.slice(0, 10).map((item, index) => {
             return (
-              <div className="xs:w-6/12 sm:w-4/12 md:w-3/12">
-                <PostCard item={item} key={index} />
+              <div  key={index} className="xs:w-6/12 sm:w-4/12 md:w-3/12">
+                <PostCard item={item} />
               </div>
             );
           })}
