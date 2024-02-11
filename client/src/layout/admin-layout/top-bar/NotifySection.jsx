@@ -28,7 +28,7 @@ const NotifySection = ({ data = [] }) => {
       ${isShow ? 'bg-primary text-white shadow-xl' : 'bg-primary-200 text-primary shadow-md'}`}
       >
         <div className="relative">
-          <MdOutlineNotificationsActive size={24} />
+          <MdOutlineNotificationsActive size={20} />
           <span className="absolute top-0 right-0 block h-2 w-2 rounded-full ring-1 ring-primary-50 bg-red-400" />
         </div>
       </button>

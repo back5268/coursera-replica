@@ -6,6 +6,7 @@ import NotifySection from '@layout/admin-layout/top-bar/NotifySection';
 import { Button, Link } from '@components/uiCore';
 import { useNavigate } from 'react-router-dom';
 import { useToastState } from '@store';
+import Footer from './Footer';
 
 const WebLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -53,8 +54,11 @@ const WebLayout = ({ children }) => {
           </Button>
         )}
       </div>
-      <div className='flex justify-center'>
-        <div className="container mt-20 flex justify-center">{children}</div>
+      <div className="relative text-center z-0 mx-auto">
+        <div className="container mt-16 items-center mx-auto">{children}</div>
+      </div>
+      <div className="mt-24">
+        <Footer />
       </div>
     </div>
   );

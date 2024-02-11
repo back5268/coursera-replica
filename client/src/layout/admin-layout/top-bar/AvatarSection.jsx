@@ -25,6 +25,7 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
       setIsShow(false);
     }
   };
+  console.log(mode);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -36,7 +37,7 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
   return (
     <div ref={ref} className="relative items-center">
       <div onClick={() => setIsShow(!isShow)} className="p-1 rounded-md shadow-xl">
-        <div className={`relative cursor-pointer h-12 w-12 rounded-md bg-cover`} style={{ backgroundImage: `url(${userInfo.avatar || avatar})` }}>
+        <div className={`relative cursor-pointer h-10 w-10 rounded-md bg-cover`} style={{ backgroundImage: `url(${userInfo.avatar || avatar})` }}>
           <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-10"></span>
         </div>
       </div>

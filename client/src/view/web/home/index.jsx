@@ -1,13 +1,240 @@
 import { Carousel } from '@components/uiCore';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import CourseSlider from './CourseSlider';
+import PostList from './PostList';
 
 const Home = () => {
-  const navigate = useNavigate();
-
   return (
-    <Carousel items={['', '', '']} />
-  )
+    <div className="w-10/12 mx-auto">
+      <Carousel
+        items={[
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          }
+        ]}
+      />
+      <CourseSlider
+        items={[
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          },
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          },
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          }
+        ]}
+      />
+      <CourseSlider
+        items={[
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          },
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          },
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          }
+        ]}
+        type="free"
+      />
+      <PostList
+        items={[
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          },
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          },
+          {
+            title: 'First slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
+          },
+          {
+            title: 'Second slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
+          },
+          {
+            title: 'Third slide label',
+            rating: '3/5',
+            price: 500000,
+            sale: 10000,
+            image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
+          }
+        ]}
+      />
+    </div>
+  );
 };
 
 export default Home;
