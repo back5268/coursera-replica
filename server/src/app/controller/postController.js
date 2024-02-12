@@ -57,7 +57,7 @@ export const addPost = async (req, res) => {
   try {
     const { error, value } = validateData(addPostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, content, time, hashtag } = value;
+    const { title, content, time, hashtag, description } = value;
 
     let image;
     if (req.file) {
@@ -70,7 +70,8 @@ export const addPost = async (req, res) => {
       content,
       time,
       hashtag,
-      image
+      image,
+      description
     });
     res.status(201).json({ status: true, data });
   } catch (error) {
@@ -82,7 +83,7 @@ export const updatePost = async (req, res) => {
   try {
     const { error, value } = validateData(updatePostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, title, content, time, hashtag, image } = value;
+    let { _id, title, content, time, hashtag, image, description } = value;
 
     const post = await getDetailPostMd({ _id });
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
@@ -97,7 +98,7 @@ export const updatePost = async (req, res) => {
       image = await uploadFileToFirebase(req.file);
     }
 
-    const data = await updatePostMd({ _id }, { title, content, time, hashtag, image });
+    const data = await updatePostMd({ _id }, { title, content, time, hashtag, image, description });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

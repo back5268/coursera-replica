@@ -9,6 +9,7 @@ class LessonMd extends ModelBase {
   updateBy;
   title;
   code;
+  url;
   content;
   author;
   time;
@@ -22,8 +23,9 @@ LessonMd.init('Lesson', {
   by: { type: ObjectId, ref: 'User', required: true },
   courseId: { type: ObjectId, ref: 'Course', required: true },
   updateBy: { type: ObjectId, ref: 'User' },
-  title: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
   code: { type: String, required: true },
+  url: { type: String, required: true },
   content: { type: String, required: true },
   author: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },

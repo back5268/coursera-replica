@@ -12,6 +12,7 @@ export const addPostValid = {
   title: 'string',
   content: 'string',
   time: 'number',
+  description: { type: 'string', allowNull: true },
   hashtag: { type: 'json', allowNull: true }
 };
 
@@ -19,6 +20,7 @@ export const updatePostValid = {
   _id: 'string',
   title: { type: 'string', allowNull: true },
   content: { type: 'string', allowNull: true },
+  description: { type: 'string', allowNull: true },
   time: { type: 'number', allowNull: true },
   hashtag: { type: 'json', allowNull: true },
   image: { type: 'string', allowNull: true }

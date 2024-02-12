@@ -2,28 +2,33 @@ import mongoose from 'mongoose';
 import { ModelBase } from '@config';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
+const slug = require('mongoose-slug-generator');
 
 class PostMd extends ModelBase {
   by;
   title;
+  slug;
   content;
   time;
   hashtag;
   likes;
   comments;
   image;
+  description;
   deletedAt;
 }
 
 PostMd.init('Post', {
   by: { type: ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
+  slug: { type: String, slug: 'title', unique: true },
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
   hashtag: [{ type: String }],
   likes: [{ type: ObjectId, ref: 'User' }],
   comments: [{ type: ObjectId, ref: 'Comment' }],
   image: { type: String },
+  description: { type: String },
   deletedAt: { type: Date }
 });
 

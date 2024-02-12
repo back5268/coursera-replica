@@ -1,3 +1,4 @@
+import { Button, Link } from '@components/uiCore';
 import React, { useState } from 'react';
 
 const PostCard = ({ item }) => {
@@ -5,7 +6,7 @@ const PostCard = ({ item }) => {
   return (
     <div className='my-2'>
       <div
-        className="relative h-40 px-2 cursor-pointer overflow-hidden"
+        className="relative h-40 px-2 overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -16,12 +17,12 @@ const PostCard = ({ item }) => {
         </div>
         <div className={`absolute rounded-md mx-2 inset-0 justify-center items-center group-hover:flex flex`}>
           {isHovered && <div className="absolute rounded-md inset-0 bg-black bg-opacity-10 opacity-30"></div>}
-          <div
-            className={`rounded-md relative py-2 px-4 bg-primary-100 font-medium z-10
-          duration-300 ease-in-out transform ${isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+          <Link to={`/posts/detail/${item.slug}`}
+            className={`font-medium z-10 duration-300 ease-in-out transform 
+            ${isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
           >
-            <span>Xem bài viết</span>
-          </div>
+            <Button severity="secondary" label="Xem bài viết" />
+          </Link>
         </div>
       </div>
       <div className="mt-2 px-2">

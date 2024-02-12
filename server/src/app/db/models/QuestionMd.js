@@ -17,7 +17,7 @@ QuestionMd.init('Question', {
   by: { type: ObjectId, ref: 'User', required: true },
   lessonId: { type: ObjectId, ref: 'lesson', required: true },
   updateBy: { type: ObjectId, ref: 'User' },
-  content: { type: String, required: true },
+  content: { type: String, required: true, unique: true },
   answers: [{ label: { type: String, required: true }, isAnswer: { type: Boolean, default: false } }],
   status: { type: Number, enum: [0, 1], default: 1 },
   deletedAt: { type: Date }

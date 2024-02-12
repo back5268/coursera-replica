@@ -27,9 +27,9 @@ class CourseMd extends ModelBase {
 CourseMd.init('Course', {
   by: { type: ObjectId, ref: 'User', required: true },
   updateBy: { type: ObjectId, ref: 'User' },
-  name: { type: String, required: true },
-  code: { type: String, required: true },
-  slug: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
+  code: { type: String, required: true, unique: true },
+  slug: { type: String, required: true, unique: true },
   type: {
     type: Number,
     enum: [1, 2, 3, 4, 5, 6],

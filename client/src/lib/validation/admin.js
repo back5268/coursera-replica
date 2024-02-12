@@ -21,6 +21,7 @@ export const LessonValidation = yup.object({
   courseId: yup.string().required('Khóa học không được bỏ trống!'),
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   code: yup.string().required('Tiêu đề không được bỏ trống!'),
+  url: yup.string().required('Video url không được bỏ trống!'),
   content: yup.string().required('Nội dung không được bỏ trống!'),
   author: yup.string().required('Tác giả không được bỏ trống!')
 });
