@@ -1,11 +1,13 @@
+import { getListSearchApi } from '@api';
 import { Hr } from '@components/uiCore';
+import { useGetApi } from '@lib/react-query';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TERipple } from 'tw-elements-react';
 
 const SearchSection = () => {
   const [value, setValue] = useState('');
-  const courses = [];
+  const { data, isLoading } = useGetApi(getListSearchApi, { keySearch: value }, 'search', Boolean(value));
 
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
@@ -24,7 +26,7 @@ const SearchSection = () => {
   }, []);
 
   useEffect(() => {
-    if (value) !isShow && setIsShow(true)
+    if (value) !isShow && setIsShow(true);
     else setIsShow(false);
   }, [value]);
 
@@ -61,49 +63,66 @@ const SearchSection = () => {
           duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
       >
         <div className="p-4 flex flex-col gap-1">
-          {courses.length > 0 ? (
+          {data?.courses?.length > 0 || data?.posts?.length > 0 ? (
             <>
               <p className="text-sm">Kết quả tìm kiếm cho '{value}'</p>
               <Hr />
-              <p className="uppercase font-medium mt-2 text-sm">Khóa học</p>
-              <Hr />
-              <div className="flex flex-col gap-1">
-                {courses.length > 0 &&
-                  courses.slice(0, 3).map((item, index) => {
-                    return (
-                      <Link to={`/courses/detail/${item.slug}`} key={index} className="flex gap-2 items-center text-sm p-2">
-                        <div className="h-[32px] w-[32px]">
-                          <div
-                            className="h-[32px] w-[32px] rounded-full bg-black bg-cover"
-                            style={{ backgroundImage: `url('${item.image}')` }}
-                          ></div>
+              {data?.courses?.length > 0 && (
+                <>
+                  <p className="uppercase font-medium mt-2 text-sm">Khóa học</p>
+                  <Hr />
+                  <div className="flex flex-col gap-2">
+                    {data.courses.map((item, index) => {
+                      return (
+                        <Link
+                          to={`/courses/detail/${item.slug}`}
+                          key={index}
+                          className="hover:bg-primary-50 rounded-md w-full flex gap-4 items-center text-sm p-2"
+                        >
+                          <div className="h-[32px] w-[32px]">
+                            <div
+                              className="h-[32px] w-[32px] rounded-full bg-black bg-cover"
+                              style={{ backgroundImage: `url('${item.image}')` }}
+                            ></div>
+                          </div>
                           <p>{item.name}</p>
-                        </div>
-                      </Link>
-                    );
-                  })}
-              </div>
-              <p className="uppercase font-medium mt-2 text-sm">Bài viết</p>
-              <Hr />
-              <div className="flex flex-col gap-1">
-                {courses.length > 0 &&
-                  courses.slice(0, 3).map((item, index) => {
-                    return (
-                      <Link to={`/courses/detail/${item.slug}`} key={index} className="flex gap-2 items-center text-sm p-2">
-                        <div className="h-[32px] w-[32px]">
-                          <div
-                            className="h-[32px] w-[32px] rounded-full bg-black bg-cover"
-                            style={{ backgroundImage: `url('${item.image}')` }}
-                          ></div>
-                          <p>{item.name}</p>
-                        </div>
-                      </Link>
-                    );
-                  })}
-              </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
+              {data?.posts?.length > 0 && (
+                <>
+                  <p className="uppercase font-medium mt-2 text-sm">Bài viết</p>
+                  <Hr />
+                  <div className="flex flex-col gap-2">
+                    {data.posts.map((item, index) => {
+                      return (
+                        <Link
+                          to={`/courses/detail/${item.slug}`}
+                          key={index}
+                          className="w-full hover:bg-primary-50 rounded-md flex gap-4 items-center text-sm p-2"
+                        >
+                          <div className="h-[32px] w-[32px]">
+                            <div
+                              className="h-[32px] w-[32px] rounded-full bg-black bg-cover"
+                              style={{ backgroundImage: `url('${item.image}')` }}
+                            ></div>
+                          </div>
+                          <p>{item.title}</p>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </>
           ) : (
-            <><p className="text-sm">Không tìm thấy kết quả cho '{value}'</p> <Hr /> </>
+            <>
+              <p className="text-sm">Không tìm thấy kết quả cho '{value}'</p> <Hr />{' '}
+            </>
           )}
         </div>
       </div>

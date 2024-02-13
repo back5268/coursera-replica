@@ -4,8 +4,9 @@ import { MdSend } from 'react-icons/md';
 import { useDropzone } from 'react-dropzone';
 import { Link } from '@components/uiCore';
 import { IoMdClose } from 'react-icons/io';
+import { addCommentApi } from '@api';
 
-export const SendMessage = ({ id, parentId }) => {
+export const SendMessage = ({ id, userInfo, objectId, parentId, type, setShow, setRender }) => {
   const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
 
@@ -18,18 +19,29 @@ export const SendMessage = ({ id, parentId }) => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!userInfo?._id) return setShow(true);
+    const params = { type, parentId, objectId };
+    if (message) params.content = message;
+    if (file) params.formData = { file };
+    const response = await addCommentApi(params);
+    if (response) {
+      setRender((pre) => !pre);
+      setMessage('');
+      setFile(null);
+    }
   };
 
   return (
     <div className="flex gap-2">
       <div className="h-[32px] w-[32px]">
-        <div className="h-[32px] w-[32px] rounded-full bg-black bg-cover" style={{ backgroundImage: `url('')` }}></div>
+        <div className="h-[32px] w-[32px] rounded-full bg-black bg-cover" style={{ backgroundImage: `url('${userInfo?.avatar}')` }}></div>
       </div>
       <form onSubmit={onSubmit} className="w-full relative">
         <input {...getInputProps()} className="cursor-pointer" />
         <input
+          id={id}
           type="search"
           className="w-full py-1 block flex-auto rounded border border-solid border-neutral-300 bg-transparent 
           bg-clip-padding px-3 text-base font-normal leading-[1.6] text-neutral-700 outline-none 
@@ -42,10 +54,10 @@ export const SendMessage = ({ id, parentId }) => {
         />
         <div className="flex gap-3 absolute top-2 right-2">
           <div {...getRootProps()} className="cursor-pointer">
-            <TiFolderOpen size={20} />
+            <TiFolderOpen size={20} className="hover:text-primary-600" />
           </div>
           <button type="submit">
-            <MdSend size={20} />
+            <MdSend size={20} className="hover:text-primary-600" />
           </button>
         </div>
         {file && (

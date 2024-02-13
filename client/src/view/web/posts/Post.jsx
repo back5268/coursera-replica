@@ -29,7 +29,7 @@ const Post = ({ item }) => {
               </p>
             ))}
           <p className="text-sm">{multiFormatDateString(item.createdAt)}</p>
-          <p className="text-sm">-</p>
+          <p className="text-sm">•</p>
           <p className="text-sm">{item.time} phút đọc</p>
         </div>
       </div>

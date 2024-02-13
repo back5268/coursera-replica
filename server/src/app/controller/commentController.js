@@ -1,5 +1,6 @@
-import { addCommentValid, listCommentLessonValid } from '@lib/validation';
-import { countListCommentMd, deleteCommentMd, getDetailCommentMd, getDetailPostMd, getListCommentMd } from '@models';
+import { uploadFileToFirebase } from '@lib/firebase';
+import { addCommentValid, deleteCommentValid, listCommentLessonValid, listCommentValid } from '@lib/validation';
+import { addCommentMd, countListCommentMd, deleteCommentMd, getDetailCommentMd, getListCommentMd } from '@models';
 import { validateData } from '@utils';
 
 export const getListCommentLesson = async (req, res) => {
@@ -21,10 +22,37 @@ export const getListCommentLesson = async (req, res) => {
   }
 };
 
+export const getListComment = async (req, res) => {
+  try {
+    const { error, value } = validateData(listCommentValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { type, objectId, parentId, status } = value;
+    const where = { objectId, type };
+    if (!parentId) where.parentId = null;
+    else if (parentId) where.parentId = parentId;
+    if (status || status === 0) where.status = status;
+    const data = await getListCommentMd(where, false, false, [{ path: 'by', select: 'avatar fullName' }]);
+    if (data && data.length > 0) {
+      for (const datum of data) {
+        datum._doc.count = await countListCommentMd({ objectId, parentId: datum._id, type });
+      }
+    }
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
 export const addComment = async (req, res) => {
   try {
-    const { error, value } = validateData(addCommentValid, req.query);
+    const { error, value } = validateData(addCommentValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
+    const { type, objectId, parentId, content } = value;
+    let file;
+    if (req.file) {
+      file = await uploadFileToFirebase(req.file);
+    }
+    res.json({ status: true, data: await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 }) });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }
@@ -32,7 +60,7 @@ export const addComment = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
   try {
-    const { error, value } = validateData(addCommentValid, req.query);
+    const { error, value } = validateData(deleteCommentValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = value;
 

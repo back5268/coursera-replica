@@ -6,7 +6,6 @@ const ObjectId = Schema.Types.ObjectId;
 class CommentMd extends ModelBase {
   by;
   content;
-  image;
   file;
   likes;
   type;
@@ -19,7 +18,6 @@ class CommentMd extends ModelBase {
 CommentMd.init('Comment', {
   by: { type: ObjectId, ref: 'User', required: true },
   content: { type: String },
-  image: { type: String },
   file: { type: String },
   likes: [{ type: ObjectId, ref: 'User' }],
   type: {

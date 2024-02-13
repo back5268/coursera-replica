@@ -1,6 +1,6 @@
-import { addPostValid, listPostValid, updatePostValid, detailPostValid } from '@lib/validation';
+import { addPostValid, listPostValid, updatePostValid, detailPostValid, detailPostWebValid } from '@lib/validation';
 import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd, updateUserMd } from '@models';
-import { validateData } from '@utils';
+import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
 
 export const getListPost = async (req, res) => {
@@ -53,6 +53,19 @@ export const detailPost = async (req, res) => {
   }
 };
 
+export const detailPostWeb = async (req, res) => {
+  try {
+    const { error, value } = validateData(detailPostWebValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { slug } = value;
+    const data = await getDetailPostMd({ slug }, ['likes', { path: 'by', select: 'fullName avatar' }]);
+    if (!data) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
 export const deletePost = async (req, res) => {
   try {
     const { error, value } = validateData(detailPostValid, req.body);
@@ -86,6 +99,7 @@ export const addPost = async (req, res) => {
       image = await uploadFileToFirebase(req.file);
     }
 
+    const slug = `${Date.now()}-${removeSpecialCharacter(title)}`;
     const data = await addPostMd({
       by: req.userInfo._id,
       title,
@@ -93,6 +107,7 @@ export const addPost = async (req, res) => {
       time,
       hashtag,
       image,
+      slug,
       description
     });
     res.status(201).json({ status: true, data });
@@ -105,11 +120,12 @@ export const updatePost = async (req, res) => {
   try {
     const { error, value } = validateData(updatePostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, title, content, time, hashtag, image, description } = value;
+    let { _id, title, content, time, hashtag, image, description, slug } = value;
 
     const post = await getDetailPostMd({ _id });
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
+    if (title) slug = `${Date.now()}-${removeSpecialCharacter(title)}`;
     if (req.userInfo.role !== 'admin' && post.by !== req.userInfo._id)
       return res.status(400).json({
         status: false,
@@ -120,7 +136,7 @@ export const updatePost = async (req, res) => {
       image = await uploadFileToFirebase(req.file);
     }
 
-    const data = await updatePostMd({ _id }, { title, content, time, hashtag, image, description });
+    const data = await updatePostMd({ _id }, { title, content, time, hashtag, image, description, slug });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

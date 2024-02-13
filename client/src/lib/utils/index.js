@@ -84,6 +84,6 @@ export const multiFormatDateString = (timestamp = '') => {
     case Math.floor(diffInMinutes) >= 1:
       return `${Math.floor(diffInMinutes)} phút trước`;
     default:
-      return 'Just now';
+      return 'vừa xong';
   }
 };

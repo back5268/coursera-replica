@@ -1,4 +1,12 @@
-import { addCourseValid, listCourseValid, updateCourseValid, detailCourseValid, listCourseWebValid } from '@lib/validation';
+import {
+  addCourseValid,
+  listCourseValid,
+  updateCourseValid,
+  detailCourseValid,
+  listCourseWebValid,
+  listSearchValid,
+  detailCourseWebValid
+} from '@lib/validation';
 import {
   addCourseMd,
   countListCourseMd,
@@ -6,6 +14,7 @@ import {
   getDetailCourseMd,
   getListCourseMd,
   getListLessonMd,
+  getListPostMd,
   updateCourseMd
 } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
@@ -62,12 +71,38 @@ export const getListCourseWeb = async (req, res) => {
   }
 };
 
+export const getListSearch = async (req, res) => {
+  try {
+    const { error, value } = validateData(listSearchValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { keySearch } = value;
+    const posts = await getListPostMd({ title: { $regex: keySearch, $options: 'i' } }, 1, 5, false, false, '_id image title slug');
+    const courses = await getListCourseMd({ name: { $regex: keySearch, $options: 'i' } }, 1, 5, false, false, '_id image name slug');
+    res.json({ status: true, data: { posts, courses } });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
 export const detailCourse = async (req, res) => {
   try {
     const { error, value } = validateData(detailCourseValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = value;
     const data = await getDetailCourseMd({ _id }, ['lessons']);
+    if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const detailCourseWeb = async (req, res) => {
+  try {
+    const { error, value } = validateData(detailCourseWebValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { slug } = value;
+    const data = await getDetailCourseMd({ slug }, [{ path: 'lessons', select: 'title time' }, 'reviews']);
     if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -139,13 +174,14 @@ export const updateCourse = async (req, res) => {
   try {
     const { error, value } = validateData(updateCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image } = value;
+    let { _id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image, slug } = value;
     const course = await getDetailCourseMd({ _id });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
     if (name) {
       const checkName = await getDetailCourseMd({ name });
       if (checkName) return res.status(400).json({ status: false, mess: 'Tên khóa học đã tồn tại!' });
+      slug = removeSpecialCharacter(name);
     }
 
     if (code) {
@@ -159,7 +195,7 @@ export const updateCourse = async (req, res) => {
 
     const data = await updateCourseMd(
       { _id },
-      { updateBy: req.userInfo._id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image }
+      { updateBy: req.userInfo._id, name, code, slug, description, skills, requirements, price, sale, type, status, isHot, isNew, image }
     );
     if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
     res.status(201).json({ status: true, data });

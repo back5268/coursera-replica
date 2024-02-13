@@ -1,4 +1,4 @@
-import {getInfoApi, getListCourseInfoApi, getListLessonInfoApi, getListUserInfoApi} from '@api';
+import { getInfoApi, getListCourseInfoApi, getListLessonInfoApi, getListUserInfoApi } from '@api';
 import { Loading } from '@components/base';
 import { useDataState } from '@store';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ export const INITIAL_USER_INFO = {
   bio: '',
   address: '',
   role: '',
+  avatar: '/images/avatar.jpg',
   courses: [],
   posts: []
 };
@@ -27,7 +28,7 @@ const INITIAL_STATE = {
 const AuthContext = createContext(INITIAL_STATE);
 
 export function AuthProvider({ children }) {
-  const { setUsers, setCourses, setLessons } = useDataState()
+  const { setUsers, setCourses, setLessons } = useDataState();
   const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,11 +49,11 @@ export function AuthProvider({ children }) {
   const getData = async () => {
     try {
       const users = await getListUserInfoApi();
-      if (users) setUsers(users)
+      if (users) setUsers(users);
       const courses = await getListCourseInfoApi();
-      if (courses) setCourses(courses)
+      if (courses) setCourses(courses);
       const lessons = await getListLessonInfoApi();
-      if (lessons) setLessons(lessons)
+      if (lessons) setLessons(lessons);
     } catch (error) {
       console.error(error);
       return false;
@@ -66,7 +67,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) checkAuth();
-    getData()
+    getData();
   }, []);
 
   const value = {

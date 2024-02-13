@@ -7,3 +7,4 @@ export * from './question';
 export * from './post';
 export * from './feedback';
 export * from './log';
+export * from './comment';

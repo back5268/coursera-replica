@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import { ModelBase } from '@config';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
-const slug = require('mongoose-slug-generator');
 
 class PostMd extends ModelBase {
   by;

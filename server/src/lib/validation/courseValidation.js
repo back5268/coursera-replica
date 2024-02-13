@@ -20,8 +20,16 @@ export const listCourseWebValid = {
   characteristic: { type: 'json', allowNull: true }
 };
 
+export const listSearchValid = {
+  keySearch: 'string'
+};
+
 export const detailCourseValid = {
   _id: 'string'
+};
+
+export const detailCourseWebValid = {
+  slug: 'string'
 };
 
 export const addCourseValid = {

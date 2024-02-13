@@ -13,6 +13,7 @@ const routes = [
   { path: '/courses/detail/:slug', element: DetailCourseWeb, layout: 'web', public: true },
   { path: '/courses/my-courses', element: MyCourses, layout: 'web', public: true },
   { path: '/posts', element: WebPosts, layout: 'web', public: true },
+  { path: '/posts/detail/:slug', element: DetailPostWeb, layout: 'web', public: true },
   { path: '/posts/my-posts', element: MyPosts, layout: 'web', public: true },
   { path: '/personal', element: Personal, layout: 'web', public: true },
 

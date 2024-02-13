@@ -121,11 +121,9 @@ const Detail = () => {
             <div className="flex flex-wrap sm:w-full lg:w-8/12">
               <InputFormDetail id="name" label="Tên khóa học (*)" register={register} errors={errors} />
               <InputFormDetail id="code" label="Mã khóa học (*)" register={register} errors={errors} />
-              <InputFormDetail label="Slug (*)" value={removeSpecialCharacter(watch('name')) || ''} disabled />
               <SelectFormDetail id="type" label="Thể loại (*)" data={courseType} watch={watch} setValue={setValue} errors={errors} />
               <InputFormDetail type="number" id="price" label="Giá" register={register} errors={errors} />
               <InputFormDetail type="number" id="sale" label="Khuyến mãi" register={register} errors={errors} />
-              <div className='w-6/12'></div>
               <SwitchForm id="status" label="Trạng thái (*)" watch={watch} setValue={setValue} />
               <TextAreaForm id="skills" label="Kỹ năng học được" className="w-full p-2" watch={watch} setValue={setValue} />
               <TextAreaForm id="requirements" label="Yêu cầu" className="w-full p-2" watch={watch} setValue={setValue} />

@@ -8,6 +8,10 @@ export const detailPostValid = {
   _id: 'string'
 };
 
+export const detailPostWebValid = {
+  slug: 'string'
+};
+
 export const addPostValid = {
   title: 'string',
   content: 'string',

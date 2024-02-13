@@ -32,7 +32,7 @@ const PostCard = ({ item }) => {
             ></div>
           </div>
           <span className="text-sm">{item.by?.fullName}</span>
-          <span className="text-sm">-</span>
+          <span className="text-sm">•</span>
           <span className="text-xs">{item.time || 0} phút đọc</span>
         </div>
       </div>

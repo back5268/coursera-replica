@@ -6,3 +6,4 @@ export const addPostApi = (params) => postData('/admin/post/addPost', params, tr
 export const updatePostApi = (params) => postData('/admin/post/updatePost', params, true);
 
 export const getListPostWebApi = (params) => getData('/post/getListPostWeb', params);
+export const detailPostWebApi = (params) => getData('/post/detailPostWeb', params);

@@ -12,7 +12,8 @@ const defaultValues = {
   title: '',
   content: '',
   time: 0,
-  hashtag: ''
+  hashtag: '',
+  description: ''
 };
 
 const DetailPost = (props) => {

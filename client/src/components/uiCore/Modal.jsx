@@ -1,6 +1,5 @@
 import React from 'react';
-import { TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter } from 'tw-elements-react';
-import Button from './Button';
+import { TEModal, TEModalDialog, TEModalContent, TEModalHeader } from 'tw-elements-react';
 
 const Modal = (props) => {
   const { title, show, setShow = () => {}, children, size = "xl", ...prop } = props;
