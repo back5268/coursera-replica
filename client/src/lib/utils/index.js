@@ -36,6 +36,7 @@ export const formatNumber = (amount, round) => {
 
 export const removeSpecialCharacter = (string) => {
   if (string) {
+    string = string.toLowerCase();
     const normalizedString = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const replacedString = normalizedString.replace(/đ/g, 'd').replace(/Đ/g, 'D');
     return replacedString.replace(/\s+/g, '-');
@@ -75,13 +76,13 @@ export const multiFormatDateString = (timestamp = '') => {
     case Math.floor(diffInDays) >= 30:
       return formatDateString(timestamp);
     case Math.floor(diffInDays) === 1:
-      return `${Math.floor(diffInDays)} day ago`;
+      return `${Math.floor(diffInDays)} ngày trước`;
     case Math.floor(diffInDays) > 1 && diffInDays < 30:
-      return `${Math.floor(diffInDays)} days ago`;
+      return `${Math.floor(diffInDays)} ngày trước`;
     case Math.floor(diffInHours) >= 1:
-      return `${Math.floor(diffInHours)} hours ago`;
+      return `${Math.floor(diffInHours)} giờ trước`;
     case Math.floor(diffInMinutes) >= 1:
-      return `${Math.floor(diffInMinutes)} minutes ago`;
+      return `${Math.floor(diffInMinutes)} phút trước`;
     default:
       return 'Just now';
   }

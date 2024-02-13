@@ -42,7 +42,7 @@ export const getListLesson = async (req, res) => {
 
 export const getListLessonInfo = async (req, res) => {
   try {
-    const data = await getListLessonMd();
+    const data = await getListLessonMd({}, false, false, false, false, '_id tilte courseId');
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

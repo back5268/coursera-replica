@@ -1,11 +1,11 @@
-import { addPost, deletePost, detailPost, getListPost, likePost, savePost, updatePost } from '@controller';
+import { addPost, deletePost, detailPost, getListPostWeb, likePost, savePost, updatePost } from '@controller';
 import express from 'express';
 import { upload } from '@lib/multer';
 import { authMiddleware } from '@middleware';
 
 export const postRouter = express.Router();
 
-postRouter.get('/getListPost', getListPost);
+postRouter.get('/getListPostWeb', getListPostWeb);
 postRouter.get('/detailPost', detailPost);
 
 postRouter.delete('/deletePost', authMiddleware, deletePost);

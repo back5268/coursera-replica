@@ -60,6 +60,7 @@ const DetailPost = (props) => {
       setShow={() => {
         setShow(false);
         reset();
+        setImage(null)
       }}
       isUpdate={isUpdate}
       insertApi={addPostApi}
@@ -74,7 +75,7 @@ const DetailPost = (props) => {
         </div>
         <div className="w-7/12">
           <InputFormDetail id="title" label="Tiêu đề (*)" register={register} errors={errors} className={'!w-full'} />
-          <InputFormDetail type="number" id="time" label="Thời gian đọc (*)" register={register} errors={errors} className={'!w-full'} />
+          <InputFormDetail type="number" id="time" label="Thời gian đọc (phút) (*)" register={register} errors={errors} className={'!w-full'} />
           <InputFormDetail id="hashtag" label="Hagtag" register={register} className={'!w-full'} />
           <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
         </div>

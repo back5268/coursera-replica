@@ -18,6 +18,28 @@ export const getListPost = async (req, res) => {
   }
 };
 
+export const getListPostWeb = async (req, res) => {
+  try {
+    const { error, value } = validateData(listPostValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { page, limit, keySearch } = value;
+    const where = {};
+    if (keySearch) where.title = { $regex: keySearch, $options: 'i' };
+    const documents = await getListPostMd(
+      where,
+      page,
+      limit,
+      [{ path: 'by', select: 'avatar fullName' }],
+      false,
+      '_id title slug time image by hashtag createdAt description'
+    );
+    const total = await countListPostMd(where);
+    res.json({ status: true, data: { total, documents } });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
 export const detailPost = async (req, res) => {
   try {
     const { error, value } = validateData(detailPostValid, req.query);

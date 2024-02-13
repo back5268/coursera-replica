@@ -1,4 +1,3 @@
-import { authMiddleware } from '@middleware';
 import { authRouter } from './auth';
 import { adminRouter } from './admin';
 import { infoRouter } from './info';

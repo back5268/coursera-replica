@@ -30,7 +30,7 @@ const Posts = () => {
   const columns = [
     { label: 'Tiêu đề bài viết', field: 'title' },
     { label: 'Người viết', body: (item) => users.find(u => u._id === item.by)?.fullName },
-    { label: 'Thời gian đọc', body: (item) => NumberBody(item.time) },
+    { label: 'Thời gian đọc (phút)', body: (item) => NumberBody(item.time) },
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) },
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];

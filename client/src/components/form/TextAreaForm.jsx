@@ -8,7 +8,7 @@ const TextAreaForm = (props) => {
     <div className={`${className}`}>
       <TextArea
         id={id}
-        value={watch(id)}
+        value={watch(id) || ''}
         onChange={(e) => setValue(id, e.value)}
         theme={{
           input: `peer block min-h-[auto] w-full rounded bg-transparent outline-none transition-all duration-200 ease-linear ${(errors[id] && !watch(id)) ? 'border-2 border-danger-600' : 'border-0' }  

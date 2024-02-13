@@ -46,18 +46,30 @@ const CourseSlider = ({ items = [], type = 'pro' }) => {
     <div className="rounded-md px-2 pb-6 pt-2 border-neutral-300 dark:border-neutral-600 border-[1px] text-left mt-12">
       <div className="flex justify-between items-center m-2">
         <h2 className="font-semibold uppercase">{type === 'pro' ? 'Khóa học Pro' : 'Khóa học miễn phí'}</h2>
-        <Link to="/courses" className="!text-sm">
+        <Link to="/courses" className="!text-sm font-medium">
           Xem tất cả khóa học
         </Link>
       </div>
       <Hr />
       <div className="slider-container mt-4">
-        <Slider {...settings}>
-          {items.length > 0 &&
-            items.map((item, index) => {
+        {items.length > 3 ? (
+          <Slider {...settings}>
+            {items.map((item, index) => {
               return <CourseCard item={item} key={index} type={type} />;
             })}
-        </Slider>
+          </Slider>
+        ) : (
+          <div className="flex flex-wrap">
+            {items.length > 0 &&
+              items.map((item, index) => {
+                return (
+                  <div key={index} className='w-3/12'>
+                    <CourseCard item={item} type={type} />
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );

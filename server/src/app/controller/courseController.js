@@ -1,4 +1,4 @@
-import { addCourseValid, listCourseValid, updateCourseValid, detailCourseValid } from '@lib/validation';
+import { addCourseValid, listCourseValid, updateCourseValid, detailCourseValid, listCourseWebValid } from '@lib/validation';
 import {
   addCourseMd,
   countListCourseMd,
@@ -31,8 +31,32 @@ export const getListCourse = async (req, res) => {
 
 export const getListCourseInfo = async (req, res) => {
   try {
-    const data = await getListCourseMd();
+    const data = await getListCourseMd({}, false, false, false, false, '_id name');
     res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const getListCourseWeb = async (req, res) => {
+  try {
+    const { error, value } = validateData(listCourseWebValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, rating, characteristic, type, sort } = value;
+    const where = {};
+    where.$and = [{ price: { $gte: fromPrice } }, { price: { $lte: toPrice } }];
+    if (keySearch) where.$or = [{ name: { $regex: keySearch, $options: 'i' } }, { code: { $regex: keySearch, $options: 'i' } }];
+    if (rating) where.rating = { $gte: rating };
+    if (typeof isNew === 'boolean') where.isNew = isNew;
+    if (typeof isHot === 'boolean') where.isHot = isHot;
+    if (characteristic && Array.isArray(characteristic)) {
+      if (characteristic.includes('isNew')) where.isNew = true;
+      if (characteristic.includes('isHot')) where.isHot = true;
+    }
+    if (type && type[0]) where.type = { $in: type };
+    const documents = await getListCourseMd(where, page, limit, false, sort, '_id price sale rating reviews name image slug');
+    const total = await countListCourseMd(where);
+    res.json({ status: true, data: { total, documents } });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }
@@ -75,7 +99,7 @@ export const addCourse = async (req, res) => {
   try {
     const { error, value } = validateData(addCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { name, code, description, skills, price, sale, type, status, isHot, isNew } = value;
+    const { name, code, description, skills, requirements, price, sale, type, status, isHot, isNew } = value;
 
     const checkName = await getDetailCourseMd({ name });
     if (checkName) return res.status(400).json({ status: false, mess: 'Tên khóa học đã tồn tại!' });
@@ -96,6 +120,7 @@ export const addCourse = async (req, res) => {
       slug,
       description,
       skills,
+      requirements,
       price,
       sale,
       type,
@@ -114,7 +139,7 @@ export const updateCourse = async (req, res) => {
   try {
     const { error, value } = validateData(updateCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, name, code, description, skills, price, sale, type, status, isHot, isNew, image } = value;
+    let { _id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image } = value;
     const course = await getDetailCourseMd({ _id });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
@@ -134,7 +159,7 @@ export const updateCourse = async (req, res) => {
 
     const data = await updateCourseMd(
       { _id },
-      { updateBy: req.userInfo._id, name, code, description, skills, price, sale, type, status, isHot, isNew, image }
+      { updateBy: req.userInfo._id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image }
     );
     if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
     res.status(201).json({ status: true, data });

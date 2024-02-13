@@ -49,6 +49,7 @@ const Courses = () => {
         {label: 'Mã khóa học', field: 'code'},
         {label: 'Thể loại', body: (item) => courseType.find(c => c.key === item.type)?.label},
         {label: 'Giá', body: (item) => NumberBody(item.price)},
+        {label: 'Khuyến mãi', body: (item) => NumberBody(item.sale)},
         {label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt)},
         {label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt)}
     ];

@@ -11,7 +11,8 @@ class ModelBase {
 
   static find({ where = {}, page, limit, populates = [], sort = { createdAt: -1 }, attr }) {
     if (!where.deletedAt) where.deletedAt = null;
-    const query = this.model.find(where, attr);
+    const query = this.model.find(where);
+    if (attr) query.select(attr);
     if (sort) query.sort(sort);
     if (validNumberInt(limit) && validNumberInt(page)) {
       const skip = Number(limit) * (Number(page) - 1);
@@ -30,7 +31,8 @@ class ModelBase {
 
   static findOne({ where = {}, populates = [], attr }) {
     if (!where.deletedAt) where.deletedAt = null;
-    const query = this.model.findOne(where, attr);
+    const query = this.model.findOne(where);
+    if (attr) query.select(attr);
     if (populates && populates.length > 0) {
       populates.forEach((p) => query.populate(p));
     }

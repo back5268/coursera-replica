@@ -7,7 +7,7 @@ const PostList = ({ items = [] }) => {
     <div className="rounded-md px-2 pb-6 pt-2 border-neutral-300 dark:border-neutral-600 border-[1px] text-left mt-12">
       <div className="flex justify-between items-center m-2">
         <h2 className="font-semibold uppercase">Bài viết nổi bật</h2>
-        <Link to="/courses" className="!text-sm">
+        <Link to="/courses" className="!text-sm font-medium">
           Xem tất cả bài viết
         </Link>
       </div>

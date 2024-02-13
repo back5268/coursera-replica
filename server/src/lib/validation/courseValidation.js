@@ -8,6 +8,18 @@ export const listCourseValid = {
   status: { type: 'number', allowNull: true }
 };
 
+export const listCourseWebValid = {
+  page: 'number',
+  limit: 'number',
+  keySearch: { type: 'string', allowNull: true },
+  fromPrice: { type: 'number', allowNull: true },
+  toPrice: { type: 'number', allowNull: true },
+  rating: { type: 'number', allowNull: true },
+  type: { type: 'json', allowNull: true },
+  sort: { type: 'json', allowNull: true },
+  characteristic: { type: 'json', allowNull: true }
+};
+
 export const detailCourseValid = {
   _id: 'string'
 };
@@ -17,6 +29,7 @@ export const addCourseValid = {
   code: 'string',
   description: { type: 'string', allowNull: true },
   skills: { type: 'json', allowNull: true },
+  requirements: { type: 'json', allowNull: true },
   price: { type: 'number', allowNull: true },
   sale: { type: 'number', allowNull: true },
   type: { type: 'number', allowNull: true },
@@ -31,6 +44,7 @@ export const updateCourseValid = {
   code: { type: 'string', allowNull: true },
   description: { type: 'string', allowNull: true },
   skills: { type: 'json', allowNull: true },
+  requirements: { type: 'json', allowNull: true },
   price: { type: 'number', allowNull: true },
   sale: { type: 'number', allowNull: true },
   type: { type: 'number', allowNull: true },

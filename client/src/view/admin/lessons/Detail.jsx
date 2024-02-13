@@ -66,7 +66,7 @@ const DetailLesson = () => {
   const handleData = (data) => {
     const newData = { ...data, status: data.status ? 1 : 0 };
     if (files && files.length > 0) {
-      if (JSON.stringify(files) !== JSON.stringify(item.files)) {
+      if (JSON.stringify(files) !== JSON.stringify(item?.files)) {
         const newFiles = [];
         const formData = [];
         files.forEach((f) => {
@@ -76,7 +76,7 @@ const DetailLesson = () => {
         if (newFiles.length > 0) newData.files = newFiles;
         if (formData.length > 0) newData.formData = { files: formData };
       }
-    } else if (item.files?.length > 0) newData.files = [];
+    } else if (item?.files?.length > 0) newData.files = [];
     if (isUpdate) return { ...checkEqualProp(newData, item), _id };
     else return newData;
   };
@@ -129,8 +129,9 @@ const DetailLesson = () => {
                 <InputFormDetail id="title" label="Tiêu đề (*)" register={register} errors={errors} />
                 <InputFormDetail id="code" label="Mã bài giảng (*)" register={register} errors={errors} />
                 <InputFormDetail id="author" label="Tác giả (*)" register={register} errors={errors} />
-                <InputFormDetail type="number" id="time" label="Thời gian học (*)" register={register} errors={errors} />
+                <InputFormDetail type="number" id="time" label="Thời gian học (phút) (*)" register={register} errors={errors} />
                 <InputFormDetail id="url" label="Video url (*)" register={register} errors={errors} />
+                <div className='w-6/12'></div>
                 <SwitchForm id="status" label="Trạng thái (*)" watch={watch} setValue={setValue} />
                 <TextAreaForm id="content" label="Nội dung (*)" className="w-full p-2" watch={watch} setValue={setValue} errors={errors} />
                 <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />

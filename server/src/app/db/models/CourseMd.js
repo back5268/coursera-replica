@@ -16,7 +16,9 @@ class CourseMd extends ModelBase {
   isNew;
   image;
   description;
+  rating;
   skills;
+  requirements;
   lessons;
   questions;
   reviews;
@@ -41,8 +43,10 @@ CourseMd.init('Course', {
   isHot: { type: Boolean, default: false },
   isNew: { type: Boolean, default: false },
   image: { type: String },
+  rating: { type: Number, default: 5 },
   description: { type: String },
   skills: [{ type: String }],
+  requirements: [{ type: String }],
   lessons: [{ type: ObjectId, ref: 'Lesson' }],
   reviews: [{ type: ObjectId, ref: 'CourseReview' }],
   status: { type: Number, enum: [0, 1], default: 1 },
