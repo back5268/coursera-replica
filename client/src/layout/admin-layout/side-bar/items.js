@@ -1,16 +1,19 @@
-import { BiSolidFile } from 'react-icons/bi';
 import { BiSolidBookContent } from 'react-icons/bi';
-import { BiNews } from 'react-icons/bi';
-import { BiQuestionMark } from 'react-icons/bi';
 import { BiSolidDashboard } from 'react-icons/bi';
+import { BiBell } from 'react-icons/bi';
+import { BiSmile } from 'react-icons/bi';
+import { BiUser } from 'react-icons/bi';
+import { BiNews } from 'react-icons/bi';
+import { BiMessageSquareEdit } from 'react-icons/bi';
+import { BiBookAlt } from 'react-icons/bi';
 
 export const items = [
   { label: 'Dashboard', icon: BiSolidDashboard, route: '' },
-  { label: 'Quản lý người dùng', icon: BiNews, route: '/users' },
-  { label: 'Quản lý khóa học', icon: BiSolidBookContent, route: '/courses' },
-  { label: 'Quản lý bài giảng', icon: BiSolidFile, route: '/lessons' },
-  { label: 'Quản lý câu hỏi', icon: BiQuestionMark, route: '/questions' },
+  { label: 'Quản lý người dùng', icon: BiUser, route: '/users' },
+  { label: 'Quản lý khóa học', icon: BiBookAlt, route: '/courses' },
+  { label: 'Quản lý bài giảng', icon: BiSolidBookContent, route: '/lessons' },
+  { label: 'Quản lý câu hỏi', icon: BiMessageSquareEdit, route: '/questions' },
   { label: 'Quản lý bài viết', icon: BiNews, route: '/posts' },
-  { label: 'Phản hồi người dùng', icon: BiNews, route: '/feedbacks' },
-  { label: 'Lịch sử gửi thông báo', icon: BiNews, route: '/log' }
+  { label: 'Phản hồi người dùng', icon: BiSmile, route: '/feedbacks' },
+  { label: 'Lịch sử gửi thông báo', icon: BiBell, route: '/log' }
 ];

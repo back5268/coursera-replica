@@ -44,23 +44,23 @@ export const removeSpecialCharacter = (string) => {
 
 export function formatDateString(dateString) {
   const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
   };
 
   const date = new Date(dateString);
-  const formattedDate = date.toLocaleDateString("en-US", options);
+  const formattedDate = date.toLocaleDateString('en-US', options);
 
   const time = date.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
+    hour: 'numeric',
+    minute: '2-digit'
   });
 
   return `${formattedDate} at ${time}`;
 }
 
-export const multiFormatDateString = (timestamp = "") => {
+export const multiFormatDateString = (timestamp = '') => {
   const timestampNum = Math.round(new Date(timestamp).getTime() / 1000);
   const date = new Date(timestampNum * 1000);
   const now = new Date();
@@ -83,6 +83,6 @@ export const multiFormatDateString = (timestamp = "") => {
     case Math.floor(diffInMinutes) >= 1:
       return `${Math.floor(diffInMinutes)} minutes ago`;
     default:
-      return "Just now";
+      return 'Just now';
   }
 };

@@ -1,16 +1,18 @@
 import { Button, Hr } from '@components/uiCore';
 import React, { useEffect, useRef, useState } from 'react';
 import { TERipple } from 'tw-elements-react';
-import { FiUser } from 'react-icons/fi';
 import { BiLogOut } from 'react-icons/bi';
 import { IoNavigateOutline } from "react-icons/io5";
 import { useAuthContext } from '@context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { BiUserCircle } from "react-icons/bi";
+import { BiBookBookmark } from "react-icons/bi";
+import { BiCalendarHeart } from "react-icons/bi";
 
 const items = [
-  { label: 'Thông tin cá nhân', icon: FiUser },
-  { label: 'Khóa học của tôi', icon: FiUser },
-  { label: 'Bài viết đã lưu', icon: FiUser }
+  { label: 'Thông tin cá nhân', icon: BiUserCircle, route: '/personal' },
+  { label: 'Khóa học đã đăng ký', icon: BiBookBookmark, route: '/courses/my-courses' },
+  { label: 'Bài viết của tôi', icon: BiCalendarHeart, route: '/posts/my-posts' }
 ];
 
 const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
@@ -25,7 +27,6 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
       setIsShow(false);
     }
   };
-  console.log(mode);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -61,14 +62,14 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
           {items.map((item, index) => (
             <li key={index}>
               <TERipple className="w-full" rippleColor="light">
-                <div
+                <Link to={item.route}
                   className={`flex h-12 cursor-pointer items-center truncate rounded-sm px-5 py-2 text-sm
                    outline-none transition duration-300 ease-in-out hover:bg-primary-100 hover:text-primary
                   hover:outline-none gap-4 my-1`}
                 >
                   {item.icon && <item.icon size={20} />}
                   <span>{item.label}</span>
-                </div>
+                </Link>
               </TERipple>
               <Hr />
             </li>

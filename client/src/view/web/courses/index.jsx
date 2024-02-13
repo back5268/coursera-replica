@@ -2,7 +2,7 @@ import { Button, Hr, Rating } from '@components/uiCore';
 import React from 'react';
 import CourseCard from '../home/CourseCard';
 import { InputFormV2, MultiCheckBoxV2, SelectFormV2 } from '@components/form';
-import { courseCharacteristic, courseType } from '@constant';
+import { courseCharacteristic, courseType, orderBy, orderType } from '@constant';
 import { Pagination } from '@components/base';
 
 const WebCourses = () => {
@@ -122,8 +122,8 @@ const WebCourses = () => {
         <div className="card !p-0">
           <div className="h-16 flex gap-2 items-center p-4">
             <h4>Sắp xếp theo:</h4>
-            <SelectFormV2 size="md" label="Thể loại" />
-            <SelectFormV2 size="md" label="Từ cao đến thấp" />
+            <SelectFormV2 size="lg" data={orderBy} clearBtn={false} />
+            <SelectFormV2 size="lg" data={orderType} clearBtn={false} />
           </div>
           <Hr />
           <div className="p-4 flex flex-wrap mt-4">

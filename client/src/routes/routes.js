@@ -1,5 +1,5 @@
 import { SignIn, SignUp, ForgotPassword, ConfirmPassword } from '@view/auth';
-import { DetailCourseWeb, DetailPostWeb, Home, WebCourses, WebPosts } from '@view/web';
+import { DetailCourseWeb, DetailPostWeb, Home, MyCourses, MyPosts, Personal, WebCourses, WebPosts } from '@view/web';
 import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson } from '@view/admin';
 
 const routes = [
@@ -11,8 +11,10 @@ const routes = [
   { path: '/', element: Home, layout: 'web', public: true },
   { path: '/courses', element: WebCourses, layout: 'web', public: true },
   { path: '/courses/detail/:slug', element: DetailCourseWeb, layout: 'web', public: true },
+  { path: '/courses/my-courses', element: MyCourses, layout: 'web', public: true },
   { path: '/posts', element: WebPosts, layout: 'web', public: true },
-  { path: '/posts/detail/:slug', element: DetailPostWeb, layout: 'web', public: true },
+  { path: '/posts/my-posts', element: MyPosts, layout: 'web', public: true },
+  { path: '/personal', element: Personal, layout: 'web', public: true },
 
   { path: '/admin', element: Dashboard, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/courses', element: Courses, layout: 'admin', roles: ['staff', 'admin'] },

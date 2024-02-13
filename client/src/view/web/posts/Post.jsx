@@ -1,4 +1,6 @@
 import { Link } from '@components/uiCore';
+import { BiBookmark } from 'react-icons/bi';
+import { BiHeart } from 'react-icons/bi';
 import React from 'react';
 
 const Post = ({ item }) => {
@@ -20,13 +22,17 @@ const Post = ({ item }) => {
           <p className="text-sm">5 phút đọc</p>
         </div>
       </div>
-      <Link to={`/posts/detail/${item.slug}`}>
-        <div className="w-[300px] p-2">
+      <div className="w-[300px] p-2">
+        <div className="flex gap-2 justify-end px-2 pb-2">
+          <BiHeart size={20} className='cursor-pointer' />
+          <BiBookmark size={20} className='cursor-pointer' />
+        </div>
+        <Link to={`/posts/detail/${item.slug}`}>
           <div className="relative h-[120px] w-full rounded-md bg-cover" style={{ backgroundImage: `url('${item.image}')` }}>
             <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-15"></span>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 };

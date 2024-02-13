@@ -42,3 +42,13 @@ export const logStatus = [
   { label: 'Đã gửi', key: 1 },
   { label: 'Có lỗi', key: 2 }
 ];
+
+export const orderBy = [
+  { label: 'Thời gian', key: 'createdAt' },
+  { label: 'Giá tiền', key: 'price' }
+];
+
+export const orderType = [
+  { label: 'Từ cao đến thấp', key: 1 },
+  { label: 'Từ thấp đến cao', key: 2 }
+];

@@ -40,11 +40,13 @@ const WebLayout = ({ children }) => {
         transition-all duration-500 ease-in-out px-4 items-center`}
       >
         <div className="flex gap-8 items-center">
-          <h2 className="text-xl font-bold uppercase leading-normal">Coursera replica</h2>
+          <Link to="/">
+            <h2 className="text-xl font-bold uppercase leading-normal">Coursera replica</h2>
+          </Link>
           <div className="flex gap-4 text-sm font-bold uppercase leading-normal">
             {items.map((item, index) => (
               <Link to={item.route} key={index}>
-                <h2 className={select ===  item.route ? 'underline' : 'text-slate-500 underline'}>{item.label}</h2>
+                <h2 className={select === item.route ? 'underline' : 'text-slate-500 underline'}>{item.label}</h2>
               </Link>
             ))}
           </div>
