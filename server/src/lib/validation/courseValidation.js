@@ -61,3 +61,7 @@ export const updateCourseValid = {
   status: { type: 'number', allowNull: true },
   image: { type: 'string', allowNull: true }
 };
+
+export const registerCourseValid = {
+  courseId: 'string'
+};

@@ -3,83 +3,25 @@ import React from 'react';
 import Course from './Course';
 import { Link } from 'react-router-dom';
 import { IoAddCircleSharp } from 'react-icons/io5';
+import { useAuthContext } from '@context/AuthContext';
 
 const MyCourses = () => {
-  const items = [
-    {
-      title: 'First slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
-    },
-    {
-      title: 'Second slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
-    },
-    {
-      title: 'Third slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
-    },
-    {
-      title: 'First slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
-    },
-    {
-      title: 'Second slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
-    },
-    {
-      title: 'Third slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
-    },
-    {
-      title: 'First slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
-    },
-    {
-      title: 'Second slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
-    },
-    {
-      title: 'Third slide label',
-      rating: '3/5',
-      price: 500000,
-      sale: 10000,
-      image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
-    }
-  ];
+  const { userInfo } = useAuthContext();
+  const listCompleted = userInfo?.courses?.filter((c) => c.status === 2);
 
   return (
     <div className="mt-24 flex flex-col gap-2 text-left">
       <h2 className="uppercase font-semibold p-2">Khóa học của tôi</h2>
       <Hr />
       <p className="p-2">
-        Bạn đã hoàn thành <span className="font-semibold">2/5</span> khóa học của bạn.
+        Bạn đã hoàn thành{' '}
+        <span className="font-semibold">
+          {listCompleted?.length}/{userInfo?.courses?.length}
+        </span>{' '}
+        khóa học của bạn.
       </p>
       <div className="card flex flex-wrap m-4">
-        {items.length > 0 && items.map((item, index) => <Course key={index} item={item} />)}
+        {userInfo?.courses?.length > 0 && userInfo.courses.map((item, index) => <Course key={index} item={item} />)}
         <div className="w-3/12 p-2">
           <Link to="/courses">
             <div
@@ -87,7 +29,7 @@ const MyCourses = () => {
              hover:text-primary-600 hover:border-primary-400"
             >
               <IoAddCircleSharp size={36} />
-              <div className='px-4 py-2 border-2 border-primary-400 rounded-lg text-primary-600 text-sm font-medium'>Thêm khóa học</div>
+              <div className="px-4 py-2 border-2 border-primary-400 rounded-lg text-primary-600 text-sm font-medium">Thêm khóa học</div>
             </div>
           </Link>
         </div>

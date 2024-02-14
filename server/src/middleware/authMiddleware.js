@@ -18,6 +18,10 @@ export const authMiddleware = async (req, res, next) => {
         path: 'posts',
         select: '_id title slug time image by hashtag createdAt description likes',
         populate: { path: 'by', select: 'avatar fullName' }
+      },
+      {
+        path: 'courses',
+        select: '_id courseInfo courseId lessons createdAt status qr'
       }
     ]);
 

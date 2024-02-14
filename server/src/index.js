@@ -9,7 +9,7 @@ import { connectNodemailer } from '@lib';
 dotenv.config();
 
 connectDatabse();
-// connectNodemailer();
+connectNodemailer();
 const app = express();
 const server = http.createServer(app);
 

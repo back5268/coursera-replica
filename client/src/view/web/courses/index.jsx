@@ -52,7 +52,7 @@ const WebCourses = () => {
             {data?.documents?.length > 0 &&
               data.documents.map((item, index) => {
                 return (
-                  <div key={index} className="xs:w-6/12 sm:w-4/12 md:w-3/12 py-2">
+                  <div key={index} className="xs:w-6/12 md:w-4/12 py-2 px-1">
                     <CourseCard item={item} type={item.price ? 'pro' : 'free'} />
                   </div>
                 );

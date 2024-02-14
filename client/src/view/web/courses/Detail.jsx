@@ -2,12 +2,13 @@ import { Button, Hr } from '@components/uiCore';
 import { FaCrown } from 'react-icons/fa';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { detailCourseWebApi } from '@api';
+import { detailCourseWebApi, getInfoApi, registerCourseApi } from '@api';
 import { useGetApi } from '@lib/react-query';
 import { BiCheck } from 'react-icons/bi';
 import Reviews from './Reviews';
-import { useConfirmState } from '@store';
+import { useConfirmState, useToastState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
+import { formatNumber } from '@utils';
 
 const DetailCourseWeb = () => {
   const { slug } = useParams();
@@ -17,12 +18,37 @@ const DetailCourseWeb = () => {
 
   const navigate = useNavigate();
   const { showConfirm } = useConfirmState();
-  const { userInfo } = useAuthContext();
+  const { showToast } = useToastState();
+  const { userInfo, setUserInfo } = useAuthContext();
 
   const onWarning = async () => {
     showConfirm({
-      title: 'Vui lòng đăng nhập để có thể đánh giá khóa học!',
+      title: 'Vui lòng đăng nhập để có thể tiếp tục!',
       action: () => navigate('/auth/signin')
+    });
+  };
+
+  const onRegister = async () => {
+    if (!userInfo?._id) onWarning();
+    const price = data.price - data.sale;
+    const title =
+      price > 0
+        ? `Khóa học "${data?.name}" sẽ cần phải thanh toán ${formatNumber(price)} VNĐ, bạn có muốn tiếp tục đăng ký?`
+        : `Bạn có chắc chắn muốn đăng ký khóa học "${data?.name}"`;
+    const title2 = price > 0 ? 'Để xác nhận đăng ký khóa học, vui lòng thanh toán và chờ hệ thống xử lý!' : 'Đăng ký khóa học thành công!';
+    showConfirm({
+      title,
+      action: async () => {
+        const response = await registerCourseApi({ courseId: data?._id });
+        if (response) {
+          const response = await getInfoApi();
+          if (response) {
+            setUserInfo(response.userInfo);
+            navigate('/courses/my-courses');
+          } else localStorage.removeItem('token');
+          showToast({ title: title2, severity: 'success' });
+        }
+      }
     });
   };
 
@@ -111,7 +137,11 @@ const DetailCourseWeb = () => {
               )}
             </div>
             <div className="flex gap-2 mt-4">
-              <Button label="Đăng ký học" />
+              {Boolean(userInfo?.courses?.find((c) => c.courseId === data?._id)) ? (
+                <Button onClick={() => navigate(`/learning/${data?.slug}`)} label="Tiếp tục học" />
+              ) : (
+                <Button onClick={onRegister} label="Đăng ký học" />
+              )}
               {check && (
                 <Button
                   onClick={() => {

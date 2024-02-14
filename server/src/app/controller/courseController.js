@@ -5,20 +5,25 @@ import {
   detailCourseValid,
   listCourseWebValid,
   listSearchValid,
-  detailCourseWebValid
+  detailCourseWebValid,
+  registerCourseValid
 } from '@lib/validation';
 import {
   addCourseMd,
+  addCourseRegisterMd,
   countListCourseMd,
   deleteCourseMd,
   getDetailCourseMd,
+  getDetailCourseRegisterMd,
   getListCourseMd,
   getListLessonMd,
   getListPostMd,
-  updateCourseMd
+  updateCourseMd,
+  updateUserMd
 } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
+import { generateVietQrLink } from '@lib/viet-qr';
 
 export const getListCourse = async (req, res) => {
   try {
@@ -208,7 +213,37 @@ export const updateCourse = async (req, res) => {
       { _id },
       { updateBy: req.userInfo._id, name, code, slug, description, skills, requirements, price, sale, type, status, isHot, isNew, image }
     );
-    if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const registerCourse = async (req, res) => {
+  try {
+    const { error, value } = validateData(registerCourseValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { courseId } = value;
+
+    const course = await getDetailCourseMd({ _id: courseId });
+    if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
+
+    const checkCourseRegister = req.userInfo.courses.find((c) => String(c.courseId) === String(course._id));
+    if (checkCourseRegister) return res.status(400).json({ status: false, mess: 'Bạn đã đăng ký khóa học này!' });
+
+    const attr = { courseId, userId: req.userInfo._id, courseInfo: { name: course.name, image: course.image, slug: course.slug } };
+    if (course.price - course.sale > 0) {
+      attr.status = 0;
+      attr.price = course.price - course.sale;
+      attr.qr = generateVietQrLink(course.price - course.sale, 'Đăng ký khóa học Coursera Replica');
+    } else attr.status = 1;
+
+    if (course.lessons.length > 0) {
+      attr.lessons = course.lessons.map((less) => ({ lessonId: less, isCompleted: false }));
+    }
+
+    const data = await addCourseRegisterMd(attr);
+    await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { courses: data._id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

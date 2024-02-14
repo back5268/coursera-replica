@@ -92,7 +92,7 @@ const DetailPostWeb = () => {
 
           <Hr />
           <h2 className="uppercase font-semibold">Nội dung bài viết</h2>
-          <div className="card">
+          <div className="card overflow-scroll">
             <div dangerouslySetInnerHTML={{ __html: data?.content }} />
           </div>
         </div>

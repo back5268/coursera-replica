@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { formatNumber } from '@utils';
-import { FaUsers } from 'react-icons/fa6';
 import { Button, Link, Rating } from '@components/uiCore';
 
 const CourseCard = ({ item, type }) => {

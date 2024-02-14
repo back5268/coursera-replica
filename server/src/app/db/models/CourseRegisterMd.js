@@ -6,6 +6,9 @@ const ObjectId = Schema.Types.ObjectId;
 class CourseRegisterMd extends ModelBase {
   userId;
   courseId;
+  courseInfo;
+  price;
+  qr;
   lessons;
   status;
   deletedAt;
@@ -14,7 +17,10 @@ class CourseRegisterMd extends ModelBase {
 CourseRegisterMd.init('CourseRegister', {
   userId: { type: ObjectId, ref: 'User', required: true },
   courseId: { type: ObjectId, ref: 'Course', required: true },
-  lessons: [{ lessonId: { type: ObjectId, ref: 'Lesson', required: true }, isComplete: { type: Boolean, default: false } }],
+  courseInfo: { type: Object, required: true },
+  price: { type: Number, default: 0 },
+  qr: { type: String },
+  lessons: [{ lessonId: { type: ObjectId, ref: 'Lesson', required: true }, isCompleted: { type: Boolean, default: false } }],
   status: { type: Number, enum: [0, 1, 2], required: true, description: '0: Chờ thanh toán, 1: Đang học, 2: Hoàn thành' },
   deletedAt: { type: Date }
 });
