@@ -1,18 +1,37 @@
-import { Button, Hr, Rating } from '@components/uiCore';
+import { Button, Hr } from '@components/uiCore';
 import { FaCrown } from 'react-icons/fa';
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { detailCourseWebApi } from '@api';
 import { useGetApi } from '@lib/react-query';
 import { BiCheck } from 'react-icons/bi';
+import Reviews from './Reviews';
+import { useConfirmState } from '@store';
+import { useAuthContext } from '@context/AuthContext';
 
 const DetailCourseWeb = () => {
   const { slug } = useParams();
-  const { data, isLoading } = useGetApi(detailCourseWebApi, { slug }, 'course');
+  const [show, setShow] = useState(false);
+  const [render, setRender] = useState(false);
+  const { data, isLoading } = useGetApi(detailCourseWebApi, { slug, render }, 'course');
+
+  const navigate = useNavigate();
+  const { showConfirm } = useConfirmState();
+  const { userInfo } = useAuthContext();
+
+  const onWarning = async () => {
+    showConfirm({
+      title: 'Vui lòng đăng nhập để có thể đánh giá khóa học!',
+      action: () => navigate('/auth/signin')
+    });
+  };
+
+  const reviews = data?.reviews;
+  const check = reviews && Array.isArray(reviews) ? !Boolean(reviews.find((r) => r.by._id === userInfo._id)) : true;
 
   return (
     <div className="mt-24 flex">
-      <div className="w-8/12 text-left p-6">
+      <div className="w-7/12 text-left p-6">
         <div className="flex flex-col gap-6">
           <h1 className="text-xl uppercase font-semibold">{data?.name}</h1>
           <Hr />
@@ -79,7 +98,7 @@ const DetailCourseWeb = () => {
           )}
         </div>
       </div>
-      <div className="w-4/12 p-6">
+      <div className="w-5/12 p-6">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center justify-center my-8">
             <div className="relative h-48 w-10/12 rounded-lg bg-cover" style={{ backgroundImage: `url('${data?.image}')` }}>
@@ -93,31 +112,28 @@ const DetailCourseWeb = () => {
             </div>
             <div className="flex gap-2 mt-4">
               <Button label="Đăng ký học" />
-              <Button severity="danger" label="Đánh giá" />
+              {check && (
+                <Button
+                  onClick={() => {
+                    if (!userInfo?._id) onWarning();
+                    else setShow(true);
+                  }}
+                  severity="danger"
+                  label="Đánh giá"
+                />
+              )}
             </div>
           </div>
 
-          {data?.reviews?.length > 0 && (
-            <>
-              <h2 className="uppercase font-semibold text-left">Đánh giá khóa học</h2>
-              <div className="card flex flex-col gap-2 text-left">
-                {data.reviews.map((rev, index) => (
-                  <div key={index}>
-                    <div className="flex gap-4 mb-2 items-center">
-                      <div className="h-12 w-12 rounded-full bg-black bg-cover" style={{ backgroundImage: `url('${rev?.avatar}')` }}></div>
-                      <div className="flex flex-col gap-1 text-sm">
-                        <span>okokok</span>
-                        <Rating value={rev.rating} />
-                        <span>12/02/2024 07:00:00</span>
-                        <span>asdsdasd</span>
-                      </div>
-                    </div>
-                    <Hr />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+          <Reviews
+            data={data?.reviews}
+            courseId={data?._id}
+            rating={data?.rating}
+            show={show}
+            setShow={setShow}
+            userInfo={userInfo}
+            setRender={setRender}
+          />
         </div>
       </div>
     </div>

@@ -35,8 +35,10 @@ export const deleteQuestion = async (req, res) => {
     const { error, value } = validateData(detailQuestionValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = value;
+    const question = await getDetailQuestionMd({ _id });
+    if (!question) return res.status(400).json({ status: false, mess: 'Câu hỏi không tồn tại!' });
     const data = await deleteQuestionMd({ _id });
-    if (!data) return res.status(400).json({ status: false, mess: 'Câu hỏi không tồn tại!' });
+    await updateLessonMd({ _id: question.lessonId }, { $pull: { questions: _id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

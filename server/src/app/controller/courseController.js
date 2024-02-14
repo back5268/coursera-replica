@@ -102,7 +102,18 @@ export const detailCourseWeb = async (req, res) => {
     const { error, value } = validateData(detailCourseWebValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { slug } = value;
-    const data = await getDetailCourseMd({ slug }, [{ path: 'lessons', select: 'title time' }, 'reviews']);
+    const data = await getDetailCourseMd({ slug }, [
+      { path: 'lessons', select: 'title time' },
+      {
+        path: 'reviews',
+        model: 'CourseReview',
+        populate: {
+          path: 'by',
+          model: 'User',
+          select: 'fullName avatar'
+        }
+      }
+    ]);
     if (!data) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {

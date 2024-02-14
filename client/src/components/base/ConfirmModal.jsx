@@ -6,7 +6,13 @@ const ConfirmModal = () => {
   const { confirmInfo = {}, show, hideConfirm } = useConfirmState();
 
   return (
-    <Modal size="md" show={show} setShow={hideConfirm} title="Coursera Replica">
+    <Modal
+      size="md"
+      show={show}
+      setShow={hideConfirm}
+      title="Coursera Replica"
+      theme={{ wrapperPositionDefault: 'relative w-auto top-48' }}
+    >
       <div className="p-6">{confirmInfo.title || 'Bạn có chắc chắn muốn tiếp tục?'}</div>
       <Hr />
       <div className="flex gap-2 justify-end py-4 mr-4">

@@ -63,7 +63,7 @@ const WebLayout = ({ children }) => {
           </Button>
         )}
       </div>
-      <div className="relative text-center z-0 mx-auto">
+      <div className="text-center z-0 mx-auto">
         <div className="container mt-16 items-center mx-auto">
           <div className="w-10/12 mx-auto">{children}</div>
         </div>

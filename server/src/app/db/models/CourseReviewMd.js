@@ -4,19 +4,22 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class CourseReviewMd extends ModelBase {
-  userId;
+  by;
   courseId;
   rating;
   content;
+  file;
+  likes;
   deletedAt;
 }
 
 CourseReviewMd.init('CourseReview', {
-  userId: { type: ObjectId, ref: 'User', required: true },
+  by: { type: ObjectId, ref: 'User', required: true },
   courseId: { type: ObjectId, ref: 'Course', required: true },
   rating: { type: Number, enum: [1, 2, 3, 4, 5], required: true },
   content: { type: String },
   file: { type: String },
+  likes: [{ type: ObjectId, ref: 'User' }],
   deletedAt: { type: Date }
 });
 

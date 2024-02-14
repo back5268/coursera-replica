@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Rating = ({ value = 0 }) => {
+const Rating = ({ value = 0, setValue = () => {}, size = 4 }) => {
   const items = Array.from({ length: 5 }, (_, index) => {
     if (index < value) return index + 1;
     else return '';
@@ -11,8 +11,13 @@ const Rating = ({ value = 0 }) => {
       {items.map((item, index) => {
         if (item)
           return (
-            <li key={index}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mr-1 h-4 w-4 text-warning">
+            <li key={index} onClick={() => setValue(index + 1)} className='cursor-pointer'>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className={`mr-1 h-${size} w-${size} text-warning`}
+              >
                 <path
                   fillRule="evenodd"
                   d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
@@ -23,14 +28,14 @@ const Rating = ({ value = 0 }) => {
           );
         else
           return (
-            <li key={index}>
+            <li key={index} onClick={() => setValue(index + 1)} className='cursor-pointer'>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="mr-1 h-4 w-4 text-warning"
+                className={`mr-1 h-${size} w-${size} text-warning`}
               >
                 <path
                   strokeLinecap="round"

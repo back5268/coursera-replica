@@ -1,6 +1,6 @@
 import { uploadFileToFirebase } from '@lib/firebase';
 import { addCommentValid, deleteCommentValid, listCommentLessonValid, listCommentValid } from '@lib/validation';
-import { addCommentMd, countListCommentMd, deleteCommentMd, getDetailCommentMd, getListCommentMd } from '@models';
+import { addCommentMd, countListCommentMd, deleteCommentMd, getDetailCommentMd, getListCommentMd, updateCommentMd } from '@models';
 import { validateData } from '@utils';
 
 export const getListCommentLesson = async (req, res) => {
@@ -34,7 +34,10 @@ export const getListComment = async (req, res) => {
     const data = await getListCommentMd(where, false, false, [{ path: 'by', select: 'avatar fullName' }]);
     if (data && data.length > 0) {
       for (const datum of data) {
-        datum._doc.count = await countListCommentMd({ objectId, parentId: datum._id, type });
+        if (!datum.parentId)
+          datum._doc.comments = await getListCommentMd({ objectId, type, parentId: datum._id }, false, false, [
+            { path: 'by', select: 'avatar fullName' }
+          ]);
       }
     }
     res.json({ status: true, data });
@@ -52,7 +55,8 @@ export const addComment = async (req, res) => {
     if (req.file) {
       file = await uploadFileToFirebase(req.file);
     }
-    res.json({ status: true, data: await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 }) });
+    const data = await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 });
+    res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }
@@ -70,7 +74,7 @@ export const deleteComment = async (req, res) => {
     if (req.userInfo.role !== 'admin' && comment.by !== req.userInfo._id)
       return res.status(400).json({
         status: false,
-        mess: 'Bạn không có quyền xóa bình luận này này!'
+        mess: 'Bạn không có quyền xóa bình luận này!'
       });
 
     const data = await deleteCommentMd({ _id });

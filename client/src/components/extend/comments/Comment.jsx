@@ -4,20 +4,12 @@ import { multiFormatDateString } from '@utils';
 import ReactPlayer from 'react-player';
 import { Link } from '@components/uiCore';
 import { useConfirmState, useToastState } from '@store';
-import { deleteCommentApi, getListCommentApi } from '@api';
-import { useGetApi } from '@lib/react-query';
+import { deleteCommentApi } from '@api';
 
-export const Comment = ({ userInfo, objectId, comment, setFocused, type, setShow, setRender }) => {
+export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarning, setRender }) => {
   const { showConfirm } = useConfirmState();
   const { showToast } = useToastState();
   const [moreComment, setMoreComment] = useState(false);
-  const [renderChildren, setRenderChildren] = useState(false);
-  const { data: comments } = useGetApi(
-    getListCommentApi,
-    { objectId, type, parentId: comment?._id, render: renderChildren },
-    comment?._id,
-    moreComment
-  );
 
   let fileType;
   if (comment?.file) {
@@ -48,13 +40,13 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, setShow
           ></div>
         </div>
         <div className="flex flex-col gap-1 w-full">
-          <div className="flex flex-col gap-1 p-2 bg-slate-100 rounded-md w-full">
+          <div className="flex flex-col gap-1 p-2 bg-primary-100 rounded-md w-full">
             <span className="font-semibold">{comment?.by?.fullName}</span>
             <span>{comment?.content}</span>
             {comment?.file && (
               <Link to={comment.file} target="_blank" className="h-[160px]">
                 {fileType === 'image' ? (
-                  <img src={comment.file} className="h-[160px]" />
+                  <img src={comment.file} className="h-[160px] rounded-md" />
                 ) : fileType === 'video' ? (
                   <ReactPlayer url={comment.file} controls={true} height="300" />
                 ) : (
@@ -65,10 +57,15 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, setShow
           </div>
           <div className="flex gap-3 text-xs mt-1">
             <Link>{multiFormatDateString(comment.createdAt)}</Link>
-            {Boolean(comment?.count) && <Link onClick={() => setMoreComment(true)}>Xem tất cả {comment.count} phản hồi</Link>}
+            {comment?.comments?.length > 0 && !moreComment && (
+              <Link onClick={() => setMoreComment(true)}>Xem tất cả {comment.comments.length} phản hồi</Link>
+            )}
+            {moreComment && (
+              <Link onClick={() => setMoreComment(false)}>Ẩn bớt</Link>
+            )}
             <Link
               onClick={() => {
-                if (!userInfo?._id) setShow(true);
+                if (!userInfo?._id) onWarning();
                 else {
                   if (!comment?.parentId) {
                     setMoreComment(true);
@@ -86,28 +83,26 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, setShow
       <div className="ml-6">
         {moreComment && (
           <div className="ml-4 mt-6">
-            {comments &&
-              Array.isArray(comments) &&
-              comments.map((comment, index) => (
-                <Comment
-                  key={index}
-                  objectId={objectId}
-                  comment={comment}
-                  setFocused={setFocused}
-                  type={type}
-                  setShow={setShow}
-                  userInfo={userInfo}
-                  setRender={setRender}
-                />
-              ))}
+            {comment?.comments.map((comment, index) => (
+              <Comment
+                key={index}
+                objectId={objectId}
+                comment={comment}
+                setFocused={setFocused}
+                type={type}
+                onWarning={onWarning}
+                userInfo={userInfo}
+                setRender={setRender}
+              />
+            ))}
             <SendMessage
               id={comment?._id}
               userInfo={userInfo}
               objectId={objectId}
               parentId={comment?._id}
               type={type}
-              setShow={setShow}
-              setRender={setRenderChildren}
+              onWarning={onWarning}
+              setRender={setRender}
             />
           </div>
         )}

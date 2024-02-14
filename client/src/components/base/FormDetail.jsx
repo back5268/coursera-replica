@@ -5,8 +5,8 @@ import {Loading} from '@components/base';
 import {useToastState} from '@store';
 import {useNavigate} from "react-router-dom";
 
-const Wrapper = ({isModal, children, title, show, setShow}) => {
-    if (isModal) return <Modal title={title} show={show} setShow={setShow}>{children}</Modal>
+const Wrapper = ({isModal, children, title, show, setShow, size}) => {
+    if (isModal) return <Modal title={title} show={show} setShow={setShow} size={size}>{children}</Modal>
     else return <div className="bg-white rounded-lg shadow-xl">
         {title &&
             <h2 className="font-semibold uppercase leading-normal pt-6 px-6 text-neutral-800 dark:text-neutral-200">{title}</h2>}
@@ -33,7 +33,8 @@ const FormDetail = (props) => {
         },
         setParams = () => {
         },
-        onSuccess = () => {}
+        onSuccess = () => {},
+        size
     } = props;
     const isModal = type === 'modal'
     const {mutateAsync, isPending} = usePostApi(isUpdate ? updateApi : insertApi);
@@ -53,7 +54,7 @@ const FormDetail = (props) => {
     };
 
     return (
-        <Wrapper title={newTitle} isModal={isModal} show={show} setShow={setShow}>
+        <Wrapper title={newTitle} isModal={isModal} show={show} setShow={setShow} size={size}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="p-6">
                     <div className="card relative">

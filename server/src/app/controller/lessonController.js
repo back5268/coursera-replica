@@ -79,6 +79,7 @@ export const deleteLesson = async (req, res) => {
       });
 
     const data = await deleteLessonMd({ _id });
+    await updateCourseMd({ _id: lesson.courseId }, { $pull: { lessons: _id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

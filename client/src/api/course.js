@@ -9,3 +9,6 @@ export const updateCourseApi = (params) => postData('/admin/course/updateCourse'
 export const getListCourseWebApi = (params) => getData('/course/getListCourseWeb', params);
 export const detailCourseWebApi = (params) => getData('/course/detailCourseWeb', params);
 export const getListSearchApi = (params) => getData('/course/getListSearch', params);
+
+export const addCourseReviewApi = (params) => postData('/course/addCourseReview', params, true);
+export const deleteCourseReviewApi = (params) => postData('/course/deleteCourseReview', params);

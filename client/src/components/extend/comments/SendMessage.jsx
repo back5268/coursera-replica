@@ -6,7 +6,7 @@ import { Link } from '@components/uiCore';
 import { IoMdClose } from 'react-icons/io';
 import { addCommentApi } from '@api';
 
-export const SendMessage = ({ id, userInfo, objectId, parentId, type, setShow, setRender }) => {
+export const SendMessage = ({ id, userInfo, objectId, parentId, type, onWarning, setRender }) => {
   const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
 
@@ -21,7 +21,7 @@ export const SendMessage = ({ id, userInfo, objectId, parentId, type, setShow, s
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!userInfo?._id) return setShow(true);
+    if (!userInfo?._id) return onWarning();
     const params = { type, parentId, objectId };
     if (message) params.content = message;
     if (file) params.formData = { file };
