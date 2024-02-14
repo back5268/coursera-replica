@@ -1,18 +1,49 @@
-import { detailPostWebApi, getListCommentApi } from '@api';
+import { detailPostWebApi, getInfoApi, getListCommentApi, likePostApi, savePostApi } from '@api';
 import { Comments } from '@components/extend';
 import { Hr } from '@components/uiCore';
 import { useGetApi } from '@lib/react-query';
 import moment from 'moment';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { BiBookmark } from 'react-icons/bi';
+import { useNavigate, useParams } from 'react-router-dom';
+import { BiBookmark, BiSolidBookmark, BiSolidHeart } from 'react-icons/bi';
 import { BiHeart } from 'react-icons/bi';
+import { useConfirmState } from '@store';
+import { useAuthContext } from '@context/AuthContext';
 
 const DetailPostWeb = () => {
   const { slug } = useParams();
   const { data, isLoading } = useGetApi(detailPostWebApi, { slug }, 'post');
   const [render, setRender] = useState(false);
   const { data: comments } = useGetApi(getListCommentApi, { objectId: data?._id, type: 1, render }, 'comments', Boolean(data?._id));
+
+  const navigate = useNavigate();
+  const { showConfirm } = useConfirmState();
+  const { userInfo, setUserInfo } = useAuthContext();
+
+  const onWarning = async () => {
+    showConfirm({
+      title: 'Vui lòng đăng nhập để tiếp tục!',
+      action: () => navigate('/auth/signin')
+    });
+  };
+
+  const onLikePost = async () => {
+    if (!userInfo) return onWarning();
+    const response = await likePostApi({ _id: data?._id });
+    if (response) setRender((pre) => !pre);
+  };
+
+  const onSavePost = async () => {
+    if (!userInfo) return onWarning();
+    const response = await savePostApi({ _id: data?._id });
+    if (response) {
+      const response = await getInfoApi();
+      if (response) {
+        setUserInfo(response.userInfo);
+        setRender((pre) => !pre);
+      } else localStorage.removeItem('token');
+    }
+  };
 
   return (
     <div className="mt-24 flex">
@@ -37,9 +68,24 @@ const DetailPostWeb = () => {
                   <span>{data?.time} phút đọc</span>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <BiHeart size={20} className="cursor-pointer" />
-                <BiBookmark size={20} className="cursor-pointer" />
+              <div className="flex gap-2 justify-end px-2 pb-2 items-center">
+                <div onClick={() => onLikePost()} className="cursor-pointer">
+                  {data?.likes?.includes(userInfo?._id) ? (
+                    <BiSolidHeart size={20} className="text-red-600" />
+                  ) : (
+                    <BiHeart size={20} className="hover:text-red-600" />
+                  )}
+                </div>
+                <span>{data?.likes?.length}</span>
+                {!userInfo?.posts?.includes(data?._id) && (
+                  <div onClick={() => onSavePost()} className="cursor-pointer">
+                    {userInfo?.saves?.includes(data?._id) ? (
+                      <BiSolidBookmark size={20} className="text-primary-600" />
+                    ) : (
+                      <BiBookmark size={20} className="hover:text-primary-600" />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

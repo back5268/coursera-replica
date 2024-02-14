@@ -8,7 +8,19 @@ export const authMiddleware = async (req, res, next) => {
   if (!token) return res.status(401).json({ status: false, mess: 'Token không hợp lệ!' });
   try {
     const checkToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
-    const userInfo = await getDetailUserMd({ _id: checkToken._id });
+    const userInfo = await getDetailUserMd({ _id: checkToken._id }, [
+      {
+        path: 'saves',
+        select: '_id title slug time image by hashtag createdAt description likes',
+        populate: { path: 'by', select: 'avatar fullName' }
+      },
+      {
+        path: 'posts',
+        select: '_id title slug time image by hashtag createdAt description likes',
+        populate: { path: 'by', select: 'avatar fullName' }
+      }
+    ]);
+
     if (!userInfo) return res.status(401).json({ status: false, mess: 'Token không hợp lệ!' });
     req.userInfo = userInfo;
     next();

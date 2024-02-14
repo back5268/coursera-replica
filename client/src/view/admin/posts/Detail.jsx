@@ -1,12 +1,14 @@
-import {UploadImage, InputFormDetail, TextAreaForm} from '@components/form';
+import { UploadImage, InputFormDetail, TextAreaForm } from '@components/form';
 import { PostValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { addPostApi, updatePostApi } from '@api';
+import { addPostApi, detailPostApi, getInfoApi, updatePostApi } from '@api';
 import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
 import Editor from '@components/uiCore/Editor';
+import { useAuthContext } from '@context/AuthContext';
+import { useGetApi } from '@lib/react-query';
 
 const defaultValues = {
   title: '',
@@ -17,10 +19,11 @@ const defaultValues = {
 };
 
 const DetailPost = (props) => {
-  const { show, setShow, setParams, data } = props;
+  const { setUserInfo } = useAuthContext();
+  const { show, setShow, setParams = () => {} } = props;
   const [image, setImage] = useState(null);
   const isUpdate = typeof show === 'string';
-  const item = isUpdate ? data.find((d) => d._id === show) : {};
+  const { data: item } = useGetApi(detailPostApi, { _id: show }, 'post', isUpdate);
 
   const {
     register,
@@ -35,10 +38,10 @@ const DetailPost = (props) => {
   });
 
   useEffect(() => {
-    if (item?.hashtag && Array.isArray(item.hashtag)) item.hashtag = item?.hashtag?.join(', ');
-    if (item?.image) setImage(item.image)
+    if (item?.hashtag && Array.isArray(item.hashtag)) item.hashtag = item?.hashtag?.join('; ');
+    if (item?.image) setImage(item.image);
     if (isUpdate && item._id) {
-      if (item.avatar) setImage(item.image)
+      if (item.avatar) setImage(item.image);
       for (const key in defaultValues) {
         setValue(key, item[key]);
       }
@@ -46,12 +49,19 @@ const DetailPost = (props) => {
   }, [item]);
 
   const handleData = (data) => {
-    const hashtag = data.hashtag?.replace(/ /g, '').split(',') || [];
+    const hashtag = data.hashtag?.split(';') || [];
     const newData = { ...data, hashtag };
-    if (image) newData.formData = {image}
-    else if (item.image) newData.image = ""
+    if (image) newData.formData = { image };
+    else if (item.image) newData.image = '';
     if (isUpdate) return { ...checkEqualProp(newData, item), _id: show };
     else return newData;
+  };
+
+  const onSuccess = async () => {
+    const response = await getInfoApi();
+    if (response) {
+      setUserInfo(response.userInfo);
+    } else localStorage.removeItem('token');
   };
 
   return (
@@ -61,7 +71,7 @@ const DetailPost = (props) => {
       setShow={() => {
         setShow(false);
         reset();
-        setImage(null)
+        setImage(null);
       }}
       isUpdate={isUpdate}
       insertApi={addPostApi}
@@ -69,18 +79,26 @@ const DetailPost = (props) => {
       handleData={handleData}
       handleSubmit={handleSubmit}
       setParams={setParams}
+      onSuccess={onSuccess}
     >
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap text-left">
         <div className="w-5/12 p-2">
           <UploadImage label="Ảnh mô tả" data={image} setData={setImage} />
         </div>
         <div className="w-7/12">
           <InputFormDetail id="title" label="Tiêu đề (*)" register={register} errors={errors} className={'!w-full'} />
-          <InputFormDetail type="number" id="time" label="Thời gian đọc (phút) (*)" register={register} errors={errors} className={'!w-full'} />
+          <InputFormDetail
+            type="number"
+            id="time"
+            label="Thời gian đọc (phút) (*)"
+            register={register}
+            errors={errors}
+            className={'!w-full'}
+          />
           <InputFormDetail id="hashtag" label="Hagtag" register={register} className={'!w-full'} />
           <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
         </div>
-        <Editor id="content" label="Nội dung (*)" data={watch('content')} setData={e => setValue('content', e)} />
+        <Editor id="content" label="Nội dung (*)" data={watch('content')} setData={(e) => setValue('content', e)} />
       </div>
     </FormDetail>
   );

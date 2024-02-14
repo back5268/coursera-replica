@@ -10,17 +10,18 @@ import Search from './Search';
 const WebPosts = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
-  const { data, isLoading } = useGetApi(getListPostWebApi, params, 'posts');
+  const [render, setRender] = useState(false);
+  const { data, isLoading } = useGetApi(getListPostWebApi, { ...params, render }, 'posts');
 
   return (
     <div className="mt-24 flex">
-      <div className="w-8/12 ">
+      <div className="w-8/12 flex flex-col gap-2">
         <div className="flex justify-between items-center mb-2">
           <h2 className="uppercase font-semibold text-left p-2">Danh sách bài viết</h2>
           <Search setParams={setParams} />
         </div>
         <Hr />
-        {data?.documents?.length > 0 && data.documents.map((item, index) => <Post key={index} item={item} />)}
+        {data?.documents?.length > 0 && data.documents.map((item, index) => <Post key={index} item={item} setRender={setRender} />)}
         <Hr />
         <div className="flex justify-center my-4">
           <Pagination totalRecord={data?.total} params={params} setParams={setParams} />

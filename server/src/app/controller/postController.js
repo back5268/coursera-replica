@@ -31,7 +31,7 @@ export const getListPostWeb = async (req, res) => {
       limit,
       [{ path: 'by', select: 'avatar fullName' }],
       false,
-      '_id title slug time image by hashtag createdAt description'
+      '_id title slug time image by hashtag createdAt description likes'
     );
     const total = await countListPostMd(where);
     res.json({ status: true, data: { total, documents } });
@@ -58,7 +58,7 @@ export const detailPostWeb = async (req, res) => {
     const { error, value } = validateData(detailPostWebValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { slug } = value;
-    const data = await getDetailPostMd({ slug }, ['likes', { path: 'by', select: 'fullName avatar' }]);
+    const data = await getDetailPostMd({ slug }, [{ path: 'by', select: 'avatar fullName' }]);
     if (!data) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -81,7 +81,7 @@ export const deletePost = async (req, res) => {
         mess: 'Bạn không có quyền xóa bài viết này!'
       });
     const data = await deletePostMd({ _id });
-
+    await updateUserMd({ _id: req.userInfo._id }, { $pull: { posts: _id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -110,6 +110,7 @@ export const addPost = async (req, res) => {
       slug,
       description
     });
+    await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { posts: data._id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -171,7 +172,8 @@ export const savePost = async (req, res) => {
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
     let data;
-    if (req.userInfo?.saves?.includes(_id)) data = await updateUserMd({ _id: req.userInfo._id }, { $pull: { saves: _id } });
+    if (Boolean(req?.userInfo?.saves?.find((s) => String(s._id) === _id)))
+      data = await updateUserMd({ _id: req.userInfo._id }, { $pull: { saves: _id } });
     else data = await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { saves: _id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
