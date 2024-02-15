@@ -3,7 +3,7 @@ import { TECarousel, TECarouselItem } from 'tw-elements-react';
 
 const Carousel = ({ items = [] }) => {
   return (
-    <>
+    <div className='relative z-10'>
       <TECarousel showControls showIndicators ride="carousel" className="w-full">
         <div className="relative w-full h-80 overflow-hidden after:clear-both after:block after:content-['']">
           {items.map((item, index) => (
@@ -21,7 +21,7 @@ const Carousel = ({ items = [] }) => {
           ))}
         </div>
       </TECarousel>
-    </>
+    </div>
   );
 };
 

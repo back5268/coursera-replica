@@ -7,15 +7,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useToastState } from '@store';
 import { usePostApi } from '@lib/react-query';
-import { signinApi } from '@api';
+import { getInfoApi, signinApi } from '@api';
 import { useAuthContext } from '@context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { showToast } = useToastState();
   const { setUserInfo, setIsAuthenticated } = useAuthContext();
-  const { mutateAsync, isLoading } = usePostApi(signinApi);
+  const { mutateAsync, isPending } = usePostApi(signinApi);
 
   const {
     register,
@@ -27,11 +27,14 @@ const SignIn = () => {
   const onSubmit = async (data) => {
     const response = await mutateAsync(data);
     if (response) {
-      setUserInfo(response.userInfo);
-      setIsAuthenticated(true);
-      localStorage.setItem('token', response.token);
-      showToast({ title: 'Đăng nhập thành công', severity: 'success' });
-      navigate('/')
+      localStorage.setItem('token', response);
+      const res = await getInfoApi();
+      if (res) {
+        setUserInfo(res);
+        setIsAuthenticated(true);
+        showToast({ title: 'Đăng nhập thành công', severity: 'success' });
+        navigate('/');
+      }
     }
   };
 
@@ -45,8 +48,8 @@ const SignIn = () => {
             <CheckBox id="remember" label="Nhớ mật khẩu" />
             <Link to="/auth/forgot-password">Quên mật khẩu?</Link>
           </div>
-          <Button className="w-full flex gap-4" type="submit" disabled={isLoading}>
-            {isLoading && <Loading size={4} severity="neutral" />}
+          <Button className="w-full flex gap-4" type="submit" disabled={isPending}>
+            {isPending && <Loading size={4} severity="neutral" />}
             Sign in
           </Button>
           <div className="flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">

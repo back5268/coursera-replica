@@ -35,3 +35,17 @@ export const updateUserValid = {
   status: { type: 'number', allowNull: true },
   avatar: { type: 'string', allowNull: true }
 };
+
+export const updateUserInfoValid = {
+  username: { type: 'string', allowNull: true },
+  fullName: { type: 'string', allowNull: true },
+  email: { type: 'string', allowNull: true },
+  bio: { type: 'string', allowNull: true },
+  address: { type: 'string', allowNull: true },
+  avatar: { type: 'string', allowNull: true }
+};
+
+export const changePasswordValid = {
+  password: 'string',
+  newPassword: 'string'
+};

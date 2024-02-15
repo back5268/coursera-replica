@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
     try {
       const response = await getInfoApi();
       if (response) {
-        setUserInfo(response.userInfo);
+        setUserInfo(response);
         setIsAuthenticated(true);
       } else localStorage.removeItem('token');
     } catch (error) {

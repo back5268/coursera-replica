@@ -51,9 +51,20 @@ class ModelBase {
     return this.model.findOneAndUpdate(where, attr, { new: true });
   }
 
+  static updateMany({ where = {}, attr = {} }) {
+    if (Object.keys(where).length === 0) return;
+    if (!attr.updatedAt) attr.updatedAt = new Date();
+    return this.model.updateMany(where, attr);
+  }
+
   static delete({ where = {} }) {
     if (Object.keys(where).length === 0) return;
     return this.model.findOneAndUpdate(where, { updatedAt: new Date(), deletedAt: new Date() }, { new: true });
+  }
+
+  static deleteMany({ where = {} }) {
+    if (Object.keys(where).length === 0) return;
+    return this.model.updateMany(where, { updatedAt: new Date(), deletedAt: new Date() });
   }
 }
 

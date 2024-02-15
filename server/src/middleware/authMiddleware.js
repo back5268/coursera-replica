@@ -26,6 +26,11 @@ export const authMiddleware = async (req, res, next) => {
     ]);
 
     if (!userInfo) return res.status(401).json({ status: false, mess: 'Token không hợp lệ!' });
+    if (userInfo.token !== token) return res.status(401).json({ status: false, mess: 'Token không hợp lệ!' });
+    if (userInfo.status === 0)
+      return res
+        .status(401)
+        .json({ status: false, mess: 'Tài khoản của bạn chưa được kích hoạt hoặc đã bị khóa, vui lòng liên hệ quản trị viên!' });
     req.userInfo = userInfo;
     next();
   } catch (error) {

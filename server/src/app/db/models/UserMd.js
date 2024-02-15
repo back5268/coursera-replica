@@ -11,6 +11,7 @@ class UserMd extends ModelBase {
   bio;
   address;
   avatar;
+  token;
   role;
   courses;
   posts;
@@ -27,6 +28,7 @@ UserMd.init('User', {
   bio: { type: String },
   address: { type: String },
   avatar: { type: String },
+  token: { type: String },
   role: { type: String, default: 'user' },
   courses: [{ type: ObjectId, ref: 'CourseRegister' }],
   posts: [{ type: ObjectId, ref: 'Post' }],

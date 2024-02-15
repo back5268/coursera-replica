@@ -32,7 +32,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
       if (type === 'mine') {
         const response = await getInfoApi();
         if (response) {
-          setUserInfo(response.userInfo);
+          setUserInfo(response);
         } else localStorage.removeItem('token');
       }
     }
@@ -44,7 +44,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
     if (response) {
       const response = await getInfoApi();
       if (response) {
-        setUserInfo(response.userInfo);
+        setUserInfo(response);
         setRender((pre) => !pre);
       } else localStorage.removeItem('token');
     }
@@ -56,7 +56,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
     if (response) {
       const response = await getInfoApi();
       if (response) {
-        setUserInfo(response.userInfo);
+        setUserInfo(response);
       } else localStorage.removeItem('token');
     }
   };

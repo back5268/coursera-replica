@@ -60,7 +60,7 @@ const DetailPost = (props) => {
   const onSuccess = async () => {
     const response = await getInfoApi();
     if (response) {
-      setUserInfo(response.userInfo);
+      setUserInfo(response);
     } else localStorage.removeItem('token');
   };
 

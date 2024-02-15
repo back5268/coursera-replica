@@ -12,6 +12,14 @@ export const removeSpecialCharacter = (string) => {
   }
 };
 
+export const generateNumber = (length) => {
+  let result = '';
+  for (var i = 0; i < length; i++) {
+    result += Math.floor(Math.random() * 10);
+  }
+  return result;
+};
+
 export function removeVietnameseTones(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
   str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');

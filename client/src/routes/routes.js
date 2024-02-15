@@ -6,7 +6,6 @@ const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
   { path: '/auth/signup', element: SignUp, public: true },
   { path: '/auth/forgot-password', element: ForgotPassword, public: true },
-  { path: '/auth/confirm-password', element: ConfirmPassword, public: true },
 
   { path: '/', element: Home, layout: 'web', public: true },
   { path: '/courses', element: WebCourses, layout: 'web', public: true },

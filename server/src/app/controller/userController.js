@@ -1,4 +1,4 @@
-import { addUserValid, detailUserValid, listUserValid, updateUserValid } from '@lib/validation';
+import { addUserValid, changePasswordValid, detailUserValid, listUserValid, updateUserInfoValid, updateUserValid } from '@lib/validation';
 import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUserMd } from '@models';
 import { createUserRp } from '@repository';
 import { validateData } from '@utils';
@@ -105,6 +105,52 @@ export const updateUser = async (req, res) => {
     }
 
     const data = await updateUserMd({ _id }, attr);
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const updateUserInfo = async (req, res) => {
+  try {
+    const { error, value } = validateData(updateUserInfoValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { username, fullName, email, bio, address, avatar } = value;
+
+    if (email) {
+      const checkEmail = await getDetailUserMd({ email });
+      if (checkEmail) return res.status(400).json({ status: false, mess: 'Email đã tồn tại!' });
+    }
+
+    if (username) {
+      const checkUsername = await getDetailUserMd({ username });
+      if (checkUsername) return res.status(400).json({ status: false, mess: 'Tài khoản đã tồn tại!' });
+    }
+
+    if (req.file) {
+      avatar = await uploadFileToFirebase(req.file);
+    }
+
+    const attr = { username, fullName, email, bio, address, avatar };
+    const data = await updateUserMd({ _id: req.userInfo._id }, attr);
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const { error, value } = validateData(changePasswordValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+
+    const passLogin = await bcrypt.compare(value.password, req.userInfo.password);
+    if (!passLogin) return res.status(400).json({ status: false, mess: 'Mật khẩu không hợp lệ!' });
+
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(value.newPassword, salt);
+
+    const data = await updateUserMd({ _id: req.userInfo._id }, { password, token: '' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

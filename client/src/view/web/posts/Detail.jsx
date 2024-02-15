@@ -39,7 +39,7 @@ const DetailPostWeb = () => {
     if (response) {
       const response = await getInfoApi();
       if (response) {
-        setUserInfo(response.userInfo);
+        setUserInfo(response);
         setRender((pre) => !pre);
       } else localStorage.removeItem('token');
     }

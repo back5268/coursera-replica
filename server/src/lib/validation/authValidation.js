@@ -1,19 +1,24 @@
-import Joi from 'joi';
-
-export const signupValidation = function (data) {
-  const schema = Joi.object({
-    fullName: Joi.string().min(3).required(),
-    username: Joi.string().min(3).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required()
-  });
-  return schema.validate(data);
+export const signupValid = {
+  fullName: 'string',
+  username: 'string',
+  otp: 'string',
+  email: 'email',
+  password: { type: 'string', min: '6' }
 };
 
-export const signinValidation = function (data) {
-  const schema = Joi.object({
-    username: Joi.string().min(3).required(),
-    password: Joi.string().min(6).required()
-  });
-  return schema.validate(data);
+export const signinValid = {
+  username: 'string',
+  password: { type: 'string', min: '6' }
+};
+
+export const sendOtpAuthValid = {
+  username: 'string',
+  email: 'email'
+};
+
+export const confirmPasswordValid = {
+  username: 'string',
+  email: 'email',
+  otp: 'string',
+  password: { type: 'string', min: '6' }
 };

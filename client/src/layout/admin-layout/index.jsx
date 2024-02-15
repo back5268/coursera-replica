@@ -5,7 +5,7 @@ import { INITIAL_USER_INFO, useAuthContext } from '@context/AuthContext';
 import { useToastState } from '@store';
 import { useNavigate } from 'react-router-dom';
 
-const AdminLayout = (props) => {
+const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
   const [isShow, setIsShow] = useState(true);
   const { setUserInfo, setIsAuthenticated } = useAuthContext();
@@ -26,7 +26,7 @@ const AdminLayout = (props) => {
         <span className="fixed top-0 left-0 w-full min-h-48 bg-blue-500 opacity-40"></span>
       </div>
       <Sidebar isShow={isShow} setIsShow={setIsShow} onSignOut={onSignOut} />
-      <div className={`transition-all duration-500 ease-in-out p-6 mt-20 z-10 ${isShow ? 'ml-64' : 'ml-20'}`}>{props.children}</div>
+      <div className={`transition-all duration-500 ease-in-out p-6 mt-20 z-10 ${isShow ? 'ml-64' : 'ml-20'}`}>{children}</div>
     </div>
   );
 };

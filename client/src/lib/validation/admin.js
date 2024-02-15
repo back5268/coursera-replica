@@ -36,3 +36,22 @@ export const PostValidation = yup.object({
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   content: yup.string().required('Nội dung không được bỏ trống!')
 });
+
+export const UserInfoValidation = yup.object({
+  email: yup.string().email('Email không đúng định dạng!').required('Email không được bỏ trống!'),
+  username: yup.string().required('Tài khoản không được bỏ trống!'),
+  fullName: yup.string().required('Họ tên không được bỏ trống!')
+});
+
+export const ChangePasswordValidation = yup.object({
+  password: yup
+    .string()
+    .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
+    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .required('Mật khẩu không được bỏ trống!'),
+  newPassword: yup
+    .string()
+    .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
+    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .required('Mật khẩu không được bỏ trống!')
+});

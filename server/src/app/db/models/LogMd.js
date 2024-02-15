@@ -8,12 +8,13 @@ class LogMd extends ModelBase {
   content;
   type;
   status;
+  mess;
   deletedAt;
 }
 
 LogMd.init('Log', {
   to: { type: String, required: true },
-  title: { type: String, required: true },
+  subject: { type: String, required: true },
   content: { type: String, required: true },
   type: {
     type: Number,
@@ -27,6 +28,7 @@ LogMd.init('Log', {
     required: true,
     description: '0: Đang gửi, 1: Đã gửi, 2: Có lỗi'
   },
+  mess: { type: String },
   deletedAt: { type: Date }
 });
 

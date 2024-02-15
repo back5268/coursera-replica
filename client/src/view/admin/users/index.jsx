@@ -51,7 +51,7 @@ const Users = () => {
     if (item._id === userInfo._id) {
       const response = await getInfoApi();
       if (response) {
-        setUserInfo(response.userInfo);
+        setUserInfo(response);
       } else localStorage.removeItem('token');
     }
     const users = await getListUserInfoApi();

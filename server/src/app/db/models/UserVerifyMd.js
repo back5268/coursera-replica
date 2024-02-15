@@ -1,19 +1,20 @@
 import mongoose from 'mongoose';
 import { ModelBase } from '@config';
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
 
 class UserVerifyMd extends ModelBase {
-  userId;
-  token;
+  otp;
+  username;
+  email;
   type;
   expiredAt;
   deletedAt;
 }
 
 UserVerifyMd.init('UserVerify', {
-  userId: { type: ObjectId, required: true },
-  token: { type: String, required: true },
+  otp: { type: String, required: true },
+  username: { type: String, required: true },
+  email: { type: String, required: true },
   type: { type: Number, required: true, description: '1: Xác thực đăng ký, 2: Xác thực quên mật khẩu' },
   expiredAt: { type: Date, required: true },
   deletedAt: { type: Date }
@@ -41,4 +42,8 @@ export const updateUserVerifyMd = (where, attr) => {
 
 export const deleteUserVerifyMd = (where) => {
   return UserVerifyMd.delete({ where });
+};
+
+export const deleteManyUserVerifyMd = (where) => {
+  return UserVerifyMd.deleteMany({ where });
 };

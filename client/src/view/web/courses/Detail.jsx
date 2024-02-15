@@ -43,7 +43,7 @@ const DetailCourseWeb = () => {
         if (response) {
           const response = await getInfoApi();
           if (response) {
-            setUserInfo(response.userInfo);
+            setUserInfo(response);
             navigate('/courses/my-courses');
           } else localStorage.removeItem('token');
           showToast({ title: title2, severity: 'success' });
