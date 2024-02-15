@@ -142,7 +142,7 @@ const DataTable = (props) => {
                       const bgColor = index % 2 === 1 ? 'bg-neutral-50' : '';
                       return (
                         <tr key={index} className="dark:border-neutral-500">
-                          <td className={`px-4 py-4 font-medium border-[1px] ${bgColor}`}>
+                          <td className={`px-4 py-4 font-medium border-[1px] text-center ${bgColor}`}>
                             {(params.page - 1) * params.limit + index + 1}
                           </td>
                           {columns.map((column, i) => {

@@ -14,7 +14,6 @@ import {
   countListCourseMd,
   deleteCourseMd,
   getDetailCourseMd,
-  getDetailCourseRegisterMd,
   getListCourseMd,
   getListLessonMd,
   getListPostMd,
@@ -45,7 +44,7 @@ export const getListCourse = async (req, res) => {
 
 export const getListCourseInfo = async (req, res) => {
   try {
-    const data = await getListCourseMd({}, false, false, false, false, '_id name');
+    const data = await getListCourseMd({}, false, false, false, false, '_id name slug');
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

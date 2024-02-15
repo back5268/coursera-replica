@@ -3,12 +3,11 @@ import { UserValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {addUserApi, getInfoApi, getListUserInfoApi, updateUserApi} from '@api';
+import {addUserApi, getInfoApi, updateUserApi} from '@api';
 import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
 import { userRoles } from '@constant';
 import {useAuthContext} from "@context/AuthContext";
-import {useDataState} from "@store";
 
 const defaultValues = {
   fullName: '',
@@ -23,7 +22,6 @@ const defaultValues = {
 
 const DetailUser = (props) => {
   const { userInfo, setUserInfo } = useAuthContext()
-  const { setUsers } = useDataState()
   const { show, setShow, setParams, data } = props;
   const [avatar, setAvatar] = useState(null);
   const isUpdate = typeof show === 'string';
@@ -65,8 +63,6 @@ const DetailUser = (props) => {
         setUserInfo(response);
       } else localStorage.removeItem('token');
     }
-    const users = await getListUserInfoApi();
-    if (users) setUsers(users)
   }
 
   return (

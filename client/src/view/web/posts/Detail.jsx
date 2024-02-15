@@ -9,12 +9,14 @@ import { BiBookmark, BiSolidBookmark, BiSolidHeart } from 'react-icons/bi';
 import { BiHeart } from 'react-icons/bi';
 import { useConfirmState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
+import { getRoleTitle } from '@utils';
 
 const DetailPostWeb = () => {
   const { slug } = useParams();
-  const { data, isLoading } = useGetApi(detailPostWebApi, { slug }, 'post');
   const [render, setRender] = useState(false);
-  const { data: comments } = useGetApi(getListCommentApi, { objectId: data?._id, type: 1, render }, 'comments', Boolean(data?._id));
+  const [renderComment, setRenderComment] = useState(false);
+  const { data, isLoading } = useGetApi(detailPostWebApi, { slug, render }, 'post');
+  const { data: comments } = useGetApi(getListCommentApi, { objectId: data?._id, type: 1, render: renderComment }, 'comments', Boolean(data?._id));
 
   const navigate = useNavigate();
   const { showConfirm } = useConfirmState();
@@ -61,7 +63,9 @@ const DetailPostWeb = () => {
             </div>
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col gap-1 text-sm">
-                <span className="font-semibold">{data?.by?.fullName}</span>
+                <span className="font-semibold">
+                  {data?.by?.fullName} {getRoleTitle(data?.by?.role)}
+                </span>
                 <div className="flex gap-2">
                   <span>{data?.createdAt ? moment(data.createdAt).format('DD/MM/YYYY HH:mm:ss') : ''}</span>
                   <span>•</span>
@@ -77,9 +81,9 @@ const DetailPostWeb = () => {
                   )}
                 </div>
                 <span>{data?.likes?.length}</span>
-                {!userInfo?.posts?.includes(data?._id) && (
+                {!Boolean(userInfo?.posts?.find((s) => s._id === data?._id)) && (
                   <div onClick={() => onSavePost()} className="cursor-pointer">
-                    {userInfo?.saves?.includes(data?._id) ? (
+                    {Boolean(userInfo?.saves?.find((s) => s._id === data?._id)) ? (
                       <BiSolidBookmark size={20} className="text-primary-600" />
                     ) : (
                       <BiBookmark size={20} className="hover:text-primary-600" />
@@ -105,7 +109,7 @@ const DetailPostWeb = () => {
             </div>
           </div>
         </div>
-        <Comments objectId={data?._id} comments={comments} setRender={setRender} type={1} />
+        <Comments objectId={data?._id} comments={comments} setRender={setRenderComment} type={1} />
       </div>
     </div>
   );

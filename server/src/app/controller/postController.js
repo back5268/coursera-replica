@@ -1,7 +1,8 @@
 import { addPostValid, listPostValid, updatePostValid, detailPostValid, detailPostWebValid } from '@lib/validation';
-import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd, updateUserMd } from '@models';
+import { addNotifyMd, addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd, updateUserMd } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
+import { NOTI_CONTENT } from '@constant';
 
 export const getListPost = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ export const getListPost = async (req, res) => {
     const { page, limit, keySearch } = value;
     const where = {};
     if (keySearch) where.title = { $regex: keySearch, $options: 'i' };
-    const documents = await getListPostMd(where, page, limit);
+    const documents = await getListPostMd(where, page, limit, [{ path: 'by', select: 'fullName role' }]);
     const total = await countListPostMd(where);
     res.json({ status: true, data: { documents, total } });
   } catch (error) {
@@ -29,7 +30,7 @@ export const getListPostWeb = async (req, res) => {
       where,
       page,
       limit,
-      [{ path: 'by', select: 'avatar fullName' }],
+      [{ path: 'by', select: 'avatar fullName role' }],
       false,
       '_id title slug time image by hashtag createdAt description likes'
     );
@@ -58,7 +59,7 @@ export const detailPostWeb = async (req, res) => {
     const { error, value } = validateData(detailPostWebValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { slug } = value;
-    const data = await getDetailPostMd({ slug }, [{ path: 'by', select: 'avatar fullName' }]);
+    const data = await getDetailPostMd({ slug }, [{ path: 'by', select: 'avatar fullName role' }]);
     if (!data) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -155,7 +156,20 @@ export const likePost = async (req, res) => {
 
     let data;
     if (post.likes?.includes(req.userInfo._id)) data = await updatePostMd({ _id }, { $pull: { likes: req.userInfo._id } });
-    else data = await updatePostMd({ _id }, { $addToSet: { likes: req.userInfo._id } });
+    else {
+      if (String(post.by) !== String(req.userInfo._id))
+        await addNotifyMd({
+          fromBy: 2,
+          by: req.userInfo._id,
+          to: post.by,
+          content: NOTI_CONTENT[1],
+          objectId: post._id,
+          type: 1,
+          status: 0,
+          data: { slug: post.slug }
+        });
+      data = await updatePostMd({ _id }, { $addToSet: { likes: req.userInfo._id } });
+    }
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

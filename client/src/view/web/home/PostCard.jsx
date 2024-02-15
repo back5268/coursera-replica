@@ -1,4 +1,5 @@
 import { Button, Link } from '@components/uiCore';
+import { getRoleTitle } from '@utils';
 import React, { useState } from 'react';
 
 const PostCard = ({ item }) => {
@@ -31,7 +32,7 @@ const PostCard = ({ item }) => {
               style={{ backgroundImage: `url('${item.by?.avatar || '/images/avatar.jpg'}')` }}
             ></div>
           </div>
-          <span className="text-sm">{item.by?.fullName}</span>
+          <span className="text-sm">{item.by?.fullName} {getRoleTitle(item.by?.role)}</span>
           <span className="text-sm">•</span>
           <span className="text-xs">{item.time || 0} phút đọc</span>
         </div>

@@ -1,6 +1,16 @@
+import { NOTI_CONTENT } from '@constant';
 import { uploadFileToFirebase } from '@lib/firebase';
 import { addCommentValid, deleteCommentValid, listCommentLessonValid, listCommentValid } from '@lib/validation';
-import { addCommentMd, countListCommentMd, deleteCommentMd, getDetailCommentMd, getListCommentMd, updateCommentMd } from '@models';
+import {
+  addCommentMd,
+  addNotifyMd,
+  countListCommentMd,
+  deleteCommentMd,
+  getDetailCommentMd,
+  getDetailPostMd,
+  getListCommentMd,
+  updateCommentMd
+} from '@models';
 import { validateData } from '@utils';
 
 export const getListCommentLesson = async (req, res) => {
@@ -31,7 +41,7 @@ export const getListComment = async (req, res) => {
     if (!parentId) where.parentId = null;
     else if (parentId) where.parentId = parentId;
     if (status || status === 0) where.status = status;
-    const data = await getListCommentMd(where, false, false, [{ path: 'by', select: 'avatar fullName' }]);
+    const data = await getListCommentMd(where, false, false, [{ path: 'by', select: 'avatar fullName role' }]);
     if (data && data.length > 0) {
       for (const datum of data) {
         if (!datum.parentId)
@@ -56,6 +66,28 @@ export const addComment = async (req, res) => {
       file = await uploadFileToFirebase(req.file);
     }
     const data = await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 });
+    if (type === 1) {
+      const post = await getDetailPostMd({ _id: objectId });
+      const attr = { fromBy: 2, by: req.userInfo._id, status: 0, objectId, data: { slug: post.slug } };
+      if (parentId) {
+        const comment = await getDetailCommentMd({ _id: parentId });
+        if (String(req.userInfo._id) !== String(comment.by))
+          await addNotifyMd({
+            ...attr,
+            to: comment.by,
+            content: NOTI_CONTENT[3],
+            type: 3
+          });
+      } else {
+        if (String(req.userInfo._id) !== String(post.by))
+          await addNotifyMd({
+            ...attr,
+            to: post.by,
+            content: NOTI_CONTENT[2],
+            type: 2
+          });
+      }
+    }
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

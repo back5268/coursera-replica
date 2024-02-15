@@ -37,11 +37,11 @@ const Log = () => {
 
     const columns = [
         {label: 'Địa chỉ nhận', field: 'to'},
-        {label: 'Tiêu đề', field: 'title'},
+        {label: 'Tiêu đề', field: 'subject'},
         {label: 'Nội dung', field: 'content'},
-        {label: 'Loại thông báo', body: (item) => NumberBody(item.time)},
+        {label: 'Loại thông báo', body: (item) => logType.find((c) => c.key === item.type)?.label},
         {label: 'Thời gian gửi', body: (item) => TimeBody(item.createdAt)},
-        {label: 'Trạng thái', body: (item) => NumberBody(item.time)},
+        {label: 'Trạng thái', body: (item) => (item.status === 1) ? 'Đã gửi' : 'Có lỗi'},
     ];
 
     const {isLoading, data} = useGetApi(getListLogApi, params, 'logs');

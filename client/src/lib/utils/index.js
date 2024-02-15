@@ -1,3 +1,5 @@
+import { userRoles } from '@constant';
+
 export const removeUndefinedProps = (obj) => {
   for (let prop in obj) {
     if (!(obj[prop] || obj[prop] === '' || obj[prop] === 0)) {
@@ -85,5 +87,13 @@ export const multiFormatDateString = (timestamp = '') => {
       return `${Math.floor(diffInMinutes)} phút trước`;
     default:
       return 'vừa xong';
+  }
+};
+
+export const getRoleTitle = (role) => {
+  const rolez = userRoles.find((u) => u.key === role) || {};
+  if (rolez.label) {
+    if (rolez.key === 'user') return '';
+    else return `(${rolez.label})`;
   }
 };

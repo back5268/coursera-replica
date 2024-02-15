@@ -36,7 +36,7 @@ export const SendMessage = ({ id, userInfo, objectId, parentId, type, onWarning,
   return (
     <div className="flex gap-2">
       <div className="h-[32px] w-[32px]">
-        <div className="h-[32px] w-[32px] rounded-full bg-black bg-cover" style={{ backgroundImage: `url('${userInfo?.avatar}')` }}></div>
+        <div className="h-[32px] w-[32px] rounded-full bg-black bg-cover" style={{ backgroundImage: `url('${userInfo?.avatar || '/images/avatar.jpg'}')` }}></div>
       </div>
       <form onSubmit={onSubmit} className="w-full relative">
         <input {...getInputProps()} className="cursor-pointer" />

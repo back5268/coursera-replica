@@ -36,7 +36,7 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
         <div className="h-[32px] w-[32px]">
           <div
             className="h-[32px] w-[32px] rounded-full bg-black bg-cover"
-            style={{ backgroundImage: `url('${comment?.by?.avatar}')` }}
+            style={{ backgroundImage: `url('${comment?.by?.avatar || '/images/avatar.jpg'}')` }}
           ></div>
         </div>
         <div className="flex flex-col gap-1 w-full">

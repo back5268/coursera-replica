@@ -2,12 +2,12 @@ import { Button, Hr } from '@components/uiCore';
 import React, { useEffect, useRef, useState } from 'react';
 import { TERipple } from 'tw-elements-react';
 import { BiLogOut } from 'react-icons/bi';
-import { IoNavigateOutline } from "react-icons/io5";
+import { IoNavigateOutline } from 'react-icons/io5';
 import { useAuthContext } from '@context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { BiUserCircle } from "react-icons/bi";
-import { BiBookBookmark } from "react-icons/bi";
-import { BiCalendarHeart } from "react-icons/bi";
+import { BiUserCircle } from 'react-icons/bi';
+import { BiBookBookmark } from 'react-icons/bi';
+import { BiCalendarHeart } from 'react-icons/bi';
 
 const items = [
   { label: 'Thông tin cá nhân', icon: BiUserCircle, route: '/personal' },
@@ -19,7 +19,7 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
   const { userInfo } = useAuthContext();
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClickOutside = (e) => {
     if (ref.current && !ref.current.contains(e.target)) {
@@ -37,7 +37,10 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
   return (
     <div ref={ref} className="relative items-center">
       <div onClick={() => setIsShow(!isShow)} className="p-1 rounded-md shadow-xl">
-        <div className={`relative cursor-pointer h-10 w-10 rounded-md bg-cover`} style={{ backgroundImage: `url(${userInfo.avatar || '/images/avatar.jpg'})` }}>
+        <div
+          className={`relative cursor-pointer h-10 w-10 rounded-md bg-cover`}
+          style={{ backgroundImage: `url(${userInfo.avatar || '/images/avatar.jpg'})` }}
+        >
           <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-10"></span>
         </div>
       </div>
@@ -47,7 +50,10 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
       >
         <div className="flex h-24 items-center">
           <div className="w-5/12 items-center flex justify-center">
-            <div className="relative h-16 w-16 rounded-md bg-cover" style={{ backgroundImage: `url(${userInfo.avatar || '/images/avatar.jpg'})`}}>
+            <div
+              className="relative h-16 w-16 rounded-md bg-cover"
+              style={{ backgroundImage: `url(${userInfo.avatar || '/images/avatar.jpg'})` }}
+            >
               <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-15"></span>
             </div>
           </div>
@@ -61,7 +67,8 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
           {items.map((item, index) => (
             <li key={index}>
               <TERipple className="w-full" rippleColor="light">
-                <Link to={item.route}
+                <Link
+                  to={item.route}
                   className={`flex h-12 cursor-pointer items-center truncate rounded-sm px-5 py-2 text-sm
                    outline-none transition duration-300 ease-in-out hover:bg-primary-100 hover:text-primary
                   hover:outline-none gap-4 my-1`}
@@ -75,10 +82,16 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
           ))}
         </ul>
         <div className="flex flex-col gap-2 my-4">
-          <Button onClick={() => navigate(mode === 'admin' ? '/' : '/admin')} className={`w-full flex gap-2 truncate`} severity="secondary">
-            <IoNavigateOutline size={16} />
-            <span>{mode === 'admin' ? 'Chuyển đến trang chủ' : 'Chuyển đến trang admin'}</span>
-          </Button>
+          {['staff', 'admin'].includes(userInfo?.role) && (
+            <Button
+              onClick={() => navigate(mode === 'admin' ? '/' : '/admin')}
+              className={`w-full flex gap-2 truncate`}
+              severity="secondary"
+            >
+              <IoNavigateOutline size={16} />
+              <span>{mode === 'admin' ? 'Chuyển đến trang chủ' : 'Chuyển đến trang admin'}</span>
+            </Button>
+          )}
           <Button onClick={() => onSignOut()} className={`w-full flex gap-2 truncate`}>
             <BiLogOut size={16} />
             <span>Đăng xuất</span>

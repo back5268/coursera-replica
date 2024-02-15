@@ -6,5 +6,5 @@ export const notifyRouter = express.Router();
 
 notifyRouter.use(authMiddleware);
 notifyRouter.get('/getListNotify', getListNotify);
-notifyRouter.get('/updateStatusNotify', updateStatusNotify);
-notifyRouter.get('/readAllNotify', readAllNotify);
+notifyRouter.post('/updateStatusNotify', updateStatusNotify);
+notifyRouter.post('/readAllNotify', readAllNotify);

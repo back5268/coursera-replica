@@ -1,5 +1,5 @@
 import { uploadFileToFirebase } from '@lib/firebase';
-import { addCourseReviewValid, deleteCourseReviewValid, listCourseReviewValid, listCourseReviewWebValid } from '@lib/validation';
+import { addCourseReviewValid, deleteCourseReviewValid, listCourseReviewValid } from '@lib/validation';
 import {
   addCourseReviewMd,
   countListCourseReviewMd,
@@ -18,7 +18,7 @@ export const getListCourseReview = async (req, res) => {
     const where = {};
     if (courseId) where.courseId = courseId;
     if (rating) where.rating = rating;
-    const documents = await getListCourseReviewMd(where, page, limit);
+    const documents = await getListCourseReviewMd(where, page, limit, [{ path: 'by', select: 'fullName role' }]);
     const total = await countListCourseReviewMd(where);
     res.json({ status: true, data: { documents, total } });
   } catch (error) {

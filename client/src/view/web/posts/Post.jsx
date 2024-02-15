@@ -6,7 +6,7 @@ import { BiSolidHeart } from 'react-icons/bi';
 import { BiSolidEdit } from 'react-icons/bi';
 import { BiSolidTrash } from 'react-icons/bi';
 import React from 'react';
-import { multiFormatDateString } from '@utils';
+import { getRoleTitle, multiFormatDateString } from '@utils';
 import { useNavigate } from 'react-router-dom';
 import { useConfirmState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
@@ -72,7 +72,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
             ></div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium">{item?.by?.fullName}</span>
+            <span className="text-sm font-medium">{item?.by?.fullName} {getRoleTitle(item?.by?.role)}</span>
             <div className="flex gap-2">
               <p className="text-sm">{multiFormatDateString(item.createdAt)}</p>
               <p className="text-sm">•</p>

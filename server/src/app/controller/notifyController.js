@@ -1,6 +1,6 @@
-import { countListNotifyMd, getListNotifyMd, updateNotifyMd } from '@models';
+import { getListNotifyMd, updateManyNotifyMd, updateNotifyMd } from '@models';
 import { validateData } from '@utils';
-import { listNotifyValid, updateNotifyValid } from '@lib/validation';
+import { listNotifyValid, readAllNotifyValid, updateNotifyValid } from '@lib/validation';
 
 export const getListNotify = async (req, res) => {
   try {
@@ -9,9 +9,8 @@ export const getListNotify = async (req, res) => {
     const { page, limit, status } = value;
     const where = { to: req.userInfo._id };
     if (status || status === 0) where.status = status;
-    const documents = await getListNotifyMd(where, page, limit);
-    const total = await countListNotifyMd(where);
-    res.json({ status: true, data: { documents, total } });
+    const data = await getListNotifyMd(where, page, limit, [{ path: 'by', select: 'avatar fullName role' }]);
+    res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }
@@ -19,7 +18,7 @@ export const getListNotify = async (req, res) => {
 
 export const updateStatusNotify = async (req, res) => {
   try {
-    const { error, value } = validateData(updateNotifyValid, req.query);
+    const { error, value } = validateData(updateNotifyValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id, status } = value;
     const data = await updateNotifyMd({ _id, to: req.userInfo._id }, { status });
@@ -31,9 +30,12 @@ export const updateStatusNotify = async (req, res) => {
 
 export const readAllNotify = async (req, res) => {
   try {
-    const { error, value } = validateData(updateNotifyValid, req.query);
+    const { error, value } = validateData(readAllNotifyValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { status } = value;
+
+    const data = await updateManyNotifyMd({ to: req.userInfo._id }, { status });
+    res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }

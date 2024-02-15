@@ -5,5 +5,10 @@ export const listNotifyValid = {
 };
 
 export const updateNotifyValid = {
+  _id: 'string',
+  status: 'number'
+};
+
+export const readAllNotifyValid = {
   status: 'number'
 };

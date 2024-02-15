@@ -1,4 +1,4 @@
-import { getInfoApi, getListCourseInfoApi, getListLessonInfoApi, getListUserInfoApi } from '@api';
+import { getInfoApi, getListCourseInfoApi, getListLessonInfoApi } from '@api';
 import { Loading } from '@components/base';
 import { useDataState } from '@store';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -48,8 +48,6 @@ export function AuthProvider({ children }) {
 
   const getData = async () => {
     try {
-      const users = await getListUserInfoApi();
-      if (users) setUsers(users);
       const courses = await getListCourseInfoApi();
       if (courses) setCourses(courses);
       const lessons = await getListLessonInfoApi();

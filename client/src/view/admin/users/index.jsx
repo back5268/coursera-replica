@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteUserApi, getInfoApi, getListUserApi, getListUserInfoApi, updateUserApi } from '@api';
+import { deleteUserApi, getInfoApi, getListUserApi, updateUserApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { statuses } from '@constant';
 import { useGetParams } from '@hook';
@@ -7,7 +7,6 @@ import { useGetApi } from '@lib/react-query';
 import Detail from './Detail';
 import { DataFilter, TimeBody, FormList } from '@components/base';
 import { useAuthContext } from '@context/AuthContext';
-import { useDataState } from '@store';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -32,7 +31,6 @@ const Filter = ({ setParams }) => {
 
 const Users = () => {
   const { userInfo, setUserInfo } = useAuthContext();
-  const { setUsers } = useDataState();
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
   const [show, setShow] = useState(false);
@@ -54,8 +52,6 @@ const Users = () => {
         setUserInfo(response);
       } else localStorage.removeItem('token');
     }
-    const users = await getListUserInfoApi();
-    if (users) setUsers(users);
   };
 
   return (
