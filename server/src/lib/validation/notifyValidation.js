@@ -1,6 +1,6 @@
 export const listNotifyValid = {
   page: 'number',
-  limit: 'number',
+  limit: { type: 'number', allowNull: true },
   status: { type: 'number', allowNull: true }
 };
 

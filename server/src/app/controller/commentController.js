@@ -9,7 +9,6 @@ import {
   getDetailCommentMd,
   getDetailPostMd,
   getListCommentMd,
-  updateCommentMd
 } from '@models';
 import { validateData } from '@utils';
 
@@ -71,21 +70,25 @@ export const addComment = async (req, res) => {
       const attr = { fromBy: 2, by: req.userInfo._id, status: 0, objectId, data: { slug: post.slug } };
       if (parentId) {
         const comment = await getDetailCommentMd({ _id: parentId });
-        if (String(req.userInfo._id) !== String(comment.by))
+        if (String(req.userInfo._id) !== String(comment.by)) {
+          attr.data._id = parentId;
           await addNotifyMd({
             ...attr,
             to: comment.by,
             content: NOTI_CONTENT[3],
             type: 3
           });
+        }
       } else {
-        if (String(req.userInfo._id) !== String(post.by))
+        if (String(req.userInfo._id) !== String(post.by)) {
+          attr.data._id = data._id;
           await addNotifyMd({
             ...attr,
             to: post.by,
             content: NOTI_CONTENT[2],
             type: 2
           });
+        }
       }
     }
     res.json({ status: true, data });

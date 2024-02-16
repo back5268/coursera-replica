@@ -1,6 +1,6 @@
 import React from 'react';
-import NotifySection from './NotifySection';
 import AvatarSection from './AvatarSection';
+import NotifySection from './notify-section';
 
 const TopBar = (props) => {
   const { isShow, setIsShow, onSignOut } = props;

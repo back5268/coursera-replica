@@ -101,7 +101,7 @@ const SearchSection = () => {
                     {data.posts.map((item, index) => {
                       return (
                         <Link
-                          to={`/courses/detail/${item.slug}`}
+                          to={`/posts/detail/${item.slug}`}
                           key={index}
                           className="w-full hover:bg-primary-50 rounded-md flex gap-4 items-center text-sm p-2"
                         >

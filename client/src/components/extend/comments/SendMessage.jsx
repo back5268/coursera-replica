@@ -41,7 +41,7 @@ export const SendMessage = ({ id, userInfo, objectId, parentId, type, onWarning,
       <form onSubmit={onSubmit} className="w-full relative">
         <input {...getInputProps()} className="cursor-pointer" />
         <input
-          id={id}
+          id={`send_${id}`}
           type="search"
           className="w-full py-1 block flex-auto rounded border border-solid border-neutral-300 bg-transparent 
           bg-clip-padding px-3 text-base font-normal leading-[1.6] text-neutral-700 outline-none 

@@ -32,7 +32,7 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
 
   return (
     <div className="my-4">
-      <div className="flex gap-2">
+      <div id={comment?._id} className="flex gap-2">
         <div className="h-[32px] w-[32px]">
           <div
             className="h-[32px] w-[32px] rounded-full bg-black bg-cover"

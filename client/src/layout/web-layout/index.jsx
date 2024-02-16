@@ -2,12 +2,12 @@ import { INITIAL_USER_INFO, useAuthContext } from '@context/AuthContext';
 import React, { useEffect, useState } from 'react';
 import SearchSection from './SearchSection';
 import AvatarSection from '@layout/admin-layout/top-bar/AvatarSection';
-import NotifySection from '@layout/admin-layout/top-bar/NotifySection';
 import { Button, Link } from '@components/uiCore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useToastState } from '@store';
 import Footer from './Footer';
 import { items } from './items';
+import NotifySection from '@layout/admin-layout/top-bar/notify-section';
 
 const WebLayout = ({ children }) => {
   const navigate = useNavigate();

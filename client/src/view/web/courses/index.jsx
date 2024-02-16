@@ -12,7 +12,7 @@ import { getListCourseWebApi } from '@api';
 const WebCourses = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
-  const [sort, setSort] = useState({ orderBy: 'createdAt', orderType: 1 });
+  const [sort, setSort] = useState({ orderBy: 'createdAt', orderType: -1 });
   const { data, isLoading } = useGetApi(getListCourseWebApi, params, 'courses');
 
   useEffect(() => {

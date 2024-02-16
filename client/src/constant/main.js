@@ -49,6 +49,6 @@ export const orderBy = [
 ];
 
 export const orderType = [
-  { label: 'Từ cao đến thấp', key: 1 },
-  { label: 'Từ thấp đến cao', key: -1 }
+  { label: 'Từ cao đến thấp', key: -1 },
+  { label: 'Từ thấp đến cao', key: 1 }
 ];
