@@ -6,7 +6,9 @@ import {
   listCourseWebValid,
   listSearchValid,
   detailCourseWebValid,
-  registerCourseValid
+  registerCourseValid,
+  detailCourseRegisterValid,
+  detailLessonRegisterValid
 } from '@lib/validation';
 import {
   addCourseMd,
@@ -14,10 +16,13 @@ import {
   countListCourseMd,
   deleteCourseMd,
   getDetailCourseMd,
+  getDetailCourseRegisterMd,
+  getDetailLessonMd,
   getListCourseMd,
   getListLessonMd,
   getListPostMd,
   updateCourseMd,
+  updateCourseRegisterMd,
   updateUserMd
 } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
@@ -238,11 +243,76 @@ export const registerCourse = async (req, res) => {
     } else attr.status = 1;
 
     if (course.lessons.length > 0) {
-      attr.lessons = course.lessons.map((less) => ({ lessonId: less, isCompleted: false }));
+      attr.lessons = course.lessons.map((lessson, index) => {
+        if (index === 0) return { lesson: lessson, status: 'isStudy' };
+        else return { lesson: lessson, status: 'isLocked' };
+      });
     }
 
     const data = await addCourseRegisterMd(attr);
     await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { courses: data._id } });
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const detailCourseRegister = async (req, res) => {
+  try {
+    const { error, value } = validateData(detailCourseRegisterValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { slug } = value;
+    const data = await getDetailCourseRegisterMd({ 'courseInfo.slug': slug, userId: req.userInfo._id, status: { $in: [1, 2] } }, [
+      { path: 'lessons.lesson', select: '_id title time' }
+    ]);
+    if (!data) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const detailLessonRegister = async (req, res) => {
+  try {
+    const { error, value } = validateData(detailLessonRegisterValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { courseId, lessonId } = value;
+
+    const courseRegister = await getDetailCourseRegisterMd({ courseId, userId: req.userInfo._id, status: { $in: [1, 2] } });
+    if (!courseRegister) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
+
+    const checkLesson = courseRegister.lessons?.find((lesson) => String(lesson.lesson) === lessonId);
+    if (!checkLesson) return res.status(400).json({ status: false, mess: 'Bài học không tồn tại trong khóa học này!' });
+    if (!['isStudy', 'isCompleted'].includes(checkLesson.status))
+      return res.status(400).json({ status: false, mess: 'Bạn phải hoàn thành các bài học trước đó mới có thể học tiếp!' });
+
+    const data = await getDetailLessonMd({ _id: lessonId }, [{ path: 'questions', select: 'content answers' }]);
+    res.json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const completeLesson = async (req, res) => {
+  try {
+    const { error, value } = validateData(detailLessonRegisterValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { courseId, lessonId } = value;
+    const courseRegister = await getDetailCourseRegisterMd({ courseId, userId: req.userInfo._id, status: { $in: [1, 2] } });
+    if (!courseRegister) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
+
+    let id;
+    let status;
+    const newLessons = courseRegister.lessons?.map((lesson, index) => {
+      if (String(lesson.lesson) === lessonId) {
+        if (index + 1 === courseRegister.lessons.length) status = 2;
+        else id = index + 1;
+        return { lesson: lesson._id, status: 'isCompleted' };
+      } else if (index === id) return { lesson: lesson._id, status: 'isStudy' };
+      else return { ...lesson };
+    });
+
+    const data = await updateCourseRegisterMd({ _id: courseRegister._id }, { status, lessons: newLessons });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

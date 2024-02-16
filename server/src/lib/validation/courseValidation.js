@@ -65,3 +65,12 @@ export const updateCourseValid = {
 export const registerCourseValid = {
   courseId: 'string'
 };
+
+export const detailCourseRegisterValid = {
+  slug: 'string'
+};
+
+export const detailLessonRegisterValid = {
+  courseId: 'string',
+  lessonId: 'string',
+};

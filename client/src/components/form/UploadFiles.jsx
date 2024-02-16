@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { BiTrash } from 'react-icons/bi';
 
 export const UploadFiles = (props) => {
-  const { files = [], setFiles, label, max } = props;
+  const { files = [], setFiles, label, max, isView } = props;
 
   const removeFile = (item) => {
     setFiles(files.filter((f) => f !== item));
@@ -19,18 +19,20 @@ export const UploadFiles = (props) => {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div className={'p-2 w-full'}>
+    <div className={`p-2 w-full`}>
       <div className="card flex flex-col cursor-pointer">
         <div className={'flex justify-between items-center mb-2'}>
-          {label && <label className="font-semibold mb-2">{label}</label>}
-          <div className={'flex gap-2'}>
-            <Button severity="danger" className={'!px-4'} onClick={() => setFiles([])}>
-              <BiTrash size={16} />
-            </Button>
-            <div {...getRootProps()}>
-              <Button label={'Chọn files'} />
+          {label && <label className="font-semibold">{label}</label>}
+          {!isView && (
+            <div className={'flex gap-2'}>
+              <Button severity="danger" className={'!px-4'} onClick={() => setFiles([])}>
+                <BiTrash size={16} />
+              </Button>
+              <div {...getRootProps()}>
+                <Button label={'Chọn files'} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Hr />
         <input {...getInputProps()} className="cursor-pointer" />
@@ -41,15 +43,17 @@ export const UploadFiles = (props) => {
                 <Link to={typeof f === 'string' ? f : ''} target={'_blank'}>
                   {f.name || f}
                 </Link>
-                <Button severity="danger" className={'!px-4'} onClick={() => removeFile(f)}>
-                  <BiTrash size={16} />
-                </Button>
+                {!isView && (
+                  <Button severity="danger" className={'!px-4'} onClick={() => removeFile(f)}>
+                    <BiTrash size={16} />
+                  </Button>
+                )}
               </div>
             ))}{' '}
           </div>
         ) : (
           <div {...getRootProps()} className="text-center p-2 font-semibold mt-4">
-            <span>Drag and Drop file</span>
+            <span>{isView ? 'Không có file' : 'Drag and Drop file'}</span>
           </div>
         )}
       </div>

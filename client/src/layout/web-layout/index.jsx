@@ -65,7 +65,7 @@ const WebLayout = ({ children }) => {
       </div>
       <div className="text-center z-10 mx-auto">
         <div className="container mt-16 items-center mx-auto">
-          <div className="w-10/12 mx-auto min-h-screen">{children}</div>
+          <div className="w-full mx-auto min-h-screen">{children}</div>
         </div>
       </div>
       <div className="mt-24">

@@ -20,7 +20,12 @@ CourseRegisterMd.init('CourseRegister', {
   courseInfo: { type: Object, required: true },
   price: { type: Number, default: 0 },
   qr: { type: String },
-  lessons: [{ lessonId: { type: ObjectId, ref: 'Lesson', required: true }, isCompleted: { type: Boolean, default: false } }],
+  lessons: [
+    {
+      lesson: { type: ObjectId, ref: 'Lesson', required: true },
+      status: { type: String, default: 'isLocked', enum: ['isStudy', 'isLocked', 'isCompleted'] }
+    }
+  ],
   status: { type: Number, enum: [0, 1, 2], required: true, description: '0: Chờ thanh toán, 1: Đang học, 2: Hoàn thành' },
   deletedAt: { type: Date }
 });
