@@ -307,8 +307,8 @@ export const completeLesson = async (req, res) => {
       if (String(lesson.lesson) === lessonId) {
         if (index + 1 === courseRegister.lessons.length) status = 2;
         else id = index + 1;
-        return { lesson: lesson._id, status: 'isCompleted' };
-      } else if (index === id) return { lesson: lesson._id, status: 'isStudy' };
+        return { lesson: lesson.lesson, status: 'isCompleted' };
+      } else if (index === id) return { lesson: lesson.lesson, status: 'isStudy' };
       else return { ...lesson };
     });
 

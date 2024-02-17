@@ -2,10 +2,15 @@ import React from 'react';
 import { TEModal, TEModalDialog, TEModalContent, TEModalHeader } from 'tw-elements-react';
 
 const Modal = (props) => {
-  const { title, show, setShow = () => {}, children, size = "xl", ...prop } = props;
+  const { title, show, setShow = () => {}, children, size = 'xl', wrapper, ...prop } = props;
 
   return (
-    <TEModal show={show} setShow={setShow} staticBackdrop>
+    <TEModal
+      show={show}
+      setShow={setShow}
+      staticBackdrop
+      theme={{ wrapper: wrapper || 'fixed left-0 top-0 z-[1050] h-full w-full overflow-y-auto overflow-x-hidden outline-none' }}
+    >
       <TEModalDialog size={size} {...prop}>
         <TEModalContent>
           <TEModalHeader>

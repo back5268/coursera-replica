@@ -16,4 +16,4 @@ export const deleteCourseReviewApi = (params) => postData('/course/deleteCourseR
 export const registerCourseApi = (params) => postData('/course/registerCourse', params);
 export const detailCourseRegisterApi = (params) => getData('/course/detailCourseRegister', params);
 export const detailLessonRegisterApi = (params) => getData('/course/detailLessonRegister', params);
-export const completeLessonApi = (params) => getData('/course/completeLesson', params);
+export const completeLessonApi = (params) => postData('/course/completeLesson', params);

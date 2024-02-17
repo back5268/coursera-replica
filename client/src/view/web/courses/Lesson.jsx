@@ -2,18 +2,21 @@ import { detailLessonRegisterApi } from '@api';
 import { UploadFiles } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
 import { useGetApi } from '@lib/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import { BiSolidHeart } from 'react-icons/bi';
+import AnswerQuestion from './AnswerQuestion';
 
-const Lesson = ({ courseId, lessonId }) => {
+const Lesson = ({ courseId, lessonId, setRender }) => {
   const { data, isLoading } = useGetApi(detailLessonRegisterApi, { lessonId, courseId }, 'lesson', Boolean(courseId && lessonId));
+  const [show, setShow] = useState()
   const date = new Date(data?.updatedAt);
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
   return (
     <div className="w-full flex flex-col gap-6">
+      <AnswerQuestion show={show} setShow={setShow} data={data?.questions} courseId={courseId} lessonId={lessonId} setRender={setRender} />
       <ReactPlayer url={data?.url} width="auto" height="600px" />
       <Hr />
       <div className="flex flex-col gap-2">
@@ -30,7 +33,7 @@ const Lesson = ({ courseId, lessonId }) => {
       </div>
       <div className="flex flex-col justify-start gap-6 mt-16">
         <span>Hoàn thành bài kiểm tra trên 80% để mở khóa bài học tiếp theo</span>
-        <Button>Làm bài kiểm tra</Button>
+        <Button onClick={() => setShow(true)} >Làm bài kiểm tra</Button>
         <div className="flex gap-2 justify-start items-center">
           <span>Made with </span>
           <BiSolidHeart size={20} className="text-red-600" />

@@ -29,7 +29,7 @@ const DetailCourseWeb = () => {
   };
 
   const onRegister = async () => {
-    if (!userInfo?._id) onWarning();
+    if (!userInfo?._id) return onWarning();
     const price = data.price - data.sale;
     const title =
       price > 0

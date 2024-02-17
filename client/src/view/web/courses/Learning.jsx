@@ -16,14 +16,15 @@ const Learning = () => {
   const location = useLocation();
   const { slug } = useParams();
   const [isShow, setIsShow] = useState(true);
-  const { data, isLoading } = useGetApi(detailCourseRegisterApi, { slug }, 'course');
+  const [render, setRender] = useState(false);
+  const { data, isLoading } = useGetApi(detailCourseRegisterApi, { slug, render }, 'course');
   const completedLessons = data?.lessons?.filter((l) => l.status === 'isCompleted') || [];
   const id = new URLSearchParams(location.search).get('id');
 
   useEffect(() => {
     if (!id && data?.lessons && Array.isArray(data.lessons)) {
-      const lessonStudy = data?.lessons?.find((item) => item.status === 'isStudy') || {};
-      navigate(`/learning/${slug}?id=${lessonStudy?.lesson?._id}`);
+      const lessonStudy = data?.lessons?.find((item) => item.status === 'isStudy');
+      if (lessonStudy) navigate(`/learning/${slug}?id=${lessonStudy.lesson?._id}`);
     }
   }, [data]);
 
@@ -66,12 +67,12 @@ const Learning = () => {
                     >
                       <div className="flex flex-col gap-2">
                         <span className="font-medium">
-                          {index + 1}. {item.lesson.title}
+                          {index + 1}. {item.lesson?.title}
                         </span>
                         <div className="flex gap-2 items-center">
-                          {id === item?.lesson?._id ? <BiPlayCircle size={20} className='text-red-400' /> : <BiPlayCircle size={20} />}
+                          {id === item?.lesson?._id ? <BiPlayCircle size={20} className="text-red-400" /> : <BiPlayCircle size={20} />}
                           <span>|</span>
-                          <span>{item.lesson.time}</span>
+                          <span>{item.lesson?.time}</span>
                         </div>
                       </div>
                       <div className="h-12 w-12 flex justify-center items-center">
@@ -101,7 +102,7 @@ const Learning = () => {
           </div>
         </div>
         <Hr />
-        <Lesson courseId={data?.courseId} lessonId={id} />
+        <Lesson courseId={data?.courseId} lessonId={id} setRender={setRender} />
       </div>
     </div>
   );
