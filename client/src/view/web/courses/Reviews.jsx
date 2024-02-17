@@ -1,7 +1,7 @@
 import { deleteCourseReviewApi } from '@api';
 import { Hr, Rating } from '@components/uiCore';
-import { multiFormatDateString } from '@utils';
-import React, { useState } from 'react';
+import { formatNumber, multiFormatDateString } from '@utils';
+import React from 'react';
 import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
 import AddReview from './AddReview';
@@ -10,7 +10,6 @@ import { useConfirmState, useToastState } from '@store';
 const Reviews = ({ data, courseId, rating, show, setShow, userInfo, setRender }) => {
   const { showConfirm } = useConfirmState();
   const { showToast } = useToastState();
-  const [value, setValue] = useState();
 
   const onDelete = async (_id) => {
     showConfirm({
@@ -30,9 +29,11 @@ const Reviews = ({ data, courseId, rating, show, setShow, userInfo, setRender })
       <AddReview show={show} setShow={setShow} setRender={setRender} courseId={courseId} />
       <h2 className="uppercase font-semibold">Đánh giá khóa học</h2>
       <Hr />
-      <div className="card flex justify-between items-center">
-        <Rating value={rating || 5} />
-        <span>{rating || 5}/5</span>
+      <div className="card flex justify-between items-center p-6">
+        <Rating value={rating} size={6} />
+        <span className="font-medium text-lg">
+          {rating}/5 ({formatNumber(data?.length)})
+        </span>
       </div>
       <Hr />
       {data?.length > 0 && (
@@ -53,7 +54,7 @@ const Reviews = ({ data, courseId, rating, show, setShow, userInfo, setRender })
                     ></div>
                   </div>
                   <div className="flex flex-col gap-1 w-full">
-                    <div className="flex flex-col gap-1 p-2 bg-primary-100 rounded-md">
+                    <div className="flex flex-col gap-2 p-2 bg-primary-100 rounded-md">
                       <span className="font-semibold">{d?.by?.fullName}</span>
                       <Rating value={d.rating} />
                       <span>{d.content}</span>
@@ -69,9 +70,13 @@ const Reviews = ({ data, courseId, rating, show, setShow, userInfo, setRender })
                         </Link>
                       )}
                     </div>
-                    <div className="flex gap-3 text-xs mt-1">
-                      <Link>{multiFormatDateString(d.createdAt)}</Link>
-                      {(d?.by === userInfo?._id || userInfo?.role === 'admin') && <Link onClick={() => onDelete(d._id)}>Xóa</Link>}
+                    <div className="flex gap-3 text-xs text-primary-600 mt-1">
+                      <span className="cursor-pointer">{multiFormatDateString(d.createdAt)}</span>
+                      {(d?.by === userInfo?._id || userInfo?.role === 'admin') && (
+                        <span className="cursor-pointer" onClick={() => onDelete(d._id)}>
+                          Xóa
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

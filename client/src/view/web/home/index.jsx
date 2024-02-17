@@ -6,11 +6,11 @@ import { useGetApi } from '@lib/react-query';
 import { getListCourseWebApi, getListPostWebApi } from '@api';
 
 const Home = () => {
-  const { data: posts, isLoading: isLoadingPost } = useGetApi(getListPostWebApi, { page: 1, limit: 10 }, 'posts');
-  const { data: courses, isLoading: isLoadingCourse } = useGetApi(getListCourseWebApi, { page: 1, limit: 10 }, 'courses');
+  const { data: posts } = useGetApi(getListPostWebApi, { page: 1, limit: 10 }, 'posts');
+  const { data: courses } = useGetApi(getListCourseWebApi, { page: 1, limit: 10 }, 'courses');
 
   return (
-    <div>
+    <div className='flex flex-col gap-12'>
       <Carousel
         items={[
           {

@@ -19,7 +19,6 @@ const defaultValues = {
   code: '',
   author: '',
   time: 0,
-  content: '',
   description: '',
   url: '',
   status: 1
@@ -133,7 +132,6 @@ const DetailLesson = () => {
                 <InputFormDetail id="url" label="Video url (*)" register={register} errors={errors} />
                 <div className='w-6/12'></div>
                 <SwitchForm id="status" label="Trạng thái (*)" watch={watch} setValue={setValue} />
-                <TextAreaForm id="content" label="Nội dung (*)" className="w-full p-2" watch={watch} setValue={setValue} errors={errors} />
                 <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
               </div>
               <div className={'w-full'}>

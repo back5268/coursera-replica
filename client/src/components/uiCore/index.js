@@ -13,3 +13,4 @@ export { default as Hr } from './Hr';
 export { default as InputDate } from './InputDate';
 export { default as Carousel } from './Carousel';
 export { default as Rating } from './Rating';
+export { default as ProgressBar } from './ProgressBar';

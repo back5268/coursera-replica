@@ -13,7 +13,7 @@ const WebCourses = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
   const [sort, setSort] = useState({ orderBy: 'createdAt', orderType: -1 });
-  const { data, isLoading } = useGetApi(getListCourseWebApi, params, 'courses');
+  const { data } = useGetApi(getListCourseWebApi, params, 'courses');
 
   useEffect(() => {
     if (sort?.orderBy && sort?.orderType) {
@@ -25,22 +25,20 @@ const WebCourses = () => {
 
   return (
     <div className="flex mt-24">
-      <div className="w-[300px] min-h-screen p-2">
+      <div className="w-[400px] min-h-screen p-4">
         <Filter params={params} setParams={setParams} />
       </div>
-      <div className="w-full min-h-screen p-2">
+      <div className="w-full min-h-screen p-4">
         <div className="card !p-0">
           <div className="h-16 flex gap-2 items-center p-4">
             <h4>Sắp xếp theo:</h4>
             <SelectFormV2
-              size="lg"
               data={orderBy}
               clearBtn={false}
               value={sort?.orderBy}
               onValueChange={(e) => setSort({ ...sort, orderBy: e.value })}
             />
             <SelectFormV2
-              size="lg"
               data={orderType}
               clearBtn={false}
               value={sort?.orderType}
@@ -52,7 +50,7 @@ const WebCourses = () => {
             {data?.documents?.length > 0 &&
               data.documents.map((item, index) => {
                 return (
-                  <div key={index} className="xs:w-6/12 md:w-4/12 py-2 px-1">
+                  <div key={index} className="xs:w-full sm:w-6/12 md:w-4/12 py-2">
                     <CourseCard item={item} type={item.price ? 'pro' : 'free'} />
                   </div>
                 );

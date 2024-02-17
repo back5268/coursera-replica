@@ -22,9 +22,7 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
   const navigate = useNavigate();
 
   const handleClickOutside = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      setIsShow(false);
-    }
+    if (ref.current && !ref.current.contains(e.target)) setIsShow(false);
   };
 
   useEffect(() => {
@@ -53,9 +51,7 @@ const AvatarSection = ({ onSignOut, mode = 'admin' }) => {
             <div
               className="relative h-16 w-16 rounded-md bg-cover"
               style={{ backgroundImage: `url(${userInfo.avatar || '/images/avatar.jpg'})` }}
-            >
-              <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-15"></span>
-            </div>
+            ></div>
           </div>
           <div className="w-7/12 items-center text-left">
             <h4 className="font-medium">{userInfo?.fullName}</h4>

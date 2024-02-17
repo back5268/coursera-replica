@@ -20,7 +20,7 @@ const Learning = () => {
   const [isShow, setIsShow] = useState(true);
   const [show, setShow] = useState(false);
   const [render, setRender] = useState(false);
-  const { data, isLoading } = useGetApi(detailCourseRegisterApi, { slug, render }, 'course');
+  const { data } = useGetApi(detailCourseRegisterApi, { slug, render }, 'course');
   const id = new URLSearchParams(location.search).get('id');
   const completedLessons = data?.lessons?.filter((l) => l.status === 'isCompleted') || [];
   const currentIndex = data?.lessons?.findIndex((l) => l.lesson?._id === id);

@@ -8,7 +8,7 @@ import {
   deleteCommentMd,
   getDetailCommentMd,
   getDetailPostMd,
-  getListCommentMd,
+  getListCommentMd
 } from '@models';
 import { validateData } from '@utils';
 
@@ -17,13 +17,13 @@ export const getListCommentLesson = async (req, res) => {
     const { error, value } = validateData(listCommentLessonValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { page, limit, fromDate, toDate, status } = value;
-    const where = { type: 3, parentId: null };
+    const where = { type: 2, parentId: null };
     if (fromDate) where.createdAt = { $gte: fromDate };
     if (toDate) {
       if (!where.createdAt) where.createdAt.$lte = toDate;
     }
     if (status || status === 0) where.status = status;
-    const documents = await getListCommentMd(where, page, limit);
+    const documents = await getListCommentMd(where, page, limit, [{ path: 'by', select: 'fullName role' }]);
     const total = await countListCommentMd(where);
     res.json({ status: true, data: { documents, total } });
   } catch (error) {

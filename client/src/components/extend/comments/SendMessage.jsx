@@ -25,25 +25,29 @@ export const SendMessage = ({ id, userInfo, objectId, parentId, type, onWarning,
     const params = { type, parentId, objectId };
     if (message) params.content = message;
     if (file) params.formData = { file };
-    const response = await addCommentApi(params);
-    if (response) {
-      setRender((pre) => !pre);
-      setMessage('');
-      setFile(null);
+    if (params.content || params.formData) {
+      const response = await addCommentApi(params);
+      if (response) {
+        setRender((pre) => !pre);
+        setMessage('');
+        setFile(null);
+      }
     }
   };
 
   return (
-    <div className="flex gap-2">
-      <div className="h-[32px] w-[32px]">
-        <div className="h-[32px] w-[32px] rounded-full bg-black bg-cover" style={{ backgroundImage: `url('${userInfo?.avatar || '/images/avatar.jpg'}')` }}></div>
+    <div className="flex gap-4 mt-8">
+      <div className="h-10 w-10">
+        <div
+          className="h-10 w-10 rounded-full bg-primary-100 bg-cover"
+          style={{ backgroundImage: `url('${userInfo?.avatar || '/images/avatar.jpg'}')` }}
+        ></div>
       </div>
       <form onSubmit={onSubmit} className="w-full relative">
         <input {...getInputProps()} className="cursor-pointer" />
         <input
           id={`send_${id}`}
-          type="search"
-          className="w-full py-1 block flex-auto rounded border border-solid border-neutral-300 bg-transparent 
+          className="w-full py-2 block flex-auto rounded border border-solid border-neutral-300 bg-transparent 
           bg-clip-padding px-3 text-base font-normal leading-[1.6] text-neutral-700 outline-none 
           transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 
           focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 
@@ -52,7 +56,7 @@ export const SendMessage = ({ id, userInfo, objectId, parentId, type, onWarning,
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <div className="flex gap-3 absolute top-2 right-2">
+        <div className="flex gap-3 absolute top-3 right-3 text-primary">
           <div {...getRootProps()} className="cursor-pointer">
             <TiFolderOpen size={20} className="hover:text-primary-600" />
           </div>
@@ -61,8 +65,8 @@ export const SendMessage = ({ id, userInfo, objectId, parentId, type, onWarning,
           </button>
         </div>
         {file && (
-          <div className="p-2 bg-primary-50 rounded-md mt-2 flex justify-between items-center">
-            <Link>{file.name}</Link>
+          <div className="p-4 bg-primary-100 rounded-md mt-2 flex justify-between items-center text-primary">
+            <span className="font-medium">{file.name}</span>
             <button type="button" className="cursor-pointer" onClick={() => setFile(null)}>
               <IoMdClose size={20} />
             </button>

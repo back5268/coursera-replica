@@ -8,7 +8,7 @@ import { BiSolidHeart } from 'react-icons/bi';
 import AnswerQuestion from './AnswerQuestion';
 
 const Lesson = ({ courseId, lessonId, setRender }) => {
-  const { data, isLoading } = useGetApi(detailLessonRegisterApi, { lessonId, courseId }, 'lesson', Boolean(courseId && lessonId));
+  const { data } = useGetApi(detailLessonRegisterApi, { lessonId, courseId }, 'lesson', Boolean(courseId && lessonId));
   const [show, setShow] = useState()
   const date = new Date(data?.updatedAt);
   const month = date.getMonth() + 1;
@@ -22,10 +22,10 @@ const Lesson = ({ courseId, lessonId, setRender }) => {
       <div className="flex flex-col gap-2">
         <h3 className="text-xl uppercase font-semibold">{data?.title}</h3>
         <Hr />
-        <span className="text-sm">
+        <span className="text-sm px-4">
           Cập nhật tháng {month} năm {year}
         </span>
-        <span className="text-sm">{data?.description}</span>
+        <span className="text-sm px-4">{data?.description}</span>
         <Hr />
         <div className="mt-16">
           <UploadFiles label="File đính kèm" isView files={data?.files} />

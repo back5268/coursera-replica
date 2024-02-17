@@ -52,3 +52,8 @@ export const orderType = [
   { label: 'Từ cao đến thấp', key: -1 },
   { label: 'Từ thấp đến cao', key: 1 }
 ];
+
+export const statusLog = [
+  { label: 'Đã gửi', key: 1, color: 'bg-success-200' },
+  { label: 'Có lỗi', key: 2, color: 'bg-danger-200' }
+];

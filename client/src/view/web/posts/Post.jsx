@@ -15,7 +15,7 @@ import { deletePostApi, getInfoApi, likePostApi, savePostApi } from '@api';
 const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
   const navigate = useNavigate();
   const { showConfirm } = useConfirmState();
-  const { userInfo, setUserInfo } = useAuthContext();
+  const { userInfo, isAuthenticated, setUserInfo } = useAuthContext();
 
   const onWarning = async () => {
     showConfirm({
@@ -25,7 +25,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
   };
 
   const onLikePost = async () => {
-    if (!userInfo) return onWarning();
+    if (!isAuthenticated) return onWarning();
     const response = await likePostApi({ _id: item._id });
     if (response) {
       setRender((pre) => !pre);
@@ -39,7 +39,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
   };
 
   const onSavePost = async () => {
-    if (!userInfo) return onWarning();
+    if (!isAuthenticated) return onWarning();
     const response = await savePostApi({ _id: item._id });
     if (response) {
       const response = await getInfoApi();
@@ -51,7 +51,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
   };
 
   const onDelete = async () => {
-    if (!userInfo) return onWarning();
+    if (!userInfo?._id) return onWarning();
     const response = await deletePostApi({ _id: item._id });
     if (response) {
       const response = await getInfoApi();
@@ -62,7 +62,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
   };
 
   return (
-    <div className="card my-2 flex gap-2">
+    <div className="card my-2 flex gap-2 text-sm">
       <div className="w-full p-2 text-left flex flex-col gap-2">
         <div className="flex gap-4 mb-2 items-center">
           <div className="h-10 w-10">
@@ -72,30 +72,32 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
             ></div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium">{item?.by?.fullName} {getRoleTitle(item?.by?.role)}</span>
+            <span className="font-medium">
+              {item?.by?.fullName} {getRoleTitle(item?.by?.role)}
+            </span>
             <div className="flex gap-2">
-              <p className="text-sm">{multiFormatDateString(item.createdAt)}</p>
-              <p className="text-sm">•</p>
-              <p className="text-sm">{item.time} phút đọc</p>
+              <span>{multiFormatDateString(item.createdAt)}</span>
+              <span>•</span>
+              <span>{item.time} phút đọc</span>
             </div>
           </div>
         </div>
         <Hr />
-        <Link to={`/posts/detail/${item.slug}`}>
-          <p className="text-md font-semibold">{item.title}</p>
+        <Link to={`/posts/detail/${item.slug}`} className="!text-lg font-semibold">
+          {item.title}
         </Link>
-        <p className="text-sm">{item.description}</p>
+        <span>{item.description}</span>
         <div className="flex gap-2 items-center">
           {item?.hashtag?.length > 0 &&
             item.hashtag.map((h, index) => (
-              <p key={index} className="text-sm py-1 px-2 rounded-md bg-primary-100">
+              <p key={index} className="py-1 px-2 rounded-md bg-primary-100">
                 {h}
               </p>
             ))}
         </div>
       </div>
-      <div className="w-[300px] p-2">
-        <div className="flex gap-2 justify-end px-2 pb-2 items-center">
+      <div className="w-[400px] p-2">
+        <div className="flex gap-3 justify-end px-2 pb-4 items-center">
           <div onClick={() => onLikePost()} className="cursor-pointer">
             {item?.likes?.includes(userInfo?._id) ? (
               <BiSolidHeart size={20} className="text-red-600" />
@@ -120,8 +122,8 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
           )}
         </div>
         <Link to={`/posts/detail/${item.slug}`}>
-          <div className="relative h-[120px] w-full rounded-md bg-cover" style={{ backgroundImage: `url('${item.image}')` }}>
-            <span className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-15"></span>
+          <div className="relative h-[150px] w-full rounded-md bg-cover" style={{ backgroundImage: `url('${item.image}')` }}>
+            <span className="absolute top-0 left-0 w-full h-full rounded-md bg-primary-500 opacity-20"></span>
           </div>
         </Link>
       </div>

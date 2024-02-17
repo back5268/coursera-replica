@@ -1,4 +1,4 @@
-import { ConfirmModal, NavigationScroll, ScrollToTop, Toastify } from './components/base';
+import { ConfirmModal, LazyLoading, NavigationScroll, ScrollToTop, Toastify } from './components/base';
 import Routes from './routes';
 
 const App = () => {
@@ -7,6 +7,7 @@ const App = () => {
       <ConfirmModal />
       <Toastify />
       <ScrollToTop />
+      <LazyLoading />
       <NavigationScroll>
         <Routes />
       </NavigationScroll>

@@ -13,7 +13,8 @@ export const INITIAL_USER_INFO = {
   role: '',
   avatar: '/images/avatar.jpg',
   courses: [],
-  posts: []
+  posts: [],
+  saves: []
 };
 
 const INITIAL_STATE = {
@@ -28,7 +29,7 @@ const INITIAL_STATE = {
 const AuthContext = createContext(INITIAL_STATE);
 
 export function AuthProvider({ children }) {
-  const { setUsers, setCourses, setLessons } = useDataState();
+  const { setCourses, setLessons } = useDataState();
   const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +42,6 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(true);
       } else localStorage.removeItem('token');
     } catch (error) {
-      console.error(error);
       return false;
     }
   };
@@ -53,7 +53,6 @@ export function AuthProvider({ children }) {
       const lessons = await getListLessonInfoApi();
       if (lessons) setLessons(lessons);
     } catch (error) {
-      console.error(error);
       return false;
     } finally {
       setTimeout(() => {

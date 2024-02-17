@@ -1,10 +1,9 @@
 import React from 'react';
 import Slider from 'react-slick';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Hr, Link } from '@components/uiCore';
 import CourseCard from './CourseCard';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
 const CourseSlider = ({ items = [], type = 'pro' }) => {
   const settings = {
@@ -43,7 +42,7 @@ const CourseSlider = ({ items = [], type = 'pro' }) => {
   };
 
   return (
-    <div className="rounded-md px-2 pb-6 pt-2 border-neutral-300 dark:border-neutral-600 border-[1px] text-left mt-12">
+    <div className="rounded-md px-2 pb-6 pt-2 border-neutral-300 border-[1px]">
       <div className="flex justify-between items-center m-2">
         <h2 className="font-semibold uppercase">{type === 'pro' ? 'Khóa học Pro' : 'Khóa học miễn phí'}</h2>
         <Link to="/courses" className="!text-sm font-medium">
@@ -63,7 +62,7 @@ const CourseSlider = ({ items = [], type = 'pro' }) => {
             {items.length > 0 &&
               items.map((item, index) => {
                 return (
-                  <div key={index} className='w-3/12'>
+                  <div key={index} className="xs:w-full sm:w-6/12 md:w-4/12 lg:w-3/12">
                     <CourseCard item={item} type={type} />
                   </div>
                 );

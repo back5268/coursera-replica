@@ -90,7 +90,7 @@ export const addLesson = async (req, res) => {
   try {
     const { error, value } = validateData(addLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, code, content, author, courseId, time, description, status, url } = value;
+    const { title, code, author, courseId, time, description, status, url } = value;
 
     const checkTitle = await getDetailLessonMd({ title });
     if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
@@ -112,7 +112,6 @@ export const addLesson = async (req, res) => {
       by: req.userInfo._id,
       title,
       code,
-      content,
       author,
       courseId,
       time,
@@ -133,7 +132,7 @@ export const updateLesson = async (req, res) => {
   try {
     const { error, value } = validateData(updateLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, title, code, content, author, courseId, time, description, status, url, files = [] } = value;
+    const { _id, title, code, author, courseId, time, description, status, url, files = [] } = value;
 
     const lesson = await getDetailLessonMd({ _id });
     if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
@@ -167,7 +166,6 @@ export const updateLesson = async (req, res) => {
         updateBy: req.userInfo._id,
         title,
         code,
-        content,
         author,
         courseId,
         time,

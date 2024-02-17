@@ -72,5 +72,5 @@ export const detailCourseRegisterValid = {
 
 export const detailLessonRegisterValid = {
   courseId: 'string',
-  lessonId: 'string',
+  lessonId: 'string'
 };

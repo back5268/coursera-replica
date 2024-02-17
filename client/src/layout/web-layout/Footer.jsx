@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
+    <footer className="bg-primary-50 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left mt-24">
       <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
         <div className="mr-12 hidden lg:block">
           <span>Get connected with us on social networks:</span>
@@ -76,9 +75,6 @@ const Footer = () => {
             <p className="mb-4">
               <a className="text-neutral-600 dark:text-neutral-200">Settings</a>
             </p>
-            <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Orders</a>
-            </p>
             <p>
               <a className="text-neutral-600 dark:text-neutral-200">Help</a>
             </p>
@@ -113,7 +109,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-neutral-200 p-6 text-center dark:bg-neutral-700">
+      <div className="bg-primary-100 p-6 text-center dark:bg-neutral-700">
         <span>© 2024 Copyright: </span>
         <a className="font-semibold text-neutral-600 dark:text-neutral-400">
           Coursera Replica

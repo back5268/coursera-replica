@@ -11,15 +11,16 @@ import { useAuthContext } from '@context/AuthContext';
 import { formatNumber } from '@utils';
 
 const DetailCourseWeb = () => {
+  const navigate = useNavigate();
   const { slug } = useParams();
+  const { userInfo, isAuthenticated, setUserInfo } = useAuthContext();
+  const { showToast } = useToastState();
+  const { showConfirm } = useConfirmState();
   const [show, setShow] = useState(false);
   const [render, setRender] = useState(false);
-  const { data, isLoading } = useGetApi(detailCourseWebApi, { slug, render }, 'course');
-
-  const navigate = useNavigate();
-  const { showConfirm } = useConfirmState();
-  const { showToast } = useToastState();
-  const { userInfo, setUserInfo } = useAuthContext();
+  const { data } = useGetApi(detailCourseWebApi, { slug, render }, 'course');
+  const reviews = data?.reviews;
+  const check = reviews && Array.isArray(reviews) ? !Boolean(reviews.find((r) => r.by._id === userInfo._id)) : true;
 
   const onWarning = async () => {
     showConfirm({
@@ -29,7 +30,7 @@ const DetailCourseWeb = () => {
   };
 
   const onRegister = async () => {
-    if (!userInfo?._id) return onWarning();
+    if (!isAuthenticated) return onWarning();
     const price = data.price - data.sale;
     const title =
       price > 0
@@ -52,16 +53,13 @@ const DetailCourseWeb = () => {
     });
   };
 
-  const reviews = data?.reviews;
-  const check = reviews && Array.isArray(reviews) ? !Boolean(reviews.find((r) => r.by._id === userInfo._id)) : true;
-
   return (
-    <div className="mt-24 flex">
-      <div className="w-7/12 text-left p-6">
-        <div className="flex flex-col gap-6">
+    <div className="mt-24 flex flex-wrap">
+      <div className="sm:w-full lg:w-7/12 text-left p-4">
+        <div className="flex flex-col gap-6 px-2">
           <h1 className="text-xl uppercase font-semibold">{data?.name}</h1>
           <Hr />
-          <p>{data?.description}</p>
+          <span>{data?.description}</span>
           <Hr />
           {data?.skills?.length > 0 && (
             <>
@@ -69,7 +67,7 @@ const DetailCourseWeb = () => {
               <div className="card flex flex-col gap-2">
                 {data.skills.map((skill, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="font-bold text-primary-600">
+                    <div className="font-bold text-success-600">
                       <BiCheck size={24} />
                     </div>
                     <span>{skill}</span>
@@ -96,7 +94,7 @@ const DetailCourseWeb = () => {
                 </div>
                 <Hr />
                 {data.lessons.map((lesson, index) => (
-                  <div key={index} className="flex justify-between p-2 bg-slate-100 rounded-md cursor-pointer">
+                  <div key={index} className="flex justify-between p-2 bg-primary-50   rounded-md cursor-pointer">
                     <span>
                       {index + 1}. {lesson.title}
                     </span>
@@ -113,7 +111,7 @@ const DetailCourseWeb = () => {
               <div className="card flex flex-col gap-2">
                 {data.requirements.map((req, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="font-bold text-primary-600">
+                    <div className="font-bold text-success-600">
                       <BiCheck size={24} />
                     </div>
                     <span>{req}</span>
@@ -124,12 +122,12 @@ const DetailCourseWeb = () => {
           )}
         </div>
       </div>
-      <div className="w-5/12 p-6">
-        <div className="flex flex-col gap-6">
+      <div className="sm:w-full lg:w-5/12 p-4">
+        <div className="flex flex-col gap-6 px-2">
           <div className="flex flex-col items-center justify-center my-8">
-            <div className="relative h-48 w-10/12 rounded-lg bg-cover" style={{ backgroundImage: `url('${data?.image}')` }}>
+            <div className="relative h-60 w-9/12 rounded-lg bg-cover" style={{ backgroundImage: `url('${data?.image}')` }}>
               <span className="absolute top-0 left-0 w-full rounded-lg h-full bg-primary-500 opacity-15"></span>
-              {data?.price && (
+              {Boolean(data?.price) && (
                 <div className="absolute top-2 left-2 p-1 rounded-sm">
                   <FaCrown className="relative text-yellow-500 z-10" />
                   <div className="absolute h-full w-full top-0 left-0 bg-slate-50 opacity-70 rounded-sm z-0"></div>
@@ -145,7 +143,7 @@ const DetailCourseWeb = () => {
               {check && (
                 <Button
                   onClick={() => {
-                    if (!userInfo?._id) onWarning();
+                    if (!isAuthenticated) onWarning();
                     else setShow(true);
                   }}
                   severity="danger"

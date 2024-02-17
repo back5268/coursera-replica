@@ -10,7 +10,6 @@ class LessonMd extends ModelBase {
   title;
   code;
   url;
-  content;
   author;
   time;
   description;
@@ -26,7 +25,6 @@ LessonMd.init('Lesson', {
   title: { type: String, required: true, unique: true },
   code: { type: String, required: true },
   url: { type: String, required: true },
-  content: { type: String, required: true },
   author: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
   description: { type: String },

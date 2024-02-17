@@ -7,15 +7,13 @@ import { TERipple } from 'tw-elements-react';
 
 const SearchSection = () => {
   const [value, setValue] = useState('');
-  const { data, isLoading } = useGetApi(getListSearchApi, { keySearch: value }, 'search', Boolean(value));
+  const { data } = useGetApi(getListSearchApi, { keySearch: value }, 'search', Boolean(value));
 
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
 
   const handleClickOutside = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      setIsShow(false);
-    }
+    if (ref.current && !ref.current.contains(e.target)) setIsShow(false);
   };
 
   useEffect(() => {
@@ -31,10 +29,10 @@ const SearchSection = () => {
   }, [value]);
 
   return (
-    <div ref={ref} className="relative flex w-[400px] flex-wrap items-stretch">
+    <div ref={ref} className="relative flex w-[400px] flex-wrap items-stretch text-sm">
       <input
         type="search"
-        className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+        className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none"
         placeholder="Search"
         aria-label="Search"
         aria-describedby="button-addon1"
@@ -59,25 +57,24 @@ const SearchSection = () => {
       </TERipple>
 
       <div
-        className={`absolute right-0 mt-12 w-full bg-white shadow-xl rounded-sm transition-all z-50
-          duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
+        className={`absolute w-full right-0 mt-12 bg-white shadow-xl rounded-md transition-all z-50 duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
       >
         <div className="p-4 flex flex-col gap-1">
           {data?.courses?.length > 0 || data?.posts?.length > 0 ? (
             <>
-              <p className="text-sm">Kết quả tìm kiếm cho '{value}'</p>
+              <p>Kết quả tìm kiếm cho '{value}'</p>
               <Hr />
               {data?.courses?.length > 0 && (
                 <>
-                  <p className="uppercase font-medium mt-2 text-sm">Khóa học</p>
+                  <p className="uppercase font-medium mt-2">Khóa học</p>
                   <Hr />
                   <div className="flex flex-col gap-2">
                     {data.courses.map((item, index) => {
                       return (
                         <Link
-                          to={`/courses/detail/${item.slug}`}
                           key={index}
-                          className="hover:bg-primary-50 rounded-md w-full flex gap-4 items-center text-sm p-2"
+                          to={`/courses/detail/${item.slug}`}
+                          className="hover:bg-primary-50 rounded-md w-full flex gap-4 items-center p-2"
                         >
                           <div className="h-[32px] w-[32px]">
                             <div
@@ -95,15 +92,15 @@ const SearchSection = () => {
 
               {data?.posts?.length > 0 && (
                 <>
-                  <p className="uppercase font-medium mt-2 text-sm">Bài viết</p>
+                  <p className="uppercase font-medium mt-2">Bài viết</p>
                   <Hr />
                   <div className="flex flex-col gap-2">
                     {data.posts.map((item, index) => {
                       return (
                         <Link
-                          to={`/posts/detail/${item.slug}`}
                           key={index}
-                          className="w-full hover:bg-primary-50 rounded-md flex gap-4 items-center text-sm p-2"
+                          to={`/posts/detail/${item.slug}`}
+                          className="w-full hover:bg-primary-50 rounded-md flex gap-4 items-center p-2"
                         >
                           <div className="h-[32px] w-[32px]">
                             <div
@@ -121,7 +118,7 @@ const SearchSection = () => {
             </>
           ) : (
             <>
-              <p className="text-sm">Không tìm thấy kết quả cho '{value}'</p> <Hr />{' '}
+              <p>Không tìm thấy kết quả cho '{value}'</p> <Hr />
             </>
           )}
         </div>

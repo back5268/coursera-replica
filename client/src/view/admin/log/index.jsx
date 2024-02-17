@@ -3,8 +3,8 @@ import {getListLogApi} from '@api';
 import {InputFormV2, SelectFormV2} from '@components/form';
 import {useGetParams} from '@hook';
 import {useGetApi} from '@lib/react-query';
-import {DataFilter, FormList, NumberBody, TimeBody} from '@components/base';
-import {logStatus, logType} from "@constant";
+import {Body, DataFilter, FormList, NumberBody, TimeBody} from '@components/base';
+import {logStatus, logType, statusLog} from "@constant";
 
 const Filter = ({setParams, courses = []}) => {
     const [filter, setFilter] = useState({});
@@ -41,7 +41,7 @@ const Log = () => {
         {label: 'Nội dung', field: 'content'},
         {label: 'Loại thông báo', body: (item) => logType.find((c) => c.key === item.type)?.label},
         {label: 'Thời gian gửi', body: (item) => TimeBody(item.createdAt)},
-        {label: 'Trạng thái', body: (item) => (item.status === 1) ? 'Đã gửi' : 'Có lỗi'},
+        {label: 'Trạng thái', body: (item) => Body(statusLog, item.status)},
     ];
 
     const {isLoading, data} = useGetApi(getListLogApi, params, 'logs');

@@ -31,15 +31,15 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
   };
 
   return (
-    <div className="my-4">
-      <div id={comment?._id} className="flex gap-2">
-        <div className="h-[32px] w-[32px]">
+    <div className="my-6">
+      <div id={comment?._id} className="flex gap-4">
+        <div className="h-10 w-10">
           <div
-            className="h-[32px] w-[32px] rounded-full bg-black bg-cover"
+            className="h-10 w-10 rounded-full bg-black bg-cover"
             style={{ backgroundImage: `url('${comment?.by?.avatar || '/images/avatar.jpg'}')` }}
           ></div>
         </div>
-        <div className="flex flex-col gap-1 w-full">
+        <div className="flex flex-col gap-2 w-full">
           <div className="flex flex-col gap-1 p-2 bg-primary-100 rounded-md w-full">
             <span className="font-semibold">{comment?.by?.fullName}</span>
             <span>{comment?.content}</span>
@@ -55,18 +55,18 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
               </Link>
             )}
           </div>
-          <div className="flex gap-3 text-xs mt-1">
-            <span className="cursor-pointer text-primary-500 font-medium">{multiFormatDateString(comment.createdAt)}</span>
+          <div className="flex gap-3 text-xs mt-1 text-primary font-medium">
+            <span>{multiFormatDateString(comment.createdAt)}</span>
             {comment?.comments?.length > 0 && !moreComment && (
-              <span onClick={() => setMoreComment(true)}>Xem tất cả {comment.comments.length} phản hồi</span>
+              <span className='cursor-pointer' onClick={() => setMoreComment(true)}>Xem tất cả {comment.comments.length} phản hồi</span>
             )}
             {moreComment && (
-              <span className="cursor-pointer text-primary-500 font-medium" onClick={() => setMoreComment(false)}>
+              <span className="cursor-pointer" onClick={() => setMoreComment(false)}>
                 Ẩn bớt
               </span>
             )}
             <span
-              className="cursor-pointer text-primary-500 font-medium"
+              className="cursor-pointer"
               onClick={() => {
                 if (!userInfo?._id) onWarning();
                 else {
@@ -80,7 +80,7 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
               Trả lời
             </span>
             {(comment?.by === userInfo?._id || userInfo?.role === 'admin') && (
-              <span className="cursor-pointer text-primary-500 font-medium" onClick={onDelete}>
+              <span className="cursor-pointer " onClick={onDelete}>
                 Xóa
               </span>
             )}

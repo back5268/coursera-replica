@@ -11,13 +11,13 @@ const WebPosts = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
   const [render, setRender] = useState(false);
-  const { data, isLoading } = useGetApi(getListPostWebApi, { ...params, render }, 'posts');
+  const { data } = useGetApi(getListPostWebApi, { ...params, render }, 'posts');
 
   return (
-    <div className="mt-24 flex">
-      <div className="w-8/12 flex flex-col gap-2">
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="uppercase font-semibold text-left p-2">Danh sách bài viết</h2>
+    <div className="mt-24 flex p-4">
+      <div className="lg:w-full xl:w-8/12 flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <h2 className="uppercase font-semibold text-left">Danh sách bài viết</h2>
           <Search setParams={setParams} />
         </div>
         <Hr />
@@ -27,7 +27,6 @@ const WebPosts = () => {
           <Pagination totalRecord={data?.total} params={params} setParams={setParams} />
         </div>
       </div>
-      <div className="w-4/12"></div>
     </div>
   );
 };

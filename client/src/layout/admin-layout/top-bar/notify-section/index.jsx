@@ -15,16 +15,11 @@ const NotifySection = () => {
   const isReadAll = data?.documents?.length > 0;
 
   const handleButtonClick = (value) => {
-    if (value === buttonActive) {
-      return;
-    }
-    setButtonActive(value);
+    if (value !== buttonActive) setButtonActive(value);
   };
 
   const handleClickOutside = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      setIsShow(false);
-    }
+    if (ref.current && !ref.current.contains(e.target)) setIsShow(false);
   };
 
   useEffect(() => {
@@ -40,14 +35,13 @@ const NotifySection = () => {
   };
 
   return (
-    <div ref={ref} className={`relative items-center`}>
+    <div ref={ref} className="relative items-center">
       <button
         onClick={() => {
           setIsShow(!isShow);
           if (isReadAll) onReadAll(1);
         }}
-        className={`hover:bg-primary hover:text-white p-2 rounded-md hover:shadow-xl
-      ${isShow ? 'bg-primary text-white shadow-xl' : 'bg-primary-200 text-primary shadow-md'}`}
+        className={`hover:bg-primary hover:text-white p-2 rounded-md hover:shadow-xl ${isShow ? 'bg-primary text-white shadow-xl' : 'bg-primary-200 text-primary shadow-md'}`}
       >
         <div className="relative">
           <MdOutlineNotificationsActive size={20} />

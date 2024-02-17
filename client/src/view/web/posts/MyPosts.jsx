@@ -22,7 +22,7 @@ const MyPosts = () => {
   return (
     <div className="mt-24 flex">
       <DetailPost show={show} setShow={setShow} data={userInfo?.posts} />
-      <div className="w-8/12 ">
+      <div className="lg:w-full xl:w-8/12 flex flex-col">
         <TETabs>
           <TETabsItem onClick={() => handleButtonClick('tab1')} active={buttonActive === 'tab1'} tag="button">
             Bài viết của tôi
@@ -38,9 +38,9 @@ const MyPosts = () => {
               {userInfo?.posts?.length > 0 ? (
                 userInfo.posts.map((item, index) => <Post key={index} item={item} type="mine" setShow={setShow} />)
               ) : (
-                <span className="text-left">Bạn chưa đăng bài viết nào.</span>
+                <span className='mt-4 px-8'>Bạn chưa đăng bài viết nào.</span>
               )}
-              <div className="flex justify-center">
+              <div className="flex justify-center mb-2">
                 <Button onClick={() => setShow(true)} label="Thêm bài viết" />
               </div>
               <Hr />
@@ -52,9 +52,9 @@ const MyPosts = () => {
               {userInfo?.saves?.length > 0 ? (
                 userInfo.saves.map((item, index) => <Post key={index} item={item} type="mine" />)
               ) : (
-                <span className="text-left">Bạn chưa lưu bài viết nào.</span>
+                <span className='mt-4 px-8'>Bạn chưa lưu bài viết nào.</span>
               )}
-              <div className="flex justify-center">
+              <div className="flex justify-center mb-2">
                 <Button onClick={() => navigate('/posts')} label="Xem tất cả bài viết" />
               </div>
               <Hr />
@@ -62,7 +62,6 @@ const MyPosts = () => {
           </TETabsPane>
         </TETabsContent>
       </div>
-      <div className="w-4/12"></div>
     </div>
   );
 };

@@ -12,15 +12,14 @@ import { useAuthContext } from '@context/AuthContext';
 import { getRoleTitle } from '@utils';
 
 const DetailPostWeb = () => {
+  const navigate = useNavigate();
   const { slug } = useParams();
+  const { userInfo, isAuthenticated, setUserInfo } = useAuthContext();
+  const { showConfirm } = useConfirmState();
   const [render, setRender] = useState(false);
   const [renderComment, setRenderComment] = useState(false);
-  const { data, isLoading } = useGetApi(detailPostWebApi, { slug, render }, 'post');
+  const { data } = useGetApi(detailPostWebApi, { slug, render }, 'post');
   const { data: comments } = useGetApi(getListCommentApi, { objectId: data?._id, type: 1, render: renderComment }, 'comments', Boolean(data?._id));
-
-  const navigate = useNavigate();
-  const { showConfirm } = useConfirmState();
-  const { userInfo, setUserInfo } = useAuthContext();
 
   const onWarning = async () => {
     showConfirm({
@@ -30,13 +29,13 @@ const DetailPostWeb = () => {
   };
 
   const onLikePost = async () => {
-    if (!userInfo) return onWarning();
+    if (!isAuthenticated) return onWarning();
     const response = await likePostApi({ _id: data?._id });
     if (response) setRender((pre) => !pre);
   };
 
   const onSavePost = async () => {
-    if (!userInfo) return onWarning();
+    if (!isAuthenticated) return onWarning();
     const response = await savePostApi({ _id: data?._id });
     if (response) {
       const response = await getInfoApi();
@@ -48,16 +47,16 @@ const DetailPostWeb = () => {
   };
 
   return (
-    <div className="mt-24 flex">
-      <div className="w-7/12 text-left p-6">
-        <div className="flex flex-col gap-6">
+    <div className="mt-24 flex flex-wrap">
+      <div className="sm:w-full lg:w-8/12 text-left p-4">
+        <div className="flex flex-col gap-6 px-2">
           <h1 className="text-xl uppercase font-semibold">{data?.title}</h1>
-          <p>{data?.description}</p>
+          <span>{data?.description}</span>
           <Hr />
           <div className="flex gap-4 mb-2 items-center">
             <div className="w-12 h-12">
               <div
-                className="h-12 w-12 rounded-full bg-black bg-cover"
+                className="h-12 w-12 rounded-full bg-primary-100 bg-cover"
                 style={{ backgroundImage: `url('${data?.by?.avatar || '/images/avatar.jpg'}')` }}
               ></div>
             </div>
@@ -101,15 +100,15 @@ const DetailPostWeb = () => {
           </div>
         </div>
       </div>
-      <div className="w-5/12 p-6">
-        <div className="flex flex-col gap-6">
+      <div className="sm:w-full lg:w-4/12 p-4">
+        <div className="flex flex-col gap-6 px-2">
           <div className="flex flex-col items-center justify-center my-8">
-            <div className="relative h-48 w-10/12 rounded-lg bg-cover" style={{ backgroundImage: `url('${data?.image}')` }}>
+            <div className="relative h-60 w-10/12 rounded-lg bg-cover" style={{ backgroundImage: `url('${data?.image}')` }}>
               <span className="absolute top-0 left-0 w-full rounded-lg h-full bg-primary-500 opacity-15"></span>
             </div>
           </div>
         </div>
-        <Comments objectId={data?._id} comments={comments} setRender={setRenderComment} type={1} />
+        <Comments title='Bình luận trong bài viết' objectId={data?._id} comments={comments} setRender={setRenderComment} type={1} />
       </div>
     </div>
   );

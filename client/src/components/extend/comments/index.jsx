@@ -38,12 +38,12 @@ const Comments = ({ title, maxHeight, comments = [], type = 1, setRender, object
             if (!userInfo?._id) onWarning();
             else setFocused('send_messageId');
           }}
-          className='cursor-pointer text-primary-500 font-semibold'
+          className='cursor-pointer text-primary font-medium'
         >
           Viết bình luận
         </span>
       </div>
-      <div className={`card text-sm text-left ${maxHeight ? `overflow-scroll` : ''}`} style={{ maxHeight }}>
+      <div className={`card text-sm ${maxHeight ? `overflow-scroll` : ''}`} style={{ maxHeight }}>
         {comments.map((comment, index) => {
           return (
             <Comment
