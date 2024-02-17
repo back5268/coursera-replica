@@ -2,7 +2,17 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/tw-elements-react/dist/js/**/*.js'],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        progress: {
+          '0%': { transform: 'translateX(-20%)' },
+          '100%': { transform: 'translateX(100%)' }
+        }
+      },
+      animation: {
+        progress: 'progress 0.6s ease-in-out forwards'
+      }
+    },
     backgroundPosition: {
       bottom: 'bottom',
       center: 'center',
