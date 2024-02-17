@@ -10,16 +10,23 @@ import { BiPlayCircle } from 'react-icons/bi';
 import { TERipple } from 'tw-elements-react';
 import { BiSolidCheckCircle } from 'react-icons/bi';
 import { BiSolidLock } from 'react-icons/bi';
+import Discuss from './Discuss';
+import { BiSolidConversation } from 'react-icons/bi';
 
 const Learning = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { slug } = useParams();
   const [isShow, setIsShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [render, setRender] = useState(false);
   const { data, isLoading } = useGetApi(detailCourseRegisterApi, { slug, render }, 'course');
-  const completedLessons = data?.lessons?.filter((l) => l.status === 'isCompleted') || [];
   const id = new URLSearchParams(location.search).get('id');
+  const completedLessons = data?.lessons?.filter((l) => l.status === 'isCompleted') || [];
+  const currentIndex = data?.lessons?.findIndex((l) => l.lesson?._id === id);
+  const currentLesson = data?.lessons?.[currentIndex]?.lesson;
+  const isPrevLesson = currentIndex !== 0;
+  const isNextLesson = ['isCompleted', 'isStudy'].includes(data?.lessons?.[currentIndex + 1]?.status);
 
   useEffect(() => {
     if (!id && data?.lessons && Array.isArray(data.lessons)) {
@@ -28,22 +35,35 @@ const Learning = () => {
     }
   }, [data]);
 
+  const onToggleLesson = (type) => {
+    const index = type === 'prev' ? currentIndex - 1 : currentIndex + 1;
+    navigate(`/learning/${slug}?id=${data?.lessons?.[index]?.lesson?._id}`);
+  };
+
   return (
     <div>
+      <div
+        className={`fixed transition-all duration-500 ease-in-out ${isShow ? 'right-[25rem] bottom-[5rem]' : 'right-[1rem] bottom-[5rem]'}`}
+      >
+        <Button onClick={() => setShow(true)}>
+          <BiSolidConversation size={20} /> Thảo luận
+        </Button>
+      </div>
+      <Discuss show={show} setShow={setShow} lessonId={currentLesson?._id} />
       <div
         className={`fixed left-0 right-0 bottom-0 z-20 h-16 bg-primary-100 flex justify-between transition-all duration-500 p-2 ease-in-out items-center`}
       >
         <div className="w-24"></div>
         <div className="flex gap-2">
-          <Button severity="secondary" className="font-semibold">
+          <Button onClick={() => onToggleLesson('prev')} severity="secondary" className="font-semibold" disabled={!isPrevLesson}>
             <BiChevronLeft size={24} /> Bài trước
           </Button>
-          <Button severity="secondary" className="font-semibold">
-            Bài tiếp theo <BiChevronRight size={24} />{' '}
+          <Button onClick={() => onToggleLesson('next')} severity="secondary" className="font-semibold" disabled={!isNextLesson}>
+            Bài tiếp theo <BiChevronRight size={24} />
           </Button>
         </div>
         <Button onClick={() => setIsShow(!isShow)} severity="secondary" className="!px-4 !py-2">
-          <h4 className="font-semibold">Bài học mới</h4>
+          <h4 className="font-semibold">{currentLesson?.title}</h4>
           <BiMenu size={24} />
         </Button>
       </div>

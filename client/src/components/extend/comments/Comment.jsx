@@ -56,27 +56,34 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
             )}
           </div>
           <div className="flex gap-3 text-xs mt-1">
-            <Link>{multiFormatDateString(comment.createdAt)}</Link>
+            <span className="cursor-pointer text-primary-500 font-medium">{multiFormatDateString(comment.createdAt)}</span>
             {comment?.comments?.length > 0 && !moreComment && (
-              <Link onClick={() => setMoreComment(true)}>Xem tất cả {comment.comments.length} phản hồi</Link>
+              <span onClick={() => setMoreComment(true)}>Xem tất cả {comment.comments.length} phản hồi</span>
             )}
             {moreComment && (
-              <Link onClick={() => setMoreComment(false)}>Ẩn bớt</Link>
+              <span className="cursor-pointer text-primary-500 font-medium" onClick={() => setMoreComment(false)}>
+                Ẩn bớt
+              </span>
             )}
-            <Link
+            <span
+              className="cursor-pointer text-primary-500 font-medium"
               onClick={() => {
                 if (!userInfo?._id) onWarning();
                 else {
                   if (!comment?.parentId) {
                     setMoreComment(true);
-                    setFocused(comment?._id);
-                  } else setFocused(comment.parentId);
+                    setFocused(`send_${comment?._id}`);
+                  } else setFocused(`send_${comment.parentId}`);
                 }
               }}
             >
               Trả lời
-            </Link>
-            {(comment?.by === userInfo?._id || userInfo?.role === 'admin') && <Link onClick={onDelete}>Xóa</Link>}
+            </span>
+            {(comment?.by === userInfo?._id || userInfo?.role === 'admin') && (
+              <span className="cursor-pointer text-primary-500 font-medium" onClick={onDelete}>
+                Xóa
+              </span>
+            )}
           </div>
         </div>
       </div>

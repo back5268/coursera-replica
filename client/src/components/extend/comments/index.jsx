@@ -1,4 +1,3 @@
-import { Link } from '@components/uiCore';
 import { useEffect, useState } from 'react';
 import { SendMessage } from './SendMessage';
 import { Comment } from './Comment';
@@ -6,7 +5,7 @@ import { useAuthContext } from '@context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useConfirmState } from '@store';
 
-const Comments = ({ comments = [], type = 1, setRender, objectId }) => {
+const Comments = ({ title, maxHeight, comments = [], type = 1, setRender, objectId }) => {
   const navigate = useNavigate();
   const { showConfirm } = useConfirmState();
   const { userInfo } = useAuthContext();
@@ -33,18 +32,18 @@ const Comments = ({ comments = [], type = 1, setRender, objectId }) => {
   return (
     <div>
       <div className="flex justify-between items-center my-2">
-        <h2 className="uppercase font-semibold">Bình luận bài viết</h2>
-        <Link
+        <h2 className="uppercase font-semibold">{title}</h2>
+        <span
           onClick={() => {
             if (!userInfo?._id) onWarning();
-            else setFocused('messageId');
+            else setFocused('send_messageId');
           }}
-          className="text-sm font-medium"
+          className='cursor-pointer text-primary-500 font-semibold'
         >
           Viết bình luận
-        </Link>
+        </span>
       </div>
-      <div className="card text-sm text-left">
+      <div className={`card text-sm text-left ${maxHeight ? `overflow-scroll` : ''}`} style={{ maxHeight }}>
         {comments.map((comment, index) => {
           return (
             <Comment
