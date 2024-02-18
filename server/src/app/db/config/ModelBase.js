@@ -6,7 +6,7 @@ class ModelBase {
   constructor() {}
 
   static init(tableName, attr) {
-    this.model = mongoose.model(tableName, new Schema(attr, { timestamps: true }));
+    this.model = mongoose.model(tableName, new Schema(attr, { timestamps: true, suppressReservedKeysWarning: true }));
   }
 
   static find({ where = {}, page, limit, populates = [], sort = { createdAt: -1 }, attr }) {

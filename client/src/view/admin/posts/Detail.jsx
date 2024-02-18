@@ -54,7 +54,7 @@ const DetailPost = (props) => {
     const hashtag = data.hashtag?.split(';') || [];
     const newData = { ...data, hashtag };
     if (image) newData.formData = { image };
-    else if (item.image) newData.image = '';
+    else if (item?.image) newData.image = '';
     if (isUpdate) return { ...checkEqualProp(newData, item), _id: show };
     else return newData;
   };

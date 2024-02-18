@@ -30,6 +30,7 @@ import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
 import { generateVietQrLink } from '@lib/viet-qr';
 import { NOTI_CONTENT } from '@constant';
+import { addNotifyRp } from '@repository';
 
 export const getListCourse = async (req, res) => {
   try {
@@ -232,10 +233,10 @@ export const registerCourse = async (req, res) => {
     const course = await getDetailCourseMd({ _id: courseId });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
-    const checkCourseRegister = req.userInfo.courses.find((c) => String(c.courseId) === String(course._id));
+    const checkCourseRegister = req.userInfo.courses.find((c) => String(c.course._id) === String(course._id));
     if (checkCourseRegister) return res.status(400).json({ status: false, mess: 'Bạn đã đăng ký khóa học này!' });
 
-    const attr = { courseId, userId: req.userInfo._id, courseInfo: { name: course.name, image: course.image, slug: course.slug } };
+    const attr = { course: courseId, by: req.userInfo._id };
     if (course.price - course.sale > 0) {
       attr.status = 0;
       attr.price = course.price - course.sale;
@@ -251,7 +252,7 @@ export const registerCourse = async (req, res) => {
 
     const data = await addCourseRegisterMd(attr);
     await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { courses: data._id } });
-    await addNotifyMd({ fromBy: 1, to: req.userInfo._id, type: 4, content: NOTI_CONTENT[4] + ` "${course.name}"`, objectId: course._id });
+    await addNotifyRp({ fromBy: 1, to: req.userInfo._id, type: 4, content: NOTI_CONTENT[4] + ` "${course.name}"`, objectId: course._id });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -263,7 +264,8 @@ export const detailCourseRegister = async (req, res) => {
     const { error, value } = validateData(detailCourseRegisterValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { slug } = value;
-    const data = await getDetailCourseRegisterMd({ 'courseInfo.slug': slug, userId: req.userInfo._id, status: { $in: [1, 2] } }, [
+    const data = await getDetailCourseRegisterMd({ by: req.userInfo._id, status: { $in: [1, 2] } }, [
+      { path: 'course', select: '_id image name slug', match: { slug } },
       { path: 'lessons.lesson', select: '_id title time' }
     ]);
     if (!data && !['admin', 'staff'].includes(req.userInfo.role))
@@ -281,7 +283,7 @@ export const detailLessonRegister = async (req, res) => {
     const { courseId, lessonId } = value;
 
     const checkStaff = ['admin', 'staff'].includes(req.userInfo.role);
-    const courseRegister = await getDetailCourseRegisterMd({ courseId, userId: req.userInfo._id, status: { $in: [1, 2] } });
+    const courseRegister = await getDetailCourseRegisterMd({ course: courseId, by: req.userInfo._id, status: { $in: [1, 2] } });
     if (!courseRegister && !checkStaff) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
 
     const checkLesson = courseRegister.lessons?.find((lesson) => String(lesson.lesson) === lessonId);
@@ -301,7 +303,9 @@ export const completeLesson = async (req, res) => {
     const { error, value } = validateData(detailLessonRegisterValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { courseId, lessonId } = value;
-    const courseRegister = await getDetailCourseRegisterMd({ courseId, userId: req.userInfo._id, status: { $in: [1, 2] } });
+    const courseRegister = await getDetailCourseRegisterMd({ course: courseId, userId: req.userInfo._id, status: { $in: [1, 2] } }, [
+      { path: 'course', select: 'slug' }
+    ]);
     if (!courseRegister) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
 
     const lesson = await getDetailLessonMd({ _id: lessonId });
@@ -318,13 +322,13 @@ export const completeLesson = async (req, res) => {
     });
 
     const data = await updateCourseRegisterMd({ _id: courseRegister._id }, { status, lessons: newLessons });
-    await addNotifyMd({
+    await addNotifyRp({
       fromBy: 1,
       to: req.userInfo._id,
       type: 6,
       content: NOTI_CONTENT[6] + ` "${lesson.title}"`,
       objectId: lessonId,
-      data: { slug: courseRegister.courseInfo.slug }
+      data: { slug: courseRegister.course.slug }
     });
     res.status(201).json({ status: true, data });
   } catch (error) {

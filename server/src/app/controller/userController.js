@@ -115,7 +115,7 @@ export const updateUserInfo = async (req, res) => {
   try {
     const { error, value } = validateData(updateUserInfoValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { username, fullName, email, bio, address, avatar } = value;
+    let { username, fullName, email, bio, address, avatar } = value;
 
     if (email) {
       const checkEmail = await getDetailUserMd({ email });

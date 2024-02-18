@@ -13,7 +13,7 @@ import {
 import dotenv from 'dotenv';
 import { sendOtpAuthValid } from '@lib/validation';
 import { generateNumber, validateData } from '@utils';
-import { sendOtpForgotPasswordTemplate, sendOtpSignupTemplate } from '@lib';
+import { sendOtpForgotPasswordTemplate, sendOtpSignupTemplate } from '@lib/node-mailer';
 dotenv.config();
 
 export const signinRp = async ({ username, password }) => {

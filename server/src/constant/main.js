@@ -17,3 +17,8 @@ export const NOTI_CONTENT = {
   5: 'đã đặt câu hỏi trong bài học',
   6: 'bạn đã hoàn thành bài học'
 };
+
+export const REDIS_KEY = {
+  EMAIL_QUEUE: 'emailQueue',
+  NOTIFY_QUEUE: 'notifyQueue'
+};

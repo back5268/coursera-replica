@@ -1,4 +1,4 @@
-import { REGEX } from "@constant";
+import { REGEX } from '@constant';
 
 export const listUserValid = {
   page: 'number',

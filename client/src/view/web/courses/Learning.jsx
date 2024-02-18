@@ -115,7 +115,7 @@ const Learning = () => {
       </div>
       <div className={`mt-24 transition-all duration-500 ease-in-out flex flex-col gap-2 text-left ${isShow ? 'mr-96' : ''}`}>
         <div className="flex justify-between items-center">
-          <h1 className="text-xl uppercase font-semibold">{data?.courseInfo?.name}</h1>
+          <h1 className="text-xl uppercase font-semibold">{data?.course?.name}</h1>
           <div className="flex gap-2">
             <span>
               {completedLessons.length}/{data?.lessons?.length} bài học

@@ -8,7 +8,7 @@ const Toastify = () => {
   const { show, toastInfo = {}, hideToast } = useToastState();
   let severity = ['info', 'success', 'warning', 'error', 'default'].includes(toastInfo.severity) ? toastInfo.severity : 'default';
 
-  const notify = () => toast[severity](toastInfo.title);
+  const notify = () => severity && toast[severity](toastInfo.title);
   useEffect(() => {
     if (show && severity && toastInfo.title) {
       notify();

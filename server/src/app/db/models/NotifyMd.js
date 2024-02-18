@@ -29,7 +29,8 @@ NotifyMd.init('Notify', {
     type: Number,
     enum: [1, 2, 3, 4, 5, 6],
     required: true,
-    description: '1: Like bài viết, 2: Thêm bình luận, 3: Trả lời bình luận, 4: Đăng ký khóa học, 5: Đặt câu hỏi trong bài học, 6: Hoàn thành bài học'
+    description:
+      '1: Like bài viết, 2: Thêm bình luận, 3: Trả lời bình luận, 4: Đăng ký khóa học, 5: Đặt câu hỏi trong bài học, 6: Hoàn thành bài học'
   },
   objectId: { type: ObjectId, required: true },
   status: {

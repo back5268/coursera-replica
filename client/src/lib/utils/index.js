@@ -72,7 +72,7 @@ export const formatMinuteStringV1 = (minute) => {
 export const formatMinuteStringV2 = (minute) => {
   const hour = Math.floor(minute / 60);
   minute = minute % 60;
-  return `${hour ? `${hour} giờ` : '' } ${minute} phút`;
+  return `${hour ? `${hour} giờ` : ''} ${minute} phút`;
 };
 
 export const multiFormatDateString = (timestamp = '') => {

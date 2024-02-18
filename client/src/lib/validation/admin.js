@@ -22,10 +22,7 @@ export const LessonValidation = yup.object({
   courseId: yup.string().required('Khóa học không được bỏ trống!'),
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   code: yup.string().required('Tiêu đề không được bỏ trống!'),
-  url: yup
-    .string()
-    .matches(REGEX.YOUTUBE_URL, 'Video url không đúng định dạng!')
-    .required('Video url không được bỏ trống!'),
+  url: yup.string().matches(REGEX.YOUTUBE_URL, 'Video url không đúng định dạng!').required('Video url không được bỏ trống!'),
   author: yup.string().required('Tác giả không được bỏ trống!')
 });
 
@@ -36,7 +33,7 @@ export const QuestionValidation = yup.object({
 });
 
 export const PostValidation = yup.object({
-  title: yup.string().required('Tiêu đề không được bỏ trống!'),
+  title: yup.string().required('Tiêu đề không được bỏ trống!')
 });
 
 export const UserInfoValidation = yup.object({

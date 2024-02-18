@@ -4,9 +4,8 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 class CourseRegisterMd extends ModelBase {
-  userId;
-  courseId;
-  courseInfo;
+  by;
+  course;
   price;
   qr;
   lessons;
@@ -15,9 +14,8 @@ class CourseRegisterMd extends ModelBase {
 }
 
 CourseRegisterMd.init('CourseRegister', {
-  userId: { type: ObjectId, ref: 'User', required: true },
-  courseId: { type: ObjectId, ref: 'Course', required: true },
-  courseInfo: { type: Object, required: true },
+  by: { type: ObjectId, ref: 'User', required: true },
+  course: { type: ObjectId, ref: 'Course', required: true },
   price: { type: Number, default: 0 },
   qr: { type: String },
   lessons: [

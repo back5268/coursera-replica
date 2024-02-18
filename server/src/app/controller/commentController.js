@@ -13,6 +13,7 @@ import {
   getListCommentMd,
   getListUserMd
 } from '@models';
+import { addNotifyRp } from '@repository';
 import { validateData } from '@utils';
 
 export const getListCommentLesson = async (req, res) => {
@@ -70,12 +71,12 @@ export const addComment = async (req, res) => {
     const data = await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 });
     if (type === 1) {
       const post = await getDetailPostMd({ _id: objectId });
-      const attr = { fromBy: 2, by: req.userInfo._id, status: 0, objectId, data: { slug: post.slug } };
+      const attr = { fromBy: 2, by: req.userInfo._id, objectId, data: { slug: post.slug } };
       if (parentId) {
         const comment = await getDetailCommentMd({ _id: parentId });
         if (String(req.userInfo._id) !== String(comment.by)) {
           attr.data._id = parentId;
-          await addNotifyMd({
+          await addNotifyRp({
             ...attr,
             to: comment.by,
             content: NOTI_CONTENT[3],
@@ -85,7 +86,7 @@ export const addComment = async (req, res) => {
       } else {
         if (String(req.userInfo._id) !== String(post.by)) {
           attr.data._id = data._id;
-          await addNotifyMd({
+          await addNotifyRp({
             ...attr,
             to: post.by,
             content: NOTI_CONTENT[2],
@@ -99,7 +100,7 @@ export const addComment = async (req, res) => {
       const course = await getDetailCourseMd({ _id: lesson.courseId });
       if (users.length > 0) {
         for (const user of users) {
-          await addNotifyMd({
+          await addNotifyRp({
             fromBy: 2,
             by: req.userInfo._id,
             to: user._id,

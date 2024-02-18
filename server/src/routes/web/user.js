@@ -5,5 +5,5 @@ import { upload } from '@lib/multer';
 
 export const userRouter = express.Router();
 
-userRouter.post('/updateUserInfo', authMiddleware, upload.single('file'), updateUserInfo);
+userRouter.post('/updateUserInfo', authMiddleware, upload.single('avatar'), updateUserInfo);
 userRouter.post('/changePassword', authMiddleware, changePassword);

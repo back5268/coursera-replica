@@ -1,8 +1,9 @@
 import { addPostValid, listPostValid, updatePostValid, detailPostValid, detailPostWebValid } from '@lib/validation';
-import { addNotifyMd, addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd, updateUserMd } from '@models';
+import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd, updateUserMd } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
 import { NOTI_CONTENT } from '@constant';
+import { addNotifyRp } from '@repository';
 
 export const getListPost = async (req, res) => {
   try {
@@ -180,14 +181,13 @@ export const likePost = async (req, res) => {
     if (post.likes?.includes(req.userInfo._id)) data = await updatePostMd({ _id }, { $pull: { likes: req.userInfo._id } });
     else {
       if (String(post.by) !== String(req.userInfo._id))
-        await addNotifyMd({
+        await addNotifyRp({
           fromBy: 2,
           by: req.userInfo._id,
           to: post.by,
           content: NOTI_CONTENT[1],
           objectId: post._id,
           type: 1,
-          status: 0,
           data: { slug: post.slug }
         });
       data = await updatePostMd({ _id }, { $addToSet: { likes: req.userInfo._id } });

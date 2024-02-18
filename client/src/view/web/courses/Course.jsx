@@ -35,7 +35,7 @@ const Course = ({ item }) => {
         <div className="h-full flex justify-center items-center">
           <div
             className="relative bg-primary-100 h-full w-full rounded-lg bg-cover"
-            style={{ backgroundImage: `url('${item?.courseInfo?.image}')` }}
+            style={{ backgroundImage: `url('${item?.course?.image}')` }}
           >
             <span className="absolute top-0 left-0 w-full h-full rounded-lg bg-primary-500 opacity-20"></span>
             {item?.price && (
@@ -50,7 +50,7 @@ const Course = ({ item }) => {
           {isHovered && <div className="absolute rounded-md inset-0 bg-black bg-opacity-10 opacity-30"></div>}
           {item?.status === 1 ? (
             <Link
-              to={`/learning/${item?.courseInfo?.slug}`}
+              to={`/learning/${item?.course?.slug}`}
               className={`font-medium z-10 duration-300 ease-in-out transform 
             ${isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
             >
@@ -68,7 +68,7 @@ const Course = ({ item }) => {
         </div>
       </div>
       <div className="mt-2 px-2 flex flex-col gap-1">
-        <h4 className="font-medium m-0">{item?.courseInfo?.name}</h4>
+        <h4 className="font-medium m-0">{item?.course?.name}</h4>
         <span className="text-xs">Đã đăng ký cách đây {multiFormatDateString(item?.createdAt)}</span>
         <ProgressBar value={value} />
       </div>

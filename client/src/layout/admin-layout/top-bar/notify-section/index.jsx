@@ -5,9 +5,14 @@ import { MdOutlineNotificationsActive } from 'react-icons/md';
 import Notify from './Notify';
 import { TETabs, TETabsContent, TETabsItem, TETabsPane } from 'tw-elements-react';
 import { useGetApi } from '@lib/react-query';
+import { socket } from '@lib/socket-io';
+import { useAuthContext } from '@context/AuthContext';
+import { useToastState } from '@store';
 
 const NotifySection = () => {
   const ref = useRef(null);
+  const { showToast } = useToastState()
+  const { userInfo } = useAuthContext();
   const [isShow, setIsShow] = useState(false);
   const [render, setRender] = useState(false);
   const [buttonActive, setButtonActive] = useState('tab1');
@@ -33,6 +38,34 @@ const NotifySection = () => {
     const response = await readAllNotifyApi({ status });
     if (response) setRender((pre) => !pre);
   };
+
+  useEffect(() => {
+    if (userInfo?._id) {
+      const key = `notifies_${userInfo?._id}`;
+      function onConnect() {
+        console.log('Connecting...');
+      }
+
+      function onDisconnect(reason) {
+        console.log('Disconnecting...', reason);
+      }
+
+      function onEvent() {
+        showToast({title: 'Bạn có một thông báo mới!', severity: 'info'});
+        setRender((pre) => !pre);
+      }
+
+      socket.on('connect', onConnect);
+      socket.on('disconnect', onDisconnect);
+      socket.on(key, onEvent);
+
+      return () => {
+        socket.off('connect', onConnect);
+        socket.off('disconnect', onDisconnect);
+        socket.off(key, onEvent);
+      };
+    }
+  }, [userInfo?._id]);
 
   return (
     <div ref={ref} className="relative items-center">

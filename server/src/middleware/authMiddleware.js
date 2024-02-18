@@ -21,7 +21,8 @@ export const authMiddleware = async (req, res, next) => {
       },
       {
         path: 'courses',
-        select: '_id courseInfo courseId lessons createdAt status qr'
+        select: '_id course lessons createdAt status qr',
+        populate: { path: 'course', select: 'name image slug' }
       }
     ]);
 
