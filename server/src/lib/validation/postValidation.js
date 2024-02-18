@@ -1,7 +1,8 @@
 export const listPostValid = {
   page: 'number',
   limit: 'number',
-  keySearch: { type: 'string', allowNull: true }
+  keySearch: { type: 'string', allowNull: true },
+  type: { type: 'string', allowNull: true }
 };
 
 export const detailPostValid = {
@@ -17,7 +18,8 @@ export const addPostValid = {
   content: 'string',
   time: 'number',
   description: { type: 'string', allowNull: true },
-  hashtag: { type: 'json', allowNull: true }
+  hashtag: { type: 'json', allowNull: true },
+  type: { type: 'string', allowNull: true }
 };
 
 export const updatePostValid = {
@@ -27,5 +29,6 @@ export const updatePostValid = {
   description: { type: 'string', allowNull: true },
   time: { type: 'number', allowNull: true },
   hashtag: { type: 'json', allowNull: true },
-  image: { type: 'string', allowNull: true }
+  image: { type: 'string', allowNull: true },
+  type: { type: 'string', allowNull: true }
 };

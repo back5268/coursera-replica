@@ -18,7 +18,9 @@ const WebPosts = () => {
       <div className="lg:w-full xl:w-8/12 flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <h2 className="uppercase font-semibold text-left">Danh sách bài viết</h2>
-          <Search setParams={setParams} />
+          <div className="w-[400px]">
+            <Search params={params} setParams={setParams} />
+          </div>
         </div>
         <Hr />
         {data?.documents?.length > 0 && data.documents.map((item, index) => <Post key={index} item={item} setRender={setRender} />)}

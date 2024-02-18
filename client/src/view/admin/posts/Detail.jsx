@@ -1,4 +1,4 @@
-import { UploadImage, InputFormDetail, TextAreaForm } from '@components/form';
+import { UploadImage, InputFormDetail, TextAreaForm, MultiRadio } from '@components/form';
 import { PostValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
@@ -9,18 +9,20 @@ import { checkEqualProp } from '@utils';
 import Editor from '@components/uiCore/Editor';
 import { useAuthContext } from '@context/AuthContext';
 import { useGetApi } from '@lib/react-query';
+import { postType } from '@constant';
 
 const defaultValues = {
   title: '',
   content: '',
   time: 0,
   hashtag: '',
-  description: ''
+  description: '',
+  type: 'post'
 };
 
 const DetailPost = (props) => {
   const { setUserInfo } = useAuthContext();
-  const { show, setShow, setParams = () => {} } = props;
+  const { show, setShow, setParams = () => {}, mode = 'web' } = props;
   const [image, setImage] = useState(null);
   const isUpdate = typeof show === 'string';
   const { data: item } = useGetApi(detailPostApi, { _id: show }, 'post', isUpdate);
@@ -82,20 +84,25 @@ const DetailPost = (props) => {
       onSuccess={onSuccess}
     >
       <div className="flex flex-wrap text-left">
-        <div className="w-5/12 p-2">
+        <div className="w-4/12 p-2">
           <UploadImage label="Ảnh mô tả" data={image} setData={setImage} />
         </div>
-        <div className="w-7/12">
+        <div className="w-8/12 flex flex-wrap">
+          {mode === 'admin' && <MultiRadio data={postType} value={watch('type')} onChange={(e) => setValue('type', e)} />}
           <InputFormDetail id="title" label="Tiêu đề (*)" register={register} errors={errors} className={'!w-full'} />
-          <InputFormDetail
-            type="number"
-            id="time"
-            label="Thời gian đọc (phút) (*)"
-            register={register}
-            errors={errors}
-            className={'!w-full'}
-          />
-          <InputFormDetail id="hashtag" label="Hagtag" register={register} className={'!w-full'} />
+          {watch('type') === 'post' && (
+            <>
+              <InputFormDetail
+                type="number"
+                id="time"
+                label="Thời gian đọc (phút) (*)"
+                register={register}
+                errors={errors}
+                className={'!w-full'}
+              />
+              <InputFormDetail id="hashtag" label="Hagtag" register={register} className={'!w-full'} />
+            </>
+          )}
           <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
         </div>
         <Editor id="content" label="Nội dung (*)" data={watch('content')} setData={(e) => setValue('content', e)} />

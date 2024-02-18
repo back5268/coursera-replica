@@ -10,3 +10,4 @@ export * from './CommentMd';
 export * from './NotifyMd';
 export * from './LogMd';
 export * from './TransactionMd';
+export * from './TemplateMd';

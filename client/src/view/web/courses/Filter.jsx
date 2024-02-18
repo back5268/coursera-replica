@@ -1,11 +1,23 @@
 import { InputFormV2, MultiCheckBoxV2 } from '@components/form';
 import { Button, Hr, Rating } from '@components/uiCore';
 import { courseCharacteristic, courseType } from '@constant';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Search from '../posts/Search';
+import { useLocation } from 'react-router-dom';
 
 const Filter = ({ params, setParams }) => {
+  const location = useLocation();
   const [price, setPrice] = useState({});
   const ratings = Array.from({ length: 5 }, (_, index) => 5 - index);
+
+  useEffect(() => {
+    const query = {};
+    const queryParams = new URLSearchParams(location.search);
+    for (let [key, value] of queryParams.entries()) {
+      if (['fromPrice', 'toPrice'].includes(key)) query[key] = Number(value);
+    }
+    setPrice(query);
+  }, [location.search]);
 
   return (
     <div className="w-full h-full bg-primary-50">
@@ -14,7 +26,8 @@ const Filter = ({ params, setParams }) => {
       </div>
       <Hr />
       <div className="text-left p-4 flex flex-col text-sm">
-        <div className="mb-4">
+        <Search params={params} setParams={setParams} />
+        <div className="my-4">
           <h4>Trạng thái:</h4>
           <MultiCheckBoxV2
             data={courseCharacteristic}
@@ -32,19 +45,21 @@ const Filter = ({ params, setParams }) => {
           <h4>Khoảng giá:</h4>
           <div className="flex items-center my-2">
             <InputFormV2
+              type="number"
               size="md"
               className="!w-5/12 !p-0"
               label="Giá từ"
-              value={price.from}
-              onChange={(e) => setPrice({ ...price, from: e.target.value })}
+              value={price.fromPrice}
+              onChange={(e) => setPrice({ ...price, fromPrice: e.target.value })}
             />
             <div className="w-2/12 text-center">---</div>
             <InputFormV2
+              type="number"
               size="md"
               className="!w-5/12 !p-0"
               label="Giá đến"
-              value={price.to}
-              onChange={(e) => setPrice({ ...price, to: e.target.value })}
+              value={price.toPrice}
+              onChange={(e) => setPrice({ ...price, toPrice: e.target.value })}
             />
           </div>
           <Button
@@ -66,7 +81,7 @@ const Filter = ({ params, setParams }) => {
                   if (params.rating === r) setParams({ ...params, rating: undefined });
                   else setParams({ ...params, rating: r });
                 }}
-                className={`flex justify-center gap-2 cursor-pointer p-1 ${params.rating === r ? 'bg-primary-100' : ''} rounded-md mt-1`}
+                className={`flex justify-center gap-2 cursor-pointer p-1 mx-6 ${params.rating === r ? 'bg-primary-200' : ''} rounded-md mt-1`}
               >
                 <Rating value={r} /> <span className={r === 5 ? 'opacity-0' : ''}>Trở lên</span>
               </div>
@@ -74,7 +89,12 @@ const Filter = ({ params, setParams }) => {
           </div>
         </div>
         <Hr />
-        <Button className="w-full mt-4" label="Xóa tất cả" severity="danger" />
+        <Button
+          onClick={() => setParams((pre) => ({ sort: pre.sort, page: pre.page, limit: pre.limit }))}
+          className="w-full mt-4"
+          label="Xóa tất cả"
+          severity="danger"
+        />
       </div>
     </div>
   );

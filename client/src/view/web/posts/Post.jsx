@@ -6,11 +6,12 @@ import { BiSolidHeart } from 'react-icons/bi';
 import { BiSolidEdit } from 'react-icons/bi';
 import { BiSolidTrash } from 'react-icons/bi';
 import React from 'react';
-import { getRoleTitle, multiFormatDateString } from '@utils';
+import { multiFormatDateString } from '@utils';
 import { useNavigate } from 'react-router-dom';
 import { useConfirmState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
 import { deletePostApi, getInfoApi, likePostApi, savePostApi } from '@api';
+import { RoleTitle } from '@components/base';
 
 const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
   const navigate = useNavigate();
@@ -72,9 +73,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
             ></div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="font-medium">
-              {item?.by?.fullName} {getRoleTitle(item?.by?.role)}
-            </span>
+            {RoleTitle(item?.by?.fullName, item?.by?.role, 16)}
             <div className="flex gap-2">
               <span>{multiFormatDateString(item.createdAt)}</span>
               <span>•</span>

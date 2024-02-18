@@ -9,3 +9,4 @@ export * from './feedback';
 export * from './log';
 export * from './comment';
 export * from './notify';
+export * from './template';

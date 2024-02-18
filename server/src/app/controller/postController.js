@@ -8,9 +8,10 @@ export const getListPost = async (req, res) => {
   try {
     const { error, value } = validateData(listPostValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch } = value;
+    const { page, limit, keySearch, type } = value;
     const where = {};
     if (keySearch) where.title = { $regex: keySearch, $options: 'i' };
+    if (type) where.type = type;
     const documents = await getListPostMd(where, page, limit, [{ path: 'by', select: 'fullName role' }]);
     const total = await countListPostMd(where);
     res.json({ status: true, data: { documents, total } });
@@ -24,7 +25,7 @@ export const getListPostWeb = async (req, res) => {
     const { error, value } = validateData(listPostValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { page, limit, keySearch } = value;
-    const where = {};
+    const where = { type: 'post' };
     if (keySearch) where.title = { $regex: keySearch, $options: 'i' };
     const documents = await getListPostMd(
       where,
@@ -36,6 +37,26 @@ export const getListPostWeb = async (req, res) => {
     );
     const total = await countListPostMd(where);
     res.json({ status: true, data: { total, documents } });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
+
+export const getListNews = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    const where = { type: 'news' };
+    const documents = await getListPostMd(
+      where,
+      page,
+      limit,
+      [{ path: 'by', select: 'avatar fullName role' }],
+      false,
+      '_id title image by createdAt description content'
+    );
+    const total = await countListPostMd(where);
+    const isLastPage = page >= total / limit;
+    res.json({ status: true, data: { documents, nextPage: !isLastPage ? page + 1 : undefined } });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }
@@ -93,14 +114,14 @@ export const addPost = async (req, res) => {
   try {
     const { error, value } = validateData(addPostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, content, time, hashtag, description } = value;
+    const { title, content, time, hashtag, description, type } = value;
 
     let image;
     if (req.file) {
       image = await uploadFileToFirebase(req.file);
     }
 
-    const slug = `${Date.now()}-${removeSpecialCharacter(title)}`;
+    const slug = type !== 'news' ? `${Date.now()}-${removeSpecialCharacter(title)}` : undefined;
     const data = await addPostMd({
       by: req.userInfo._id,
       title,
@@ -109,7 +130,8 @@ export const addPost = async (req, res) => {
       hashtag,
       image,
       slug,
-      description
+      description,
+      type
     });
     await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { posts: data._id } });
     res.status(201).json({ status: true, data });
@@ -127,7 +149,7 @@ export const updatePost = async (req, res) => {
     const post = await getDetailPostMd({ _id });
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
-    if (title) slug = `${Date.now()}-${removeSpecialCharacter(title)}`;
+    if (title && post.type === 'post') slug = `${Date.now()}-${removeSpecialCharacter(title)}`;
     if (req.userInfo.role !== 'admin' && post.by !== req.userInfo._id)
       return res.status(400).json({
         status: false,

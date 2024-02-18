@@ -11,7 +11,6 @@ const Course = ({ item }) => {
   useEffect(() => {
     if (item?.lessons?.length > 0) {
       const listCompleted = item.lessons.filter((l) => l.status === 'isCompleted');
-      console.log(listCompleted.length / item.lessons.length);
       setValue((listCompleted.length / item.lessons.length) * 100);
     }
   }, [item?.lessons]);

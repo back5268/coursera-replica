@@ -9,7 +9,7 @@ import { BiBookmark, BiSolidBookmark, BiSolidHeart } from 'react-icons/bi';
 import { BiHeart } from 'react-icons/bi';
 import { useConfirmState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
-import { getRoleTitle } from '@utils';
+import { RoleTitle } from '@components/base';
 
 const DetailPostWeb = () => {
   const navigate = useNavigate();
@@ -62,9 +62,7 @@ const DetailPostWeb = () => {
             </div>
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col gap-1 text-sm">
-                <span className="font-semibold">
-                  {data?.by?.fullName} {getRoleTitle(data?.by?.role)}
-                </span>
+                {RoleTitle(data?.by?.fullName, data?.by?.role, 16)}
                 <div className="flex gap-2">
                   <span>{data?.createdAt ? moment(data.createdAt).format('DD/MM/YYYY HH:mm:ss') : ''}</span>
                   <span>•</span>
@@ -92,7 +90,6 @@ const DetailPostWeb = () => {
               </div>
             </div>
           </div>
-
           <Hr />
           <h2 className="uppercase font-semibold">Nội dung bài viết</h2>
           <div className="card overflow-scroll">

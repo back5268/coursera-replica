@@ -8,3 +8,4 @@ export * from './logController';
 export * from './commentController';
 export * from './courseReviewController';
 export * from './notifyController';
+export * from './templateController';

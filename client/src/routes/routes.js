@@ -1,6 +1,6 @@
-import { SignIn, SignUp, ForgotPassword, ConfirmPassword } from '@view/auth';
+import { SignIn, SignUp, ForgotPassword } from '@view/auth';
 import { DetailCourseWeb, DetailPostWeb, Home, Learning, MyCourses, MyPosts, Personal, WebCourses, WebPosts } from '@view/web';
-import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson } from '@view/admin';
+import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson, Templates } from '@view/admin';
 
 const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
@@ -28,6 +28,7 @@ const routes = [
   { path: '/admin/posts', element: Posts, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/feedbacks', element: Feedbacks, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/log', element: Log, layout: 'admin', roles: ['staff', 'admin'] },
+  { path: '/admin/templates', element: Templates, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/users', element: Users, layout: 'admin', roles: ['admin'] }
 ];
 

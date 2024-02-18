@@ -6,6 +6,7 @@ import { BiUser } from 'react-icons/bi';
 import { BiNews } from 'react-icons/bi';
 import { BiMessageSquareEdit } from 'react-icons/bi';
 import { BiBookAlt } from 'react-icons/bi';
+import { BiDevices } from 'react-icons/bi';
 
 export const items = [
   { label: 'Dashboard', icon: BiSolidDashboard, route: '' },
@@ -15,5 +16,6 @@ export const items = [
   { label: 'Quản lý câu hỏi', icon: BiMessageSquareEdit, route: '/questions' },
   { label: 'Quản lý bài viết', icon: BiNews, route: '/posts' },
   { label: 'Phản hồi người dùng', icon: BiSmile, route: '/feedbacks' },
+  { label: 'Templates', icon: BiDevices, route: '/templates' },
   { label: 'Lịch sử gửi thông báo', icon: BiBell, route: '/log' }
 ];

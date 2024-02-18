@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { TiFolderOpen } from 'react-icons/ti';
 import { MdSend } from 'react-icons/md';
 import { useDropzone } from 'react-dropzone';
-import { Link } from '@components/uiCore';
 import { IoMdClose } from 'react-icons/io';
 import { addCommentApi } from '@api';
 

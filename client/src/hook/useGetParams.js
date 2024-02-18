@@ -7,7 +7,10 @@ const useGetParams = () => {
   params.limit = 10;
   const queryParams = new URLSearchParams(location.search);
   for (let [key, value] of queryParams.entries()) {
-    params[key] = Number(value) || value;
+    if (value.includes(',')) {
+      const array = value.split(',');
+      params[key] = array.map((a) => Number(a) || a);
+    } else params[key] = Number(value) || value;
   }
   return params;
 };

@@ -8,3 +8,4 @@ export { default as Users } from './users';
 export { default as Dashboard } from './dashboard';
 export { default as Feedbacks } from './feedbacks';
 export { default as Log } from './log';
+export { default as Templates } from './templates';

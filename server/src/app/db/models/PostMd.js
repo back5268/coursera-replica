@@ -9,6 +9,7 @@ class PostMd extends ModelBase {
   slug;
   content;
   time;
+  type;
   hashtag;
   likes;
   image;
@@ -22,6 +23,7 @@ PostMd.init('Post', {
   slug: { type: String, slug: 'title', unique: true },
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
+  type: { type: String, default: 'post', enum: ['post', 'news'] },
   hashtag: [{ type: String }],
   likes: [{ type: ObjectId, ref: 'User' }],
   image: { type: String },

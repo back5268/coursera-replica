@@ -18,7 +18,7 @@ const LazyLoading = () => {
   return (
     loading && (
       <div className="fixed z-[1050] inset-x-0 top-0 h-2">
-        <ProgressBar size={1} value={50} className="animate-progress" />
+        <ProgressBar size={1.5} value={50} className="animate-progress" />
       </div>
     )
   );

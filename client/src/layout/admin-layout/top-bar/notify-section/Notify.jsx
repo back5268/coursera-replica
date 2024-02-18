@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getRoleTitle, multiFormatDateString } from '@utils';
+import { multiFormatDateString } from '@utils';
 import { Link, useNavigate } from 'react-router-dom';
 import { getListNotifyApi, updateStatusNotifyApi } from '@api';
 import { TERipple } from 'tw-elements-react';
 import { Button, Hr } from '@components/uiCore';
 import { useInfinityApi } from '@lib/react-query';
+import { RoleTitle } from '@components/base';
 
 const Notify = ({ status, render }) => {
   const navigate = useNavigate();
@@ -61,12 +62,8 @@ const Notify = ({ status, render }) => {
                     ></div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span>
-                      <span className="text-sm font-medium">
-                        {item?.by?.fullName} {getRoleTitle(item?.by?.role)}
-                      </span>{' '}
-                      {item?.content}
-                    </span>
+                    {RoleTitle(item?.by?.fullName, item?.by?.role, 16)}
+                    <span>{item?.content}</span>
                     <span className="text-xs text-primary">{multiFormatDateString(item.createdAt)}</span>
                   </div>
                 </Link>

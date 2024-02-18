@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TERipple } from 'tw-elements-react';
+import { IoMdClose } from 'react-icons/io';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Search = ({ setParams }) => {
+const Search = ({ params, setParams }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [value, setValue] = useState('');
 
+  useEffect(() => {
+    const query = {};
+    for (let key in params) {
+      if (params.hasOwnProperty(key)) {
+        const value = params[key];
+        if (!['render', 'sort'].includes(key) && !['', undefined, null].includes(value)) query[key] = value;
+      }
+    }
+    if (query.keySearch) setValue(query.keySearch);
+    navigate(location.pathname + '?' + new URLSearchParams(query).toString());
+  }, [params]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setParams((pre) => ({ ...pre, keySearch: value }));
+  };
+
   return (
-    <div className="relative flex w-[400px] flex-wrap items-stretch">
+    <form onSubmit={onSubmit} className="relative flex w-full flex-wrap items-stretch">
       <input
-        type="search"
         className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid 
         border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] 
         text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary 
@@ -21,9 +41,8 @@ const Search = ({ setParams }) => {
       />
       <TERipple color="light">
         <button
-          onClick={() => setParams((pre) => ({ ...pre, keySearch: value }))}
+          type="submit"
           className="relative z-[2] flex items-center rounded-r bg-primary px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
-          type="button"
           id="button-addon1"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
@@ -35,7 +54,18 @@ const Search = ({ setParams }) => {
           </svg>
         </button>
       </TERipple>
-    </div>
+      {value && (
+        <div
+          onClick={() => {
+            setValue('');
+            setParams((pre) => ({ ...pre, keySearch: undefined }));
+          }}
+          className="absolute top-2 right-14 text-primary cursor-pointer"
+        >
+          <IoMdClose size={24} />
+        </div>
+      )}
+    </form>
   );
 };
 

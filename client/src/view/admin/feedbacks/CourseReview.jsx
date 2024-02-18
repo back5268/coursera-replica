@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { SelectFormV2 } from '@components/form';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
-import { DataFilter, DataTable, TimeBody } from '@components/base';
+import { DataFilter, DataTable, RoleTitle, TimeBody } from '@components/base';
 import { useDataState } from '@store';
 import { getListCourseReviewApi } from '@api';
 import { Link, Rating } from '@components/uiCore';
-import { userRoles } from '@constant';
-import { getRoleTitle } from '@utils';
 
 const Filter = ({ setParams, courses }) => {
   const [filter, setFilter] = useState({});
@@ -43,7 +41,7 @@ const CourseReviews = () => {
         return <Link to={`/courses/detail/${course.slug}`}>{course.name}</Link>;
       }
     },
-    { label: 'Người đánh giá', body: (item) => `${item?.by?.fullName} ${getRoleTitle(item?.by?.role)}` },
+    { label: 'Người đánh giá', body: (item) => RoleTitle(item?.by?.fullName, item?.by?.role, 16) },
     {
       label: 'Xếp hạng',
       body: (item) => (

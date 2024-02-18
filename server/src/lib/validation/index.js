@@ -8,3 +8,4 @@ export * from './logValidation';
 export * from './courseReviewValidation';
 export * from './commentValidation';
 export * from './notifyValidation';
+export * from './templateValidation';

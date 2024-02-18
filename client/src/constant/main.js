@@ -57,3 +57,8 @@ export const statusLog = [
   { label: 'Đã gửi', key: 1, color: 'bg-success-200' },
   { label: 'Có lỗi', key: 2, color: 'bg-danger-200' }
 ];
+
+export const postType = [
+  { label: 'Bài viết', key: 'post' },
+  { label: 'Tin tức', key: 'news' }
+];

@@ -69,7 +69,7 @@ const DetailLesson = () => {
         const newFiles = [];
         const formData = [];
         files.forEach((f) => {
-          if (item.files.some((i) => JSON.stringify(i) === JSON.stringify(f))) newFiles.push(f);
+          if (item?.files.some((i) => JSON.stringify(i) === JSON.stringify(f))) newFiles.push(f);
           else formData.push(f);
         });
         if (newFiles.length > 0) newData.files = newFiles;

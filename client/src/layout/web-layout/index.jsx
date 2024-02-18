@@ -8,6 +8,8 @@ import { useToastState } from '@store';
 import Footer from './Footer';
 import { items } from './items';
 import NotifySection from '@layout/admin-layout/top-bar/notify-section';
+import { BiSolidNews } from 'react-icons/bi';
+import News from './News';
 
 const WebLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ const WebLayout = ({ children }) => {
   const { showToast } = useToastState();
   const { pathname } = useLocation();
   const [select, setSelect] = useState(null);
+  const [show, setShow] = useState(true);
 
   const onSignOut = () => {
     setUserInfo(INITIAL_USER_INFO);
@@ -58,6 +61,12 @@ const WebLayout = ({ children }) => {
       </div>
       <div className="container mt-16 mx-auto min-h-screen">{children}</div>
       <Footer />
+      <div className="fixed bottom-4 left-4">
+        <Button severity='danger' onClick={() => setShow(true)}>
+          <BiSolidNews size={20} /> Tin tức
+        </Button>
+      </div>
+      <News show={show} setShow={setShow} />
     </div>
   );
 };

@@ -54,3 +54,9 @@ export const ChangePasswordValidation = yup.object({
     .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
     .required('Mật khẩu không được bỏ trống!')
 });
+
+export const TemplateValidation = yup.object({
+  subject: yup.string().required('Tiêu đề không được bỏ trống!'),
+  code: yup.string().required('Mã template không được bỏ trống!'),
+  content: yup.string().required('Nội dung không được bỏ trống!')
+});

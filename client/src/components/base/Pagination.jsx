@@ -51,7 +51,7 @@ const Pagination = (props) => {
         <TESelect
           data={rows.map((r) => ({ text: String(r), value: r }))}
           value={params.limit || 100}
-          onValueChange={(e) => setParams({ page: 1, limit: e?.value })}
+          onValueChange={(e) => setParams({ ...params, page: 1, limit: e?.value })}
           className="w-24"
         />
       </nav>

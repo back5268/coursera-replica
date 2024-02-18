@@ -4,8 +4,7 @@ import { InputFormV2, SelectFormV2 } from '@components/form';
 import { commentStatus } from '@constant';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
-import { DataFilter, DataTable, TimeBody } from '@components/base';
-import { getRoleTitle } from '@utils';
+import { DataFilter, DataTable, RoleTitle, TimeBody } from '@components/base';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -35,9 +34,16 @@ const CommentLessons = () => {
 
   const columns = [
     { label: 'Nội dung', field: 'content' },
-    { label: 'File đính kèm', body: (item) => <a href={item.file} target='_blank'>{item.file}</a> },
+    {
+      label: 'File đính kèm',
+      body: (item) => (
+        <a href={item.file} target="_blank">
+          {item.file}
+        </a>
+      )
+    },
     { label: 'Trạng thái', body: (item) => commentStatus.find((u) => u.key === item.status)?.label },
-    { label: 'Người đặt câu hỏi', body: (item) => `${item?.by?.fullName} ${getRoleTitle(item?.by?.role)}` },
+    { label: 'Người đặt câu hỏi', body: (item) => RoleTitle(item?.by?.fullName, item?.by?.role, 16) },
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) }
   ];
 

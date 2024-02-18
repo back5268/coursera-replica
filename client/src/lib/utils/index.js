@@ -89,11 +89,3 @@ export const multiFormatDateString = (timestamp = '') => {
       return 'vừa xong';
   }
 };
-
-export const getRoleTitle = (role) => {
-  const rolez = userRoles.find((u) => u.key === role) || {};
-  if (rolez.label) {
-    if (rolez.key === 'user') return '';
-    else return `(${rolez.label})`;
-  }
-};

@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '../uiCore';
 import { BiFilterAlt } from 'react-icons/bi';
 import { removeUndefinedProps } from '@lib/utils';
+import { useLocation } from 'react-router-dom';
 
 const DataFilter = (props) => {
-  const { setParams = () => {}, filter, setFilter = () => {}, handleFilter = (e) => e, className, ...prop } = props;
+  const location = useLocation();
+  const { setParams = () => {}, filter, setFilter = () => {}, handleFilter = (e) => e, className } = props;
+
+  useEffect(() => {
+    const query = {};
+    const queryParams = new URLSearchParams(location.search);
+    for (let [key, value] of queryParams.entries()) {
+      query[key] = Number(value) || value;
+    }
+    setFilter((pre) => ({ ...pre, ...query }));
+  }, [location.search]);
 
   const onClear = () => {
     setParams((pre) => {

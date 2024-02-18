@@ -8,6 +8,7 @@ import { postRouter } from './post';
 import { logRouter } from './log.js';
 import { courseReviewRouter } from './courseReview.js';
 import { commentRouter } from './comment.js';
+import { templateRouter } from './template';
 
 export const adminRouter = express.Router();
 
@@ -20,3 +21,4 @@ adminRouter.use('/post', postRouter);
 adminRouter.use('/log', logRouter);
 adminRouter.use('/courseReview', courseReviewRouter);
 adminRouter.use('/comment', commentRouter);
+adminRouter.use('/template', templateRouter);
