@@ -75,6 +75,7 @@ const AnswerQuestion = (props) => {
         <Button label="Bỏ qua" severity="secondary" onClick={() => setShow(false)} />
         <Button disabled={isSubmit} onClick={onSubmit} severity="danger" type="submit" label="Nộp bài" />
         <Button
+          disabled={!isSubmit}
           label="Làm lại"
           onClick={() => {
             setIsSubmit(false);

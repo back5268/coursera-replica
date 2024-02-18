@@ -63,7 +63,7 @@ const Reviews = ({ data, courseId, rating, show, setShow, userInfo, setRender })
                           {fileType === 'image' ? (
                             <img src={d.file} className="h-[160px] rounded-md" />
                           ) : fileType === 'video' ? (
-                            <ReactPlayer url={d.file} controls={true} height="300" />
+                            <ReactPlayer url={d.file} controls height="300" />
                           ) : (
                             <span>{d.file}</span>
                           )}

@@ -1,3 +1,5 @@
+import { REGEX } from "@constant";
+
 export const listUserValid = {
   page: 'number',
   limit: 'number',
@@ -46,6 +48,6 @@ export const updateUserInfoValid = {
 };
 
 export const changePasswordValid = {
-  password: 'string',
-  newPassword: 'string'
+  password: { type: 'string', pattern: REGEX.PASSWORD },
+  newPassword: { type: 'string', pattern: REGEX.PASSWORD }
 };

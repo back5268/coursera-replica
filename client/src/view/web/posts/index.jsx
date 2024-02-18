@@ -23,7 +23,11 @@ const WebPosts = () => {
           </div>
         </div>
         <Hr />
-        {data?.documents?.length > 0 && data.documents.map((item, index) => <Post key={index} item={item} setRender={setRender} />)}
+        {data?.documents?.length > 0 ? (
+          data.documents.map((item, index) => <Post key={index} item={item} setRender={setRender} />)
+        ) : (
+          <div className="p-4 font-medium text-lg">Chưa có bài viết nào được tạo!</div>
+        )}
         <Hr />
         <div className="flex justify-center my-4">
           <Pagination totalRecord={data?.total} params={params} setParams={setParams} />

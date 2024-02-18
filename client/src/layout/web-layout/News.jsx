@@ -7,7 +7,7 @@ import { BiSolidCheckCircle } from 'react-icons/bi';
 
 const News = ({ show, setShow }) => {
   const [news, setNews] = useState([]);
-  const { data, fetchNextPage, hasNextPage } = useInfinityApi((params) => getListNewsApi(params), 'news', 5);
+  const { data, fetchNextPage, hasNextPage } = useInfinityApi((params) => getListNewsApi(params), 'news', 10);
 
   useEffect(() => {
     if (data?.pages) {
@@ -29,7 +29,7 @@ const News = ({ show, setShow }) => {
               <div key={index} className="flex flex-col gap-4 p-8">
                 <div>
                   <span className="font-medium text-lg">
-                    <span className="text-red-500">#</span> {item.title}{' '}
+                    <span className="text-red-500">#</span> {item.title}
                   </span>
                   <Hr />
                 </div>

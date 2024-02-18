@@ -18,9 +18,9 @@ LogMd.init('Log', {
   content: { type: String, required: true },
   type: {
     type: Number,
-    enum: [1, 2, 3, 4],
+    enum: [1, 2, 3, 4, 5],
     required: true,
-    description: '1: Đăng ký tài khoản, 2: Quên mật khẩu, 3: Thanh toán thành công, 4: Hoàn thành khóa học'
+    description: '1: Đăng ký tài khoản, 2: Quên mật khẩu, 3: Đăng ký khóa học thành công, 4: Thanh toán thành công, 5: Hoàn thành khóa học'
   },
   status: {
     type: Number,

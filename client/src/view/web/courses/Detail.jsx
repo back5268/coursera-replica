@@ -8,7 +8,7 @@ import { BiCheck } from 'react-icons/bi';
 import Reviews from './Reviews';
 import { useConfirmState, useToastState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
-import { formatNumber } from '@utils';
+import { formatMinuteStringV1, formatMinuteStringV2, formatNumber } from '@utils';
 
 const DetailCourseWeb = () => {
   const navigate = useNavigate();
@@ -86,10 +86,11 @@ const DetailCourseWeb = () => {
                   <span>•</span>
                   <span>
                     Thời lượng{' '}
-                    {data.lessons.reduce((total, currentItem) => {
-                      return total + currentItem.time;
-                    }, 0)}{' '}
-                    phút
+                    {formatMinuteStringV2(
+                      data.lessons.reduce((total, currentItem) => {
+                        return total + currentItem.time;
+                      }, 0)
+                    )}
                   </span>
                 </div>
                 <Hr />
@@ -98,7 +99,7 @@ const DetailCourseWeb = () => {
                     <span>
                       {index + 1}. {lesson.title}
                     </span>
-                    <span className="text-sm">0{lesson.time}:00</span>
+                    <span className="text-sm">{formatMinuteStringV1(lesson.time)}</span>
                   </div>
                 ))}
               </div>

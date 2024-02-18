@@ -19,9 +19,10 @@ export const Body = (data = [], value, key = 'key', label = 'label') => {
 };
 
 export const RoleTitle = (fullName, role, size = 20) => {
+  if (!fullName) return ''
   const rolez = userRoles.find((u) => u.key === role) || {};
   if (rolez.label) {
-    if (rolez.key === 'user') return <span className='font-medium'>{fullName}</span>;
+    if (rolez.key === 'user') return <span className="font-medium">{fullName}</span>;
     else
       return (
         <span className="flex gap-1 items-center">

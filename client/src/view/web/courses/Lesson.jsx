@@ -17,7 +17,7 @@ const Lesson = ({ courseId, lessonId, setRender }) => {
   return (
     <div className="w-full flex flex-col gap-6">
       <AnswerQuestion show={show} setShow={setShow} data={data?.questions} courseId={courseId} lessonId={lessonId} setRender={setRender} />
-      <ReactPlayer url={data?.url} width="auto" height="600px" />
+      <ReactPlayer url={data?.url} controls width="auto" height="600px" />
       <Hr />
       <div className="flex flex-col gap-2">
         <h3 className="text-xl uppercase font-semibold">{data?.title}</h3>

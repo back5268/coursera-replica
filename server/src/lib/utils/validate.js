@@ -139,6 +139,9 @@ export const validateData = (options = {}, data = {}) => {
       let valid;
       if (typeof options[key] === 'object') {
         valid = getTypeValidate(options[key].type);
+        if (options[key].min) valid = valid.min(options[key].min);
+        if (options[key].max) valid = valid.max(options[key].max);
+        if (options[key].pattern) valid = valid.pattern(options[key].pattern);
         if (!options[key].allowNull) valid = valid.required();
         else if (options[key].type === 'string') valid = valid.allow('');
       } else if (typeof options[key] === 'string') {

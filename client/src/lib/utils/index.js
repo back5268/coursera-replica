@@ -1,5 +1,3 @@
-import { userRoles } from '@constant';
-
 export const removeUndefinedProps = (obj) => {
   for (let prop in obj) {
     if (!(obj[prop] || obj[prop] === '' || obj[prop] === 0)) {
@@ -39,13 +37,16 @@ export const formatNumber = (amount, round) => {
 export const removeSpecialCharacter = (string) => {
   if (string) {
     string = string.toLowerCase();
+    string = string.replace(/["',]/g, '');
+    string = string.replace(/[\/]/g, '-');
     const normalizedString = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const replacedString = normalizedString.replace(/đ/g, 'd').replace(/Đ/g, 'D');
-    return replacedString.replace(/\s+/g, '-');
+    const resultString = replacedString.replace(/\s+/g, '-');
+    return resultString;
   }
 };
 
-export function formatDateString(dateString) {
+export const formatDateString = (dateString) => {
   const options = {
     year: 'numeric',
     month: 'short',
@@ -61,7 +62,18 @@ export function formatDateString(dateString) {
   });
 
   return `${formattedDate} at ${time}`;
-}
+};
+
+export const formatMinuteStringV1 = (minute) => {
+  minute = minute % 60;
+  return `${minute < 10 ? `0${minute}` : minute}:00`;
+};
+
+export const formatMinuteStringV2 = (minute) => {
+  const hour = Math.floor(minute / 60);
+  minute = minute % 60;
+  return `${hour ? `${hour} giờ` : '' } ${minute} phút`;
+};
 
 export const multiFormatDateString = (timestamp = '') => {
   const timestampNum = Math.round(new Date(timestamp).getTime() / 1000);

@@ -1,3 +1,4 @@
+import { REGEX } from '@constant';
 import * as yup from 'yup';
 
 export const UserValidation = yup.object({
@@ -7,7 +8,7 @@ export const UserValidation = yup.object({
   password: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .matches(REGEX.PASSWORD, 'Mật khẩu cần chứa cả số và chữ số!')
     .required('Mật khẩu không được bỏ trống!')
 });
 
@@ -21,7 +22,10 @@ export const LessonValidation = yup.object({
   courseId: yup.string().required('Khóa học không được bỏ trống!'),
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   code: yup.string().required('Tiêu đề không được bỏ trống!'),
-  url: yup.string().required('Video url không được bỏ trống!'),
+  url: yup
+    .string()
+    .matches(REGEX.YOUTUBE_URL, 'Video url không đúng định dạng!')
+    .required('Video url không được bỏ trống!'),
   author: yup.string().required('Tác giả không được bỏ trống!')
 });
 
@@ -33,7 +37,6 @@ export const QuestionValidation = yup.object({
 
 export const PostValidation = yup.object({
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
-  content: yup.string().required('Nội dung không được bỏ trống!')
 });
 
 export const UserInfoValidation = yup.object({
@@ -46,12 +49,12 @@ export const ChangePasswordValidation = yup.object({
   password: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .matches(REGEX.PASSWORD, 'Mật khẩu cần chứa cả số và chữ số!')
     .required('Mật khẩu không được bỏ trống!'),
   newPassword: yup
     .string()
     .min(6, 'Mật khẩu cần dài ít nhất 6 ký tự!')
-    .matches(/^(?=.*\d)(?=.*[a-zA-Z])/, 'Mật khẩu cần chứa cả số và chữ số!')
+    .matches(REGEX.PASSWORD, 'Mật khẩu cần chứa cả số và chữ số!')
     .required('Mật khẩu không được bỏ trống!')
 });
 

@@ -1,14 +1,16 @@
+import { REGEX } from "@constant";
+
 export const signupValid = {
   fullName: 'string',
   username: 'string',
   otp: 'string',
   email: 'email',
-  password: { type: 'string', min: '6' }
+  password: { type: 'string', pattern: REGEX.PASSWORD }
 };
 
 export const signinValid = {
   username: 'string',
-  password: { type: 'string', min: '6' }
+  password: { type: 'string', pattern: REGEX.PASSWORD }
 };
 
 export const sendOtpAuthValid = {
@@ -20,5 +22,5 @@ export const confirmPasswordValid = {
   username: 'string',
   email: 'email',
   otp: 'string',
-  password: { type: 'string', min: '6' }
+  password: { type: 'string', pattern: REGEX.PASSWORD }
 };

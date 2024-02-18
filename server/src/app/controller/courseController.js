@@ -13,6 +13,7 @@ import {
 import {
   addCourseMd,
   addCourseRegisterMd,
+  addNotifyMd,
   countListCourseMd,
   deleteCourseMd,
   getDetailCourseMd,
@@ -28,6 +29,7 @@ import {
 import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
 import { generateVietQrLink } from '@lib/viet-qr';
+import { NOTI_CONTENT } from '@constant';
 
 export const getListCourse = async (req, res) => {
   try {
@@ -65,8 +67,6 @@ export const getListCourseWeb = async (req, res) => {
     where.$and = [{ price: { $gte: fromPrice } }, { price: { $lte: toPrice } }];
     if (keySearch) where.$or = [{ name: { $regex: keySearch, $options: 'i' } }, { code: { $regex: keySearch, $options: 'i' } }];
     if (rating) where.rating = { $gte: rating };
-    if (typeof isNew === 'boolean') where.isNew = isNew;
-    if (typeof isHot === 'boolean') where.isHot = isHot;
     if (characteristic && Array.isArray(characteristic)) {
       if (characteristic.includes('isNew')) where.isNew = true;
       if (characteristic.includes('isHot')) where.isHot = true;
@@ -251,6 +251,7 @@ export const registerCourse = async (req, res) => {
 
     const data = await addCourseRegisterMd(attr);
     await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { courses: data._id } });
+    await addNotifyMd({ fromBy: 1, to: req.userInfo._id, type: 4, content: NOTI_CONTENT[4] + ` "${course.name}"`, objectId: course._id });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -265,7 +266,8 @@ export const detailCourseRegister = async (req, res) => {
     const data = await getDetailCourseRegisterMd({ 'courseInfo.slug': slug, userId: req.userInfo._id, status: { $in: [1, 2] } }, [
       { path: 'lessons.lesson', select: '_id title time' }
     ]);
-    if (!data) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
+    if (!data && !['admin', 'staff'].includes(req.userInfo.role))
+      return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -278,12 +280,13 @@ export const detailLessonRegister = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     const { courseId, lessonId } = value;
 
+    const checkStaff = ['admin', 'staff'].includes(req.userInfo.role);
     const courseRegister = await getDetailCourseRegisterMd({ courseId, userId: req.userInfo._id, status: { $in: [1, 2] } });
-    if (!courseRegister) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
+    if (!courseRegister && !checkStaff) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
 
     const checkLesson = courseRegister.lessons?.find((lesson) => String(lesson.lesson) === lessonId);
-    if (!checkLesson) return res.status(400).json({ status: false, mess: 'Bài học không tồn tại trong khóa học này!' });
-    if (!['isStudy', 'isCompleted'].includes(checkLesson.status))
+    if (!checkLesson && !checkStaff) return res.status(400).json({ status: false, mess: 'Bài học không tồn tại trong khóa học này!' });
+    if (!['isStudy', 'isCompleted'].includes(checkLesson?.status) && !checkStaff)
       return res.status(400).json({ status: false, mess: 'Bạn phải hoàn thành các bài học trước đó mới có thể học tiếp!' });
 
     const data = await getDetailLessonMd({ _id: lessonId }, [{ path: 'questions', select: 'content answers' }]);
@@ -301,6 +304,8 @@ export const completeLesson = async (req, res) => {
     const courseRegister = await getDetailCourseRegisterMd({ courseId, userId: req.userInfo._id, status: { $in: [1, 2] } });
     if (!courseRegister) return res.status(400).json({ status: false, mess: 'Bạn chưa đăng ký khóa học này!' });
 
+    const lesson = await getDetailLessonMd({ _id: lessonId });
+
     let id;
     let status;
     const newLessons = courseRegister.lessons?.map((lesson, index) => {
@@ -313,6 +318,14 @@ export const completeLesson = async (req, res) => {
     });
 
     const data = await updateCourseRegisterMd({ _id: courseRegister._id }, { status, lessons: newLessons });
+    await addNotifyMd({
+      fromBy: 1,
+      to: req.userInfo._id,
+      type: 6,
+      content: NOTI_CONTENT[6] + ` "${lesson.title}"`,
+      objectId: lessonId,
+      data: { slug: courseRegister.courseInfo.slug }
+    });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

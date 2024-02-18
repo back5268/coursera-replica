@@ -12,6 +12,7 @@ import { BiSolidCheckCircle } from 'react-icons/bi';
 import { BiSolidLock } from 'react-icons/bi';
 import Discuss from './Discuss';
 import { BiSolidConversation } from 'react-icons/bi';
+import { formatMinuteStringV1 } from '@utils';
 
 const Learning = () => {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ const Learning = () => {
                         <div className="flex gap-2 items-center">
                           {id === item?.lesson?._id ? <BiPlayCircle size={20} className="text-red-400" /> : <BiPlayCircle size={20} />}
                           <span>|</span>
-                          <span>{item.lesson?.time}</span>
+                          <span>{formatMinuteStringV1(item.lesson?.time)}</span>
                         </div>
                       </div>
                       <div className="h-12 w-12 flex justify-center items-center">

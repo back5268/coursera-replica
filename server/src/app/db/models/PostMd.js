@@ -20,7 +20,7 @@ class PostMd extends ModelBase {
 PostMd.init('Post', {
   by: { type: ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
-  slug: { type: String, slug: 'title', unique: true },
+  slug: { type: String },
   content: { type: String, required: true },
   time: { type: Number, default: 0, min: 0 },
   type: { type: String, default: 'post', enum: ['post', 'news'] },

@@ -7,8 +7,11 @@ import {
   countListCommentMd,
   deleteCommentMd,
   getDetailCommentMd,
+  getDetailCourseMd,
+  getDetailLessonMd,
   getDetailPostMd,
-  getListCommentMd
+  getListCommentMd,
+  getListUserMd
 } from '@models';
 import { validateData } from '@utils';
 
@@ -87,6 +90,23 @@ export const addComment = async (req, res) => {
             to: post.by,
             content: NOTI_CONTENT[2],
             type: 2
+          });
+        }
+      }
+    } else if (type === 2 && !['admin', 'staff'].includes(req.userInfo.role)) {
+      const users = await getListUserMd({ role: { $in: ['admin', 'staff'] } });
+      const lesson = await getDetailLessonMd({ _id: objectId });
+      const course = await getDetailCourseMd({ _id: lesson.courseId });
+      if (users.length > 0) {
+        for (const user of users) {
+          await addNotifyMd({
+            fromBy: 2,
+            by: req.userInfo._id,
+            to: user._id,
+            type: 5,
+            content: NOTI_CONTENT[5] + ` "${lesson.title}"`,
+            objectId,
+            data: { slug: course.slug }
           });
         }
       }

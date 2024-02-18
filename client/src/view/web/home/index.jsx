@@ -7,7 +7,8 @@ import { getListCourseWebApi, getListPostWebApi } from '@api';
 
 const Home = () => {
   const { data: posts } = useGetApi(getListPostWebApi, { page: 1, limit: 10 }, 'posts');
-  const { data: courses } = useGetApi(getListCourseWebApi, { page: 1, limit: 10 }, 'courses');
+  const { data: coursesNew } = useGetApi(getListCourseWebApi, { page: 1, limit: 10, characteristic: ['isNew'] }, 'coursesNew');
+  const { data: coursesHot } = useGetApi(getListCourseWebApi, { page: 1, limit: 10, characteristic: ['isHot'] }, 'coursesHot');
 
   return (
     <div className='flex flex-col gap-12'>
@@ -36,8 +37,8 @@ const Home = () => {
           }
         ]}
       />
-      <CourseSlider items={courses?.documents?.filter((c) => c.price > 0)} />
-      <CourseSlider items={courses?.documents?.filter((c) => c.price === 0)} type="free" />
+      <CourseSlider items={coursesNew?.documents} type="new" />
+      <CourseSlider items={coursesHot?.documents} type="hot" />
       <PostList items={posts?.documents} />
     </div>
   );

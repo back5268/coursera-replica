@@ -48,7 +48,7 @@ export const Comment = ({ userInfo, objectId, comment, setFocused, type, onWarni
                 {fileType === 'image' ? (
                   <img src={comment.file} className="h-[160px] rounded-md" />
                 ) : fileType === 'video' ? (
-                  <ReactPlayer url={comment.file} controls={true} height="300" />
+                  <ReactPlayer url={comment.file} controls height="300" />
                 ) : (
                   <span>{comment.file}</span>
                 )}

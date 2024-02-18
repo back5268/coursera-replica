@@ -8,5 +8,7 @@ export const REGEX = {
   SO_NGUYEN_DUONG: /^[1-9][\d]*$/,
   F_EXCEL: /^application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet$/,
   F_IMG: /^image\/png|image\/jpeg|image\/jpg|image\/gif$/,
-  C_EMAIL: /^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+  C_EMAIL: /^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
+  YOUTUBE_URL: /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+  PASSWORD: /^(?=.*\d)(?=.*[a-zA-Z])/
 };

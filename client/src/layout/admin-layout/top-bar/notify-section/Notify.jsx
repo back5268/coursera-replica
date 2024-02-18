@@ -18,11 +18,22 @@ const Notify = ({ status, render }) => {
   const onClickNoti = async (item) => {
     const response = await updateStatusNotifyApi({ status: 2, _id: item._id });
     if (response) {
+      console.log(`/learning/${item?.data?.slug}?id=${item?.objectId}`);
+      console.log(item.type);
+      console.log(typeof item.type);
       switch (item.type) {
         case 1:
           return navigate(`/posts/detail/${item?.data?.slug}`);
-        case (2, 3):
+        case 2:
           return navigate(`/posts/detail/${item?.data?.slug}#${item?.data?._id}`);
+        case 3:
+          return navigate(`/posts/detail/${item?.data?.slug}#${item?.data?._id}`);
+        case 4:
+          return navigate(`/courses/my-courses`);
+        case 5:
+          return navigate(`/learning/${item?.data?.slug}?id=${item?.objectId}`);
+        case 6:
+          return navigate(`/learning/${item?.data?.slug}?id=${item?.objectId}`);
       }
     }
   };
@@ -62,7 +73,7 @@ const Notify = ({ status, render }) => {
                     ></div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    {RoleTitle(item?.by?.fullName, item?.by?.role, 16)}
+                    {RoleTitle(item?.by?.fullName, item?.by?.role, 16) || <span className="font-medium">Hệ thống</span>}
                     <span>{item?.content}</span>
                     <span className="text-xs text-primary">{multiFormatDateString(item.createdAt)}</span>
                   </div>
