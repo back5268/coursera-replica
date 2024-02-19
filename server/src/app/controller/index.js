@@ -4,7 +4,7 @@ export * from './courseController';
 export * from './lessonController';
 export * from './questionController';
 export * from './postController';
-export * from './logController';
+// export * from './logController';
 export * from './commentController';
 export * from './courseReviewController';
 export * from './notifyController';
