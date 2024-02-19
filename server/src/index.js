@@ -30,10 +30,7 @@ ioSk.on('connection', () => console.log('Socket connect successful!'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-// routes(app);
+routes(app);
 app.use(express.static('src/public'));
-app.get('/', (req, res) => {
-  res.json('Heelllll')
-})
 
 server.listen(process.env.SERVER_HOST || 9999, () => console.log(`listening on port ${process.env.SERVER_HOST || 9999}`));
