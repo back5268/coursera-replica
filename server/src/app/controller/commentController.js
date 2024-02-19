@@ -71,7 +71,7 @@ export const addComment = async (req, res) => {
     const data = await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 });
     if (type === 1) {
       const post = await getDetailPostMd({ _id: objectId });
-      const attr = { fromBy: 2, by: req.userInfo._id, objectId, data: { slug: post.slug } };
+      const attr = { fromBy: 2, by: req.userInfo._id, fullName: post.by?.fullName, objectId, data: { slug: post.slug } };
       if (parentId) {
         const comment = await getDetailCommentMd({ _id: parentId });
         if (String(req.userInfo._id) !== String(comment.by)) {
@@ -107,7 +107,8 @@ export const addComment = async (req, res) => {
             type: 5,
             content: NOTI_CONTENT[5] + ` "${lesson.title}"`,
             objectId,
-            data: { slug: course.slug }
+            data: { slug: course.slug },
+            fullName: post.by?.fullName
           });
         }
       }

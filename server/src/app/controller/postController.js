@@ -174,7 +174,7 @@ export const likePost = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     let { _id } = value;
 
-    const post = await getDetailPostMd({ _id });
+    const post = await getDetailPostMd({ _id }, [{ path: 'by', select: 'fullName _id' }]);
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
     let data;
@@ -184,11 +184,12 @@ export const likePost = async (req, res) => {
         await addNotifyRp({
           fromBy: 2,
           by: req.userInfo._id,
-          to: post.by,
+          to: post.by?._id,
           content: NOTI_CONTENT[1],
           objectId: post._id,
           type: 1,
-          data: { slug: post.slug }
+          data: { slug: post.slug },
+          fullName: post.by?.fullName
         });
       data = await updatePostMd({ _id }, { $addToSet: { likes: req.userInfo._id } });
     }

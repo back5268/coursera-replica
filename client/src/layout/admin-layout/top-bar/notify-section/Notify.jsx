@@ -6,8 +6,9 @@ import { TERipple } from 'tw-elements-react';
 import { Button, Hr } from '@components/uiCore';
 import { useInfinityApi } from '@lib/react-query';
 import { RoleTitle } from '@components/base';
+import { BiSolidCheckCircle } from 'react-icons/bi';
 
-const Notify = ({ status, render }) => {
+const Notify = ({ status, render, setRender }) => {
   const navigate = useNavigate();
   const [notify, setNotify] = useState([]);
   const { data, fetchNextPage, hasNextPage, refetch } = useInfinityApi(
@@ -18,9 +19,7 @@ const Notify = ({ status, render }) => {
   const onClickNoti = async (item) => {
     const response = await updateStatusNotifyApi({ status: 2, _id: item._id });
     if (response) {
-      console.log(`/learning/${item?.data?.slug}?id=${item?.objectId}`);
-      console.log(item.type);
-      console.log(typeof item.type);
+      setRender((pre) => !pre);
       switch (item.type) {
         case 1:
           return navigate(`/posts/detail/${item?.data?.slug}`);
@@ -73,7 +72,12 @@ const Notify = ({ status, render }) => {
                     ></div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    {RoleTitle(item?.by?.fullName, item?.by?.role, 16) || <span className="font-medium">Hệ thống</span>}
+                    {RoleTitle(item?.by?.fullName, item?.by?.role, 16) || (
+                      <span className="flex gap-1 items-center">
+                        <span className="font-medium">Hệ thống</span>
+                        <BiSolidCheckCircle size={16} className="text-primary" />
+                      </span>
+                    )}
                     <span>{item?.content}</span>
                     <span className="text-xs text-primary">{multiFormatDateString(item.createdAt)}</span>
                   </div>

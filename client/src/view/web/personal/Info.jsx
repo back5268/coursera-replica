@@ -75,8 +75,8 @@ const Info = () => {
         </div>
         <div className="flex flex-wrap w-8/12">
           <InputFormDetail id="fullName" label="Họ tên (*)" register={register} errors={errors} className="!w-full my-1" />
-          <InputFormDetail id="username" label="Tài khoản (*)" register={register} errors={errors} className="!w-full my-1" />
-          <InputFormDetail id="email" label="Email (*)" register={register} errors={errors} className="!w-full my-1" />
+          <InputFormDetail id="username" label="Tài khoản (*)" disabled register={register} errors={errors} className="!w-full my-1" />
+          <InputFormDetail id="email" label="Email (*)" disabled register={register} errors={errors} className="!w-full my-1" />
           <InputFormDetail id="address" label="Địa chỉ" register={register} className="!w-full my-1" />
           <TextAreaForm id="bio" label="Mô tả" className="w-full p-2 my-1" watch={watch} setValue={setValue} />
         </div>

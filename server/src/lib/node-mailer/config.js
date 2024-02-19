@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport({
 });
 
 export const connectNodemailer = () => {
-  transporter.verify(function (error, success) {
+  transporter.verify(function (error) {
     if (error) console.log(error);
     else console.log('Nodemailer connect successful!');
   });
@@ -23,7 +23,23 @@ export const sendMail = async ({ to, subject, text, html, attachments = [] }) =>
     to,
     subject,
     text,
-    html,
+    html: html
+      ? `<!DOCTYPE html>
+          <html>
+          <head>
+          <style>
+            body { font-family: Arial, sans-serif; }
+            .container { width: 100%; max-width: 1000px; margin: auto; padding: 20px; 
+              border: 1px solid #ddd; border-radius: 4px; }
+          </style>
+          </head>
+          <body>
+          <div class="container">
+            ${html}
+          </div>
+          </body>
+          </html>`
+      : undefined,
     attachments
   };
 

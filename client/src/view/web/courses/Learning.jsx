@@ -123,7 +123,7 @@ const Learning = () => {
           </div>
         </div>
         <Hr />
-        <Lesson courseId={data?.courseId} lessonId={id} setRender={setRender} />
+        <Lesson courseId={data?.course?._id} lessonId={id} setRender={setRender} />
       </div>
     </div>
   );

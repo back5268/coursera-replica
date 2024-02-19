@@ -11,7 +11,7 @@ import { useToastState } from '@store';
 
 const NotifySection = () => {
   const ref = useRef(null);
-  const { showToast } = useToastState()
+  const { showToast } = useToastState();
   const { userInfo } = useAuthContext();
   const [isShow, setIsShow] = useState(false);
   const [render, setRender] = useState(false);
@@ -50,8 +50,9 @@ const NotifySection = () => {
         console.log('Disconnecting...', reason);
       }
 
-      function onEvent() {
-        showToast({title: 'Bạn có một thông báo mới!', severity: 'info'});
+      function onEvent(event) {
+        console.log(event);
+        showToast({ title: `${event?.fullName ? `${event?.fullName} ${event?.mess}` : event?.mess}`, severity: 'info' });
         setRender((pre) => !pre);
       }
 
@@ -104,10 +105,10 @@ const NotifySection = () => {
         </TETabs>
         <TETabsContent>
           <TETabsPane show={buttonActive === 'tab1'}>
-            <Notify render={render} />
+            <Notify render={render} setRender={setRender} />
           </TETabsPane>
           <TETabsPane show={buttonActive === 'tab2'}>
-            <Notify render={render} status={1} />
+            <Notify render={render} setRender={setRender} status={1} />
           </TETabsPane>
         </TETabsContent>
       </div>

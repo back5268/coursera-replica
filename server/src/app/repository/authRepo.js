@@ -13,7 +13,7 @@ import {
 import dotenv from 'dotenv';
 import { sendOtpAuthValid } from '@lib/validation';
 import { generateNumber, validateData } from '@utils';
-import { sendOtpForgotPasswordTemplate, sendOtpSignupTemplate } from '@lib/node-mailer';
+import { sendMailForgotPassword, sendMailSignup } from '@lib/node-mailer';
 dotenv.config();
 
 export const signinRp = async ({ username, password }) => {
@@ -58,17 +58,17 @@ export const sendOtpAuthRepo = async (body, type) => {
     if (checkEmail) return { mess: 'Email đã tồn tại!' };
     const checkUsername = await getDetailUserMd({ username });
     if (checkUsername) return { mess: 'Tài khoản đã tồn tại!' };
-    attr = await sendOtpSignupTemplate({ to: email, username, otp });
+    attr = await sendMailSignup({ to: email, username, otp });
   } else {
     const checkUser = await getDetailUserMd({ username, email });
     if (!checkUser) return { mess: `Không tìm thấy người dùng có tài khoản ${username} và email ${email}!` };
-    attr = await sendOtpForgotPasswordTemplate({ to: email, username, otp });
+    attr = await sendMailForgotPassword({ to: email, username, otp });
   }
 
   await addLogMd({ ...attr, type });
   await deleteManyUserVerifyMd({ username, email, type });
   const expiredAt = new Date();
-  expiredAt.setMinutes(expiredAt.getMinutes() + 5);
+  expiredAt.setMinutes(expiredAt.getMinutes() + 30);
   const data = await addUserVerifyMd({ username, email, otp, type, expiredAt });
   return { data };
 };

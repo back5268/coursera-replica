@@ -59,10 +59,12 @@ const WebLayout = ({ children }) => {
           <Button onClick={() => navigate('/auth/signin')}>Đăng nhập</Button>
         )}
       </div>
-      <div className="container mt-16 mx-auto min-h-screen">{children}</div>
+      <div className="mx-24">
+        <div className="container mt-16 mx-auto min-h-screen">{children}</div>
+      </div>
       <Footer />
       <div className="fixed bottom-4 left-4">
-        <Button severity='danger' onClick={() => setShow(true)}>
+        <Button severity="danger" onClick={() => setShow(true)}>
           <BiSolidNews size={20} /> Tin tức
         </Button>
       </div>

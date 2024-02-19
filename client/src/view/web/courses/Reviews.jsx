@@ -32,7 +32,7 @@ const Reviews = ({ data, courseId, rating, show, setShow, userInfo, setRender })
       <div className="card flex justify-between items-center p-6">
         <Rating value={rating} size={6} />
         <span className="font-medium text-lg">
-          {rating}/5 ({formatNumber(data?.length)})
+          {rating}/5 {data?.length > 0 && <>({formatNumber(data.length)})</>} 
         </span>
       </div>
       <Hr />

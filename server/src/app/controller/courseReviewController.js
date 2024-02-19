@@ -75,7 +75,7 @@ export const deleteCourseReview = async (req, res) => {
             return total + currentValue.rating;
           }, 0) / listCourseReview.length
         : 5;
-    await updateCourseMd({ _id: courseId }, { rating: total.toFixed(1), $pull: { reviews: _id } });
+    await updateCourseMd({ _id: CourseReview.courseId }, { rating: total.toFixed(1), $pull: { reviews: _id } });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

@@ -136,7 +136,7 @@ const DetailCourseWeb = () => {
               )}
             </div>
             <div className="flex gap-2 mt-4">
-              {Boolean(userInfo?.courses?.find((c) => c.courseId === data?._id)) ? (
+              {Boolean(userInfo?.courses?.find((c) => c.course?._id === data?._id)) ? (
                 <Button onClick={() => navigate(`/learning/${data?.slug}`)} label="Tiếp tục học" />
               ) : (
                 <Button onClick={onRegister} label="Đăng ký học" />
