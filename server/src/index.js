@@ -12,7 +12,7 @@ import '@lib/node-cron';
 import './test';
 dotenv.config();
 
-connectDatabse();
+// connectDatabse();
 connectRedis();
 connectNodemailer();
 const app = express();
