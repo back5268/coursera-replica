@@ -38,7 +38,7 @@ const CourseReviews = () => {
       label: 'Khóa học',
       body: (item) => {
         const course = courses.find((c) => c._id === item.courseId);
-        return <Link to={`/courses/detail/${course.slug}`}>{course.name}</Link>;
+        return <Link to={`/courses/detail/${course?.slug}`}>{course?.name}</Link>;
       }
     },
     { label: 'Người đánh giá', body: (item) => RoleTitle(item?.by?.fullName, item?.by?.role, 16) },
