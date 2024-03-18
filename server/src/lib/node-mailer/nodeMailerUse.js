@@ -19,8 +19,8 @@ export const sendMailUse = async ({ code, params, to }) => {
   if (template) {
     const subject = convertParams(params, template.subject);
     const html = convertParams(params, template.content);
-    return await sendMailStech({ to, subject, bodyHtml: html });
-    // return await sendMail({ to, subject, html });
+    // return await sendMailStech({ to, subject, bodyHtml: html });
+    return await sendMail({ to, subject, html });
   }
 };
 
