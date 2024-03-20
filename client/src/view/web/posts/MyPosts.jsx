@@ -39,7 +39,7 @@ const MyPosts = () => {
             <div className="flex flex-col gap-2">
               <Hr />
               {userInfo?.posts?.length > 0 ? (
-                userInfo.posts.filter(p => p.status === 0).map((item, index) => <Post key={index} item={item} type="mine" setShow={setShow} />)
+                userInfo.posts.filter(p => p.status).map((item, index) => <Post key={index} item={item} type="mine" setShow={setShow} />)
               ) : (
                 <span className='mt-4 px-8'>Bạn chưa đăng bài viết nào.</span>
               )}
@@ -53,7 +53,7 @@ const MyPosts = () => {
             <div className="flex flex-col gap-2">
               <Hr />
               {userInfo?.posts?.length > 0 ? (
-                userInfo.posts.filter(p => p.status === 0).map((item, index) => <Post key={index} item={item} type="mine" setShow={setShow} />)
+                userInfo.posts.filter(p => !p.status).map((item, index) => <Post key={index} item={item} type="mine" setShow={setShow} />)
               ) : (
                 <span className='mt-4 px-8'>Bạn chưa đăng bài viết nào.</span>
               )}
