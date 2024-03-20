@@ -60,7 +60,7 @@ const DetailCourseWeb = () => {
     <div className="mt-24 flex flex-wrap">
       <Modal title={`Giới thiệu khóa học ${data?.name}`} show={showz} setShow={setShowz}>
         <div className="p-6 flex justify-center">
-          <ReactPlayer url={data?.trailer} controls width="auto" height="600px" />
+          <ReactPlayer url={data?.trailer} controls width="100%" height="600px" />
         </div>
       </Modal>
       <div className="sm:w-full lg:w-7/12 text-left p-4">

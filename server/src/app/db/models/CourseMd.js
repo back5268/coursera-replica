@@ -27,7 +27,7 @@ class CourseMd extends ModelBase {
   deletedAt;  
 }
 
-export const Course = CourseMd.init('Course', {
+CourseMd.init('Course', {
   by: { type: ObjectId, ref: 'User', required: true },
   updateBy: { type: ObjectId, ref: 'User' },
   name: { type: String, required: true, unique: true },

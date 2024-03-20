@@ -71,42 +71,8 @@ export const getListCourseWeb = async (req, res) => {
     if (characteristic && Array.isArray(characteristic)) {
       page = 1;
       limit = 10;
-      if (characteristic.includes('isNew')) {
-        const date = new Date();
-        date.setDate(date.getDate() - 10);
-        where.createdAt = { $gte: date };
-      }
       if (characteristic.includes('isHot')) {
-        const documents = await Course.aggregate([
-          {
-            $addFields: {
-              registersCount: { $size: '$registers' }
-            }
-          },
-          {
-            $sort: { registersCount: -1 }
-          },
-          {
-            $skip: (page - 1) * limit
-          },
-          {
-            $limit: limit
-          },
-          {
-            $project: {
-              _id: 1,
-              price: 1,
-              sale: 1,
-              rating: 1,
-              reviews: 1,
-              name: 1,
-              image: 1,
-              slug: 1
-            }
-          }
-        ]);
-        res.json({ status: true, data: { documents } });
-        return;
+        sort = { rating: -1 }
       }
     }
     if (type && type[0]) where.type = { $in: type };
